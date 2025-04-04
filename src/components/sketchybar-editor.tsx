@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-import { AppearanceTab } from "./editor-tabs/appearance-tab"
+import { BarTab } from "./editor-tabs/bar-tab"
 import { ItemsTab } from "./editor-tabs/items-tab"
-import { PositionTab } from "./editor-tabs/position-tab"
+import { DefaultsTab } from "./editor-tabs/defaults-tab"
 import { SketchybarPreview } from "./sketchybar-preview"
 
 export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar"
@@ -120,19 +120,19 @@ export function SketchybarEditor() {
 
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
         <Card className="lg:w-80 p-4">
-          <Tabs defaultValue="appearance">
-            <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="appearance">Appearance</TabsTrigger>
-              <TabsTrigger value="position">Position</TabsTrigger>
+          <Tabs defaultValue="bar">
+            <TabsList className="grid grid-cols-3 mb-4 w-full">
+              <TabsTrigger value="bar">Bar</TabsTrigger>
+              <TabsTrigger value="defaults">Defaults</TabsTrigger>
               <TabsTrigger value="items">Items</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="appearance">
-              <AppearanceTab config={config} setConfig={setConfig} />
+            <TabsContent value="bar">
+              <BarTab config={config} setConfig={setConfig} />
             </TabsContent>
 
-            <TabsContent value="position">
-              <PositionTab config={config} setConfig={setConfig} />
+            <TabsContent value="defaults">
+              <DefaultsTab config={config} setConfig={setConfig} />
             </TabsContent>
 
             <TabsContent value="items">
