@@ -10,7 +10,7 @@ export function BatteryItem({ item, config, className }: SketchybarItemComponent
         fontFamily: config.fontFamily,
       }}
     >
-      􀛨 85%
+        85%
     </div>
   )
 }

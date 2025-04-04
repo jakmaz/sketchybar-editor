@@ -6,7 +6,6 @@ import { Download, Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// import { useToast } from "@/hooks/use-toast"
 
 import { AppearanceTab } from "./editor-tabs/appearance-tab"
 import { ItemsTab } from "./editor-tabs/items-tab"
@@ -15,6 +14,9 @@ import { SketchybarPreview } from "./sketchybar-preview"
 
 export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar"
 export type ItemPosition = "left" | "center" | "right"
+
+import { toast } from "sonner"
+
 
 export interface SketchybarItem {
   id: string
@@ -37,34 +39,34 @@ export interface SketchybarConfig {
 }
 
 export function SketchybarEditor() {
-  // const { toast } = useToast()
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [config, setConfig] = useState<SketchybarConfig>({
-    height: 32,
+    height: 40,
     padding: 8,
     position: "top",
-    color: "#1e1e2e",
+    color: "#121212",
     cornerRadius: 8,
-    fontSize: 12,
-    fontFamily: "SF Pro",
+    fontSize: 14,
+    fontFamily: "Menlo",
     items: [
       {
         id: "apple",
         type: "apple",
         position: "left",
-        color: "#f5a97f",
+        color: "#ffffff",
       },
       {
-        id: "spaces",
-        type: "spaces",
-        position: "left",
+        id: "battery",
+        type: "battery",
+        position: "right",
+        color: "#ffffff",
       },
       {
         id: "clock",
         type: "clock",
         position: "right",
-        color: "#a6da95",
-      },
+        color: "#ffffff",
+      }
     ],
   })
 
@@ -83,10 +85,9 @@ export function SketchybarEditor() {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
 
-    // toast({
-    //   title: "Configuration downloaded",
-    //   description: "Your sketchybar configuration has been downloaded.",
-    // })
+    toast("Configuration downloaded", {
+      description: "Your sketchybar configuration has been downloaded.",
+    })
   }
 
   const toggleDarkMode = () => {
