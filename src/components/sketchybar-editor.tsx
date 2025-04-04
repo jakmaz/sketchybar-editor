@@ -97,26 +97,28 @@ export function SketchybarEditor() {
   }
 
   return (
-    <div className={`flex flex-col min-h-screen`}>
-      <header className="border-b bg-background p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
-        <div className="flex gap-2">
-          <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="icon">
-              <Github className="h-4 w-4" />
+    <div className="flex flex-col min-h-screen p-4 gap-4 bg-slate-50 dark:bg-slate-950">
+      <Card className="p-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
+          <div className="flex gap-2">
+            <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="icon">
+                <Github className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Button variant="outline" size="icon" onClick={toggleDarkMode}>
+              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-          </Link>
-          <Button variant="outline" size="icon" onClick={toggleDarkMode}>
-            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <Button onClick={handleDownload}>
-            <Download className="mr-2 h-4 w-4" />
-            Download Config
-          </Button>
+            <Button onClick={handleDownload}>
+              <Download className="mr-2 h-4 w-4" />
+              Download Config
+            </Button>
+          </div>
         </div>
-      </header>
+      </Card>
 
-      <div className="flex flex-col lg:flex-row flex-1 gap-4 p-4">
+      <div className="flex flex-col lg:flex-row flex-1 gap-4">
         <Card className="lg:w-80 p-4">
           <Tabs defaultValue="appearance">
             <TabsList className="grid grid-cols-3 mb-4">
@@ -151,27 +153,27 @@ export function SketchybarEditor() {
 function generateSketchybarCode(config: SketchybarConfig): string {
   return `#!/bin/bash
 
-# Sketchybar configuration
-# Generated with Sketchybar Editor
+      # Sketchybar configuration
+      # Generated with Sketchybar Editor
 
-# Bar appearance
-sketchybar --bar height=${config.height} \\
-                 position=${config.position} \\
-                 padding_left=${config.padding} \\
-                 padding_right=${config.padding} \\
-                 color=${config.color} \\
-                 corner_radius=${config.cornerRadius}
+      # Bar appearance
+      sketchybar --bar height=${config.height} \\
+      position=${config.position} \\
+      padding_left=${config.padding} \\
+      padding_right=${config.padding} \\
+      color=${config.color} \\
+      corner_radius=${config.cornerRadius}
 
-# Default item settings
-sketchybar --default icon.font="${config.fontFamily}" \\
-                     icon.color=0xffffffff \\
-                     label.font="${config.fontFamily}" \\
-                     label.color=0xffffffff \\
-                     label.font.size=${config.fontSize} \\
-                     padding_left=5 \\
-                     padding_right=5
+      # Default item settings
+      sketchybar --default icon.font="${config.fontFamily}" \\
+      icon.color=0xffffffff \\
+      label.font="${config.fontFamily}" \\
+      label.color=0xffffffff \\
+      label.font.size=${config.fontSize} \\
+      padding_left=5 \\
+      padding_right=5
 
-${config.items
+      ${config.items
       .map((item) => {
         let itemConfig = `# ${item.type} item\n`
 
@@ -210,8 +212,8 @@ ${config.items
       })
       .join("\n\n")}
 
-# Finalizing setup
-sketchybar --update
-`
+      # Finalizing setup
+      sketchybar --update
+      `
 }
 
