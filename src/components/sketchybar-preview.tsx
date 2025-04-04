@@ -19,11 +19,13 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
       <div className="absolute inset-0 flex flex-col">
         {config.position === "top" && (
           <div
-            className="w-full flex justify-between items-center px-2"
+            className="w-full flex justify-between items-center"
             style={{
               height: `${config.height}px`,
               backgroundColor: config.color,
               borderRadius: `0 0 ${config.cornerRadius}px ${config.cornerRadius}px`,
+              paddingLeft: `${config.padding}px`,
+              paddingRight: `${config.padding}px`,
             }}
           >
             <RenderItems items={leftItems} config={config} />
@@ -38,11 +40,13 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
 
         {config.position === "bottom" && (
           <div
-            className="w-full flex justify-between items-center px-2"
+            className="w-full flex justify-between items-center"
             style={{
               height: `${config.height}px`,
               backgroundColor: config.color,
               borderRadius: `${config.cornerRadius}px ${config.cornerRadius}px 0 0`,
+              paddingLeft: `${config.padding}px`,
+              paddingRight: `${config.padding}px`,
             }}
           >
             <RenderItems items={leftItems} config={config} />
