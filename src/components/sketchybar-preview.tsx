@@ -23,7 +23,7 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
             style={{
               height: `${config.height}px`,
               backgroundColor: config.color,
-              borderRadius: `0 0 ${config.cornerRadius}px ${config.cornerRadius}px`,
+              borderRadius: `${config.cornerRadius}px`,
               paddingLeft: `${config.padding}px`,
               paddingRight: `${config.padding}px`,
             }}
@@ -44,7 +44,7 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
             style={{
               height: `${config.height}px`,
               backgroundColor: config.color,
-              borderRadius: `${config.cornerRadius}px ${config.cornerRadius}px 0 0`,
+              borderRadius: `${config.cornerRadius}px`,
               paddingLeft: `${config.padding}px`,
               paddingRight: `${config.padding}px`,
             }}
