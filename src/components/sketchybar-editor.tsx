@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Download, Moon, Sun } from "lucide-react"
+import Link from "next/link"
+import { Download, Github, Moon, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -100,6 +101,11 @@ export function SketchybarEditor() {
       <header className="border-b bg-background p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
         <div className="flex gap-2">
+          <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" size="icon">
+              <Github className="h-4 w-4" />
+            </Button>
+          </Link>
           <Button variant="outline" size="icon" onClick={toggleDarkMode}>
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
