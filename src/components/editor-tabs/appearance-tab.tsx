@@ -71,7 +71,7 @@ export function AppearanceTab({ config, setConfig }: AppearanceTabProps) {
       <div className="space-y-2">
         <Label htmlFor="font-family">Font Family</Label>
         <Select value={config.fontFamily} onValueChange={handleFontFamilyChange}>
-          <SelectTrigger id="font-family">
+          <SelectTrigger className="w-full" id="font-family">
             <SelectValue placeholder="Select font family" />
           </SelectTrigger>
           <SelectContent>

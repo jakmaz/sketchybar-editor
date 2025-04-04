@@ -78,7 +78,7 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
         <h3 className="text-lg font-medium">Add New Item</h3>
         <div className="space-y-2">
           <Select value={newItemType} onValueChange={setNewItemType}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Select item type" />
             </SelectTrigger>
             <SelectContent>
@@ -91,7 +91,7 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
           </Select>
 
           <Select value={newItemPosition} onValueChange={setNewItemPosition}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Position" />
             </SelectTrigger>
             <SelectContent>
@@ -153,19 +153,19 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
                       item.type === "battery" ||
                       item.type === "clock" ||
                       item.type === "calendar") && (
-                      <div className="space-y-2">
-                        <Label>Color</Label>
-                        <div className="flex gap-2">
-                          <div className="w-6 h-6 rounded border" style={{ backgroundColor: item.color }} />
-                          <Input
-                            type="text"
-                            value={item.color}
-                            onChange={(e) => updateItemColor(item.id, e.target.value)}
-                            placeholder="#ffffff"
-                          />
+                        <div className="space-y-2">
+                          <Label>Color</Label>
+                          <div className="flex gap-2">
+                            <div className="w-6 h-6 rounded border" style={{ backgroundColor: item.color }} />
+                            <Input
+                              type="text"
+                              value={item.color}
+                              onChange={(e) => updateItemColor(item.id, e.target.value)}
+                              placeholder="#ffffff"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                 </CardContent>
               </Card>
