@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
+import localFont from 'next/font/local'
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -8,10 +9,10 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const hackMono = localFont({
+  src: "./HackNerdFontMono-Bold.ttf",
+  variable: "--font-hack-mono"
+})
 
 export const metadata: Metadata = {
   title: "Sketchybar Editor",
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${hackMono.variable} antialiased`}
       >
         {children}
         <Toaster />

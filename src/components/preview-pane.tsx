@@ -19,7 +19,7 @@ export function PreviewPane({ config }: SketchybarPreviewProps) {
     <Card className="flex-1 p-4 max-h-fit">
       <h2 className="text-xl font-semibold">Preview</h2>
       <div
-        className="w-full flex justify-between items-center"
+        className="w-full flex justify-between items-center font-hack-mono"
         style={{
           height: `${config.bar.height}px`,
           backgroundColor: config.bar.color,

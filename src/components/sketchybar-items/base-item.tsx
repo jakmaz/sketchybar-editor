@@ -27,6 +27,7 @@ export function BaseItem({ config, icon, label }: BaseItemProps) {
           style={{
             color: `#${config.defaults.iconColor.slice(2)}`,
             fontFamily: config.defaults.iconFont,
+            fontSize: 20,
             paddingLeft: `${config.defaults.iconPaddingLeft}px`,
             paddingRight: `${config.defaults.iconPaddingRight}px`,
           }}

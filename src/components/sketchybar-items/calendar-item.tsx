@@ -18,7 +18,7 @@ export function CalendarItem({ config }: SketchybarItemComponentProps) {
   }, [])
 
   return (
-    <BaseItem config={config} icon="C" label={date} />
+    <BaseItem config={config} icon="󰃭" label={date} />
   )
 }
 

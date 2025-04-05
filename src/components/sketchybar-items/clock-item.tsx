@@ -16,7 +16,7 @@ export function ClockItem({ config }: SketchybarItemComponentProps) {
   }, [])
 
   return (
-    <BaseItem config={config} icon="C" label={time} />
+    <BaseItem config={config} icon="" label={time} />
   )
 }
 
