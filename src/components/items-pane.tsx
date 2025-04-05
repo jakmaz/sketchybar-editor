@@ -1,4 +1,4 @@
-// components/editor-tabs/items-tab.tsx
+// components/items-pane.tsx
 "use client"
 
 import { type Dispatch, type SetStateAction, useState } from "react"
@@ -6,7 +6,7 @@ import { Plus, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { ItemPosition, ItemType, SketchybarConfig } from "@/components/sketchybar-editor"
+import type { ItemPosition, ItemType, SketchybarConfig, SketchybarItem } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
@@ -32,6 +32,10 @@ const POSITIONS = [
 export function ItemsPane({ config, setConfig }: ItemsTabProps) {
   const [newItemType, setNewItemType] = useState<string>("")
   const [newItemPosition, setNewItemPosition] = useState<string>("left")
+
+  const leftItems = config.items.filter((item) => item.position === "left")
+  const centerItems = config.items.filter((item) => item.position === "center")
+  const rightItems = config.items.filter((item) => item.position === "right")
 
   const addItem = () => {
     if (!newItemType) return
@@ -67,6 +71,34 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
+        <div className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <ItemsColumn
+              position="left"
+              items={leftItems}
+              config={config}
+              setConfig={setConfig}
+              removeItem={removeItem}
+              updateItemPosition={updateItemPosition}
+            />
+            <ItemsColumn
+              position="center"
+              items={centerItems}
+              config={config}
+              setConfig={setConfig}
+              removeItem={removeItem}
+              updateItemPosition={updateItemPosition}
+            />
+            <ItemsColumn
+              position="right"
+              items={rightItems}
+              config={config}
+              setConfig={setConfig}
+              removeItem={removeItem}
+              updateItemPosition={updateItemPosition}
+            />
+          </div>
+        </div>
         <h3 className="text-lg font-medium">Add New Item</h3>
         <div className="space-y-2">
           <Select value={newItemType} onValueChange={setNewItemType}>
@@ -102,51 +134,74 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Current Items</h3>
-        {config.items.length === 0 ? (
-          <p className="text-muted-foreground">No items added yet.</p>
-        ) : (
-          <div className="grid gap-4">
-            {config.items.map((item) => (
-              <Card key={item.id}>
-                <CardContent>
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h4 className="font-medium capitalize">{item.type}</h4>
-                      <p className="text-sm text-muted-foreground">ID: {item.id}</p>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+    </div>
+  )
+}
 
-                  <div className="space-y-4 mt-4">
-                    <div className="space-y-2">
-                      <Label>Position</Label>
-                      <Select
-                        value={item.position}
-                        onValueChange={(value) => updateItemPosition(item.id, value as ItemPosition)}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {POSITIONS.map((pos) => (
-                            <SelectItem key={pos.value} value={pos.value}>
-                              {pos.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+interface ItemsColumnProps {
+  position: ItemPosition
+  items: SketchybarItem[]
+  config: SketchybarConfig
+  setConfig: Dispatch<SetStateAction<SketchybarConfig>>
+  removeItem: (id: string) => void
+  updateItemPosition: (id: string, position: ItemPosition) => void
+}
+
+function ItemsColumn({
+  position,
+  items,
+  config,
+  setConfig,
+  removeItem,
+  updateItemPosition,
+}: ItemsColumnProps) {
+  return (
+    <Card>
+      <CardContent className="space-y-4">
+        <h4 className="font-medium capitalize">{position}</h4>
+        {items.length === 0 ? (
+          <p className="text-muted-foreground">No items in {position}.</p>
+        ) : (
+          <div className="space-y-2">
+            {items.map((item) => (
+              <ItemCard
+                key={item.id}
+                item={item}
+                config={config}
+                removeItem={removeItem}
+                updateItemPosition={updateItemPosition}
+              />
             ))}
           </div>
         )}
-      </div>
-    </div >
+      </CardContent>
+    </Card>
+  )
+}
+
+interface ItemCardProps {
+  item: SketchybarItem
+  config: SketchybarConfig
+  removeItem: (id: string) => void
+  updateItemPosition: (id: string, position: ItemPosition) => void
+}
+
+function ItemCard({
+  item,
+  removeItem,
+}: ItemCardProps) {
+  return (
+    <Card className="py-2">
+      <CardContent>
+        <div className="flex justify-between items-center">
+          <div>
+            <h4 className="font-medium capitalize">{item.type}</h4>
+          </div>
+          <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
