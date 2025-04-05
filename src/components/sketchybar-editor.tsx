@@ -63,9 +63,9 @@ export function SketchybarEditor() {
       cornerRadius: 8,
     },
     defaults: {
-      backgroundColor: "0xff262626",
-      iconColor: "0xffffffff",
-      labelColor: "0xffffffff",
+      backgroundColor: "0x262626",
+      iconColor: "0xffffff",
+      labelColor: "0xffffff",
       paddingLeft: 5,
       paddingRight: 5,
       iconFont: "Hack Nerd Font:Bold:17.0",
