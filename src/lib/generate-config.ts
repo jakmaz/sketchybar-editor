@@ -7,19 +7,19 @@ export function generateSketchybarCode(config: SketchybarConfig): string {
       # Generated with Sketchybar Editor
 
       # Bar appearance
-      sketchybar --bar height=${config.height} \\
-      position=${config.position} \\
-      padding_left=${config.padding} \\
-      padding_right=${config.padding} \\
-      color=${config.color} \\
-      corner_radius=${config.cornerRadius}
+      sketchybar --bar height=${config.bar.height} \\
+      position=${config.bar.position} \\
+      padding_left=${config.bar.padding} \\
+      padding_right=${config.bar.padding} \\
+      color=${config.bar.color} \\
+      corner_radius=${config.bar.cornerRadius}
 
       # Default item settings
-      sketchybar --default icon.font="${config.fontFamily}" \\
+      sketchybar --default icon.font="${config.bar.fontFamily}" \\
       icon.color=0xffffffff \\
-      label.font="${config.fontFamily}" \\
+      label.font="${config.bar.fontFamily}" \\
       label.color=0xffffffff \\
-      label.font.size=${config.fontSize} \\
+      label.font.size=${config.bar.fontSize} \\
       padding_left=5 \\
       padding_right=5
 

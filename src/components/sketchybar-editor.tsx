@@ -25,25 +25,31 @@ export interface SketchybarItem {
 }
 
 export interface SketchybarConfig {
+  bar: SketcybarBar
+  items: SketchybarItem[]
+}
+
+export interface SketcybarBar {
+  color: string
+  position: "top" | "bottom"
   height: number
   padding: number
-  position: "top" | "bottom"
-  color: string
   cornerRadius: number
   fontSize: number
   fontFamily: string
-  items: SketchybarItem[]
 }
 
 export function SketchybarEditor() {
   const [config, setConfig] = useState<SketchybarConfig>({
-    height: 40,
-    padding: 8,
-    position: "top",
-    color: "#121212",
-    cornerRadius: 8,
-    fontSize: 14,
-    fontFamily: "Menlo",
+    bar: {
+      color: "#121212",
+      position: "top",
+      height: 40,
+      padding: 8,
+      cornerRadius: 8,
+      fontSize: 14,
+      fontFamily: "Menlo",
+    },
     items: [
       {
         id: "apple",

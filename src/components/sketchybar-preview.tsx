@@ -17,15 +17,15 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
     <div className="relative w-full h-[400px] bg-gray-100 dark:bg-background rounded-sm overflow-hidden border">
       {/* Desktop mockup */}
       <div className="absolute inset-0 flex flex-col">
-        {config.position === "top" && (
+        {config.bar.position === "top" && (
           <div
             className="w-full flex justify-between items-center"
             style={{
-              height: `${config.height}px`,
-              backgroundColor: config.color,
-              borderRadius: `${config.cornerRadius}px`,
-              paddingLeft: `${config.padding}px`,
-              paddingRight: `${config.padding}px`,
+              height: `${config.bar.height}px`,
+              backgroundColor: config.bar.color,
+              borderRadius: `${config.bar.cornerRadius}px`,
+              paddingLeft: `${config.bar.padding}px`,
+              paddingRight: `${config.bar.padding}px`,
             }}
           >
             <RenderItems items={leftItems} config={config} />
@@ -38,15 +38,15 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
           <p>Desktop Content</p>
         </div>
 
-        {config.position === "bottom" && (
+        {config.bar.position === "bottom" && (
           <div
             className="w-full flex justify-between items-center"
             style={{
-              height: `${config.height}px`,
-              backgroundColor: config.color,
-              borderRadius: `${config.cornerRadius}px`,
-              paddingLeft: `${config.padding}px`,
-              paddingRight: `${config.padding}px`,
+              height: `${config.bar.height}px`,
+              backgroundColor: config.bar.color,
+              borderRadius: `${config.bar.cornerRadius}px`,
+              paddingLeft: `${config.bar.padding}px`,
+              paddingRight: `${config.bar.padding}px`,
             }}
           >
             <RenderItems items={leftItems} config={config} />
