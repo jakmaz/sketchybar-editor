@@ -1,3 +1,4 @@
+// components/editor-tabs/items-tab.tsx
 "use client"
 
 import { type Dispatch, type SetStateAction, useState } from "react"
@@ -5,7 +6,6 @@ import { Plus, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
 import type { ItemPosition, ItemType, SketchybarConfig } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -40,7 +40,6 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
       id: `${newItemType}_${Date.now()}`,
       type: newItemType as ItemType,
       position: newItemPosition as ItemPosition,
-      color: "#ffffff",
     }
 
     setConfig((prev) => ({
@@ -62,13 +61,6 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
     setConfig((prev) => ({
       ...prev,
       items: prev.items.map((item) => (item.id === id ? { ...item, position } : item)),
-    }))
-  }
-
-  const updateItemColor = (id: string, color: string) => {
-    setConfig((prev) => ({
-      ...prev,
-      items: prev.items.map((item) => (item.id === id ? { ...item, color } : item)),
     }))
   }
 
@@ -118,7 +110,7 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
           <div className="grid gap-4">
             {config.items.map((item) => (
               <Card key={item.id}>
-                <CardContent className="pt-6">
+                <CardContent>
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h4 className="font-medium capitalize">{item.type}</h4>
@@ -136,7 +128,7 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
                         value={item.position}
                         onValueChange={(value) => updateItemPosition(item.id, value as ItemPosition)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -148,24 +140,6 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
                         </SelectContent>
                       </Select>
                     </div>
-
-                    {(item.type === "apple" ||
-                      item.type === "battery" ||
-                      item.type === "clock" ||
-                      item.type === "calendar") && (
-                        <div className="space-y-2">
-                          <Label>Color</Label>
-                          <div className="flex gap-2">
-                            <div className="w-6 h-6 rounded border" style={{ backgroundColor: item.color }} />
-                            <Input
-                              type="text"
-                              value={item.color}
-                              onChange={(e) => updateItemColor(item.id, e.target.value)}
-                              placeholder="#ffffff"
-                            />
-                          </div>
-                        </div>
-                      )}
                   </div>
                 </CardContent>
               </Card>
@@ -173,7 +147,6 @@ export function ItemsTab({ config, setConfig }: ItemsTabProps) {
           </div>
         )}
       </div>
-    </div>
+    </div >
   )
 }
-
