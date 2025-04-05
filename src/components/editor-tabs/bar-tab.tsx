@@ -46,17 +46,6 @@ export function BarTab({ config, setConfig }: AppearanceTabProps) {
     }));
   };
 
-  const handleFontSizeChange = (value: number[]) => {
-    setConfig((prev) => ({ ...prev, bar: { ...prev.bar, fontSize: value[0] } }));
-  };
-
-  const handleFontFamilyChange = (fontFamily: string) => {
-    setConfig((prev) => ({
-      ...prev,
-      bar: { ...prev.bar, fontFamily },
-    }));
-  };
-
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -125,36 +114,6 @@ export function BarTab({ config, setConfig }: AppearanceTabProps) {
           value={[config.bar.cornerRadius]}
           onValueChange={handleCornerRadiusChange}
         />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="font-size">Font Size: {config.bar.fontSize}px</Label>
-        </div>
-        <Slider
-          id="font-size"
-          min={8}
-          max={24}
-          step={1}
-          value={[config.bar.fontSize]}
-          onValueChange={handleFontSizeChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="font-family">Font Family</Label>
-        <Select value={config.bar.fontFamily} onValueChange={handleFontFamilyChange}>
-          <SelectTrigger className="w-full" id="font-family">
-            <SelectValue placeholder="Select font family" />
-          </SelectTrigger>
-          <SelectContent>
-            {FONT_FAMILIES.map((font) => (
-              <SelectItem key={font.value} value={font.value}>
-                {font.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { SketchybarConfig } from "@/components/sketchybar-editor";
+import { SketchybarConfig } from "@/components/sketchybar-editor"
 
 export function generateSketchybarCode(config: SketchybarConfig): string {
   return `#!/bin/bash
@@ -8,10 +8,6 @@ export function generateSketchybarCode(config: SketchybarConfig): string {
 
 ##### Colors #####
 BAR_COLOR=${config.bar.color}
-ITEM_BG_COLOR=0xff262626
-ITEM_LABEL_COLOR=0xffffffff
-ITEM_ICON_COLOR=0xffffffff
-
 
 ##### Bar Appearance #####
 bar=(
@@ -27,24 +23,24 @@ sketchybar --bar "\${bar[@]}"
 
 #### Defaults #####
 default=(
-  background.color=$ITEM_BG_COLOR
-  icon.color=$ITEM_ICON_COLOR
-  label.color=$ITEM_LABEL_COLOR
-  padding_left=5
-  padding_right=5
-  icon.font="Hack Nerd Font:Bold:17.0"
-  label.font="Hack Nerd Font:Bold:14.0"
-  background.corner_radius=5
-  background.height=26
-  icon.padding_left=10
-  icon.padding_right=4
-  label.padding_left=4
-  label.padding_right=10
+  background.color=${config.defaults.backgroundColor}
+  icon.color=${config.defaults.iconColor}
+  label.color=${config.defaults.labelColor}
+  padding_left=${config.defaults.paddingLeft}
+  padding_right=${config.defaults.paddingRight}
+  icon.font="${config.defaults.iconFont}"
+  label.font="${config.defaults.labelFont}"
+  background.corner_radius=${config.defaults.backgroundCornerRadius}
+  background.height=${config.defaults.backgroundHeight}
+  icon.padding_left=${config.defaults.iconPaddingLeft}
+  icon.padding_right=${config.defaults.iconPaddingRight}
+  label.padding_left=${config.defaults.labelPaddingLeft}
+  label.padding_right=${config.defaults.labelPaddingRight}
 )
 
 sketchybar --default "\${default[@]}"
 
 # Finalizing setup
 sketchybar --update
-`;
+`
 }

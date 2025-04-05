@@ -14,7 +14,6 @@ export type ItemPosition = "left" | "center" | "right"
 
 import Navbar from "./navbar"
 
-
 export interface SketchybarItem {
   id: string
   type: ItemType
@@ -24,8 +23,25 @@ export interface SketchybarItem {
   text?: string
 }
 
+export interface SketchybarDefaults {
+  backgroundColor: string
+  iconColor: string
+  labelColor: string
+  paddingLeft: number
+  paddingRight: number
+  iconFont: string
+  labelFont: string
+  backgroundCornerRadius: number
+  backgroundHeight: number
+  iconPaddingLeft: number
+  iconPaddingRight: number
+  labelPaddingLeft: number
+  labelPaddingRight: number
+}
+
 export interface SketchybarConfig {
   bar: SketcybarBar
+  defaults: SketchybarDefaults
   items: SketchybarItem[]
 }
 
@@ -35,8 +51,6 @@ export interface SketcybarBar {
   height: number
   padding: number
   cornerRadius: number
-  fontSize: number
-  fontFamily: string
 }
 
 export function SketchybarEditor() {
@@ -47,8 +61,21 @@ export function SketchybarEditor() {
       height: 40,
       padding: 8,
       cornerRadius: 8,
-      fontSize: 14,
-      fontFamily: "Menlo",
+    },
+    defaults: {
+      backgroundColor: "0xff262626",
+      iconColor: "0xffffffff",
+      labelColor: "0xffffffff",
+      paddingLeft: 5,
+      paddingRight: 5,
+      iconFont: "Hack Nerd Font:Bold:17.0",
+      labelFont: "Hack Nerd Font:Bold:14.0",
+      backgroundCornerRadius: 5,
+      backgroundHeight: 26,
+      iconPaddingLeft: 10,
+      iconPaddingRight: 4,
+      labelPaddingLeft: 4,
+      labelPaddingRight: 10,
     },
     items: [
       {
@@ -68,10 +95,9 @@ export function SketchybarEditor() {
         type: "clock",
         position: "right",
         color: "#ffffff",
-      }
+      },
     ],
   })
-
 
   return (
     <div className="flex flex-col min-h-screen p-4 gap-4">
@@ -108,4 +134,3 @@ export function SketchybarEditor() {
     </div>
   )
 }
-
