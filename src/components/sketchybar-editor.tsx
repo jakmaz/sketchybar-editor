@@ -1,10 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
-import { Download, Github, Moon, Sun } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -16,7 +12,7 @@ import { SketchybarPreview } from "./sketchybar-preview"
 export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar"
 export type ItemPosition = "left" | "center" | "right"
 
-import { toast } from "sonner"
+import Navbar from "./navbar"
 
 
 export interface SketchybarItem {
@@ -40,7 +36,6 @@ export interface SketchybarConfig {
 }
 
 export function SketchybarEditor() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
   const [config, setConfig] = useState<SketchybarConfig>({
     height: 40,
     padding: 8,
@@ -71,52 +66,10 @@ export function SketchybarEditor() {
     ],
   })
 
-  const handleDownload = () => {
-    // Generate sketchybarrc code based on config
-    const code = generateSketchybarCode(config)
-
-    // Create a blob and download it
-    const blob = new Blob([code], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = ".sketchybarrc"
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-
-    toast("Configuration downloaded", {
-      description: "Your sketchybar configuration has been downloaded.",
-    })
-  }
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
-    document.documentElement.classList.toggle("dark")
-  }
 
   return (
-    <div className="flex flex-col min-h-screen p-4 gap-4 bg-slate-50 dark:bg-slate-950">
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
-          <div className="flex gap-2">
-            <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="icon">
-                <Github className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Button variant="outline" size="icon" onClick={toggleDarkMode}>
-              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-            <Button onClick={handleDownload}>
-              <Download className="mr-2 h-4 w-4" />
-              Download Config
-            </Button>
-          </div>
-        </div>
-      </Card>
+    <div className="flex flex-col min-h-screen p-4 gap-4">
+      <Navbar config={config} />
 
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
         <Card className="lg:w-80 p-4">
@@ -148,72 +101,5 @@ export function SketchybarEditor() {
       </div>
     </div>
   )
-}
-
-function generateSketchybarCode(config: SketchybarConfig): string {
-  return `#!/bin/bash
-
-      # Sketchybar configuration
-      # Generated with Sketchybar Editor
-
-      # Bar appearance
-      sketchybar --bar height=${config.height} \\
-      position=${config.position} \\
-      padding_left=${config.padding} \\
-      padding_right=${config.padding} \\
-      color=${config.color} \\
-      corner_radius=${config.cornerRadius}
-
-      # Default item settings
-      sketchybar --default icon.font="${config.fontFamily}" \\
-      icon.color=0xffffffff \\
-      label.font="${config.fontFamily}" \\
-      label.color=0xffffffff \\
-      label.font.size=${config.fontSize} \\
-      padding_left=5 \\
-      padding_right=5
-
-      ${config.items
-      .map((item) => {
-        let itemConfig = `# ${item.type} item\n`
-
-        switch (item.type) {
-          case "apple":
-            itemConfig += `sketchybar --add item ${item.id} ${item.position} \\
-           --set ${item.id} icon=􀣺 \\
-           icon.color=${item.color || "0xffffffff"}`
-            break
-          case "spaces":
-            itemConfig += `sketchybar --add space space_1 ${item.position} \\
-           --set space_1 label="1"`
-            break
-          case "clock":
-            itemConfig += `sketchybar --add item ${item.id} ${item.position} \\
-           --set ${item.id} update_freq=1 \\
-           script="date '+%H:%M'" \\
-           label.color=${item.color || "0xffffffff"}`
-            break
-          case "battery":
-            itemConfig += `sketchybar --add item ${item.id} ${item.position} \\
-           --set ${item.id} update_freq=120 \\
-           script="pmset -g batt | grep -o '[0-9]*%'" \\
-           icon=􀛨 \\
-           icon.color=${item.color || "0xffffffff"}`
-            break
-          case "calendar":
-            itemConfig += `sketchybar --add item ${item.id} ${item.position} \\
-           --set ${item.id} update_freq=60 \\
-           script="date '+%a %b %d'" \\
-           label.color=${item.color || "0xffffffff"}`
-            break
-        }
-
-        return itemConfig
-      })
-      .join("\n\n")}
-
-      # Finalizing setup
-      sketchybar --update
-      `
 }
 
