@@ -2,11 +2,11 @@
 
 import type { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
-import type { SketchybarConfig } from "@/components/sketchybar-editor";
+import type { Config } from "@/components/sketchybar-editor";
 
 interface ExamplesTabProps {
-  config: SketchybarConfig;
-  setConfig: Dispatch<SetStateAction<SketchybarConfig>>;
+  config: Config;
+  setConfig: Dispatch<SetStateAction<Config>>;
 }
 
 export function ExamplesTab({ config, setConfig }: ExamplesTabProps) {

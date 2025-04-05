@@ -1,6 +1,6 @@
-import { SketchybarConfig } from "@/components/sketchybar-editor"
+import { Config } from "@/components/sketchybar-editor"
 
-export function generateSketchybarCode(config: SketchybarConfig): string {
+export function generateSketchybarCode(config: Config): string {
   return `#!/bin/bash
 
 # Sketchybar configuration

@@ -18,11 +18,11 @@ import {
 } from "@/components/ui/dialog"
 
 import { generateSketchybarCode } from "@/lib/generate-config"
-import { SketchybarConfig } from "./sketchybar-editor"
+import { Config } from "./sketchybar-editor"
 
 import { toast } from "sonner"
 
-export default function Navbar({ config }: { config: SketchybarConfig }) {
+export default function Navbar({ config }: { config: Config }) {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   const handleDownload = () => {

@@ -7,11 +7,11 @@ import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 
-import type { SketchybarConfig } from "@/components/sketchybar-editor"
+import type { Config } from "@/components/sketchybar-editor"
 
 interface DefaultsTabProps {
-  config: SketchybarConfig
-  setConfig: Dispatch<SetStateAction<SketchybarConfig>>
+  config: Config
+  setConfig: Dispatch<SetStateAction<Config>>
 }
 
 export function DefaultsTab({ config, setConfig }: DefaultsTabProps) {

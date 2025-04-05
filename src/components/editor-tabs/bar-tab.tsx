@@ -5,22 +5,14 @@ import type { Dispatch, SetStateAction } from "react"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-import type { SketchybarConfig } from "@/components/sketchybar-editor"
+import type { Config } from "@/components/sketchybar-editor"
 
 interface AppearanceTabProps {
-  config: SketchybarConfig
-  setConfig: Dispatch<SetStateAction<SketchybarConfig>>
+  config: Config
+  setConfig: Dispatch<SetStateAction<Config>>
 }
-
-const FONT_FAMILIES = [
-  { value: "SF Pro", label: "SF Pro" },
-  { value: "SF Mono", label: "SF Mono" },
-  { value: "Helvetica", label: "Helvetica" },
-  { value: "Menlo", label: "Menlo" },
-]
 
 export function BarTab({ config, setConfig }: AppearanceTabProps) {
   const handleColorChange = (color: string) => {

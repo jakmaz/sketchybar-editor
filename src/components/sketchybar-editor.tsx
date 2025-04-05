@@ -1,21 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-import { BarTab } from "./editor-tabs/bar-tab"
-import { DefaultsTab } from "./editor-tabs/defaults-tab"
-import { SketchybarPreview } from "./sketchybar-preview"
+import { PreviewPane } from "./preview-pane"
 
 export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar"
 export type ItemPosition = "left" | "center" | "right"
 
 import Navbar from "./navbar"
 import { ItemsPane } from "./items-pane"
-import { ExamplesTab } from "./editor-tabs/examples-tab"
+import { SidebarPane } from "./sidebar-pane"
 
-export interface SketchybarItem {
+export interface Item {
   id: string
   type: ItemType
   position: ItemPosition
@@ -24,7 +19,7 @@ export interface SketchybarItem {
   text?: string
 }
 
-export interface SketchybarDefaults {
+export interface DefaultsSettings {
   backgroundColor: string
   iconColor: string
   labelColor: string
@@ -40,13 +35,13 @@ export interface SketchybarDefaults {
   labelPaddingRight: number
 }
 
-export interface SketchybarConfig {
-  bar: SketcybarBar
-  defaults: SketchybarDefaults
-  items: SketchybarItem[]
+export interface Config {
+  bar: BarSettings
+  defaults: DefaultsSettings
+  items: Item[]
 }
 
-export interface SketcybarBar {
+export interface BarSettings {
   color: string
   position: "top" | "bottom"
   height: number
@@ -55,7 +50,7 @@ export interface SketcybarBar {
 }
 
 export function SketchybarEditor() {
-  const [config, setConfig] = useState<SketchybarConfig>({
+  const [config, setConfig] = useState<Config>({
     bar: {
       color: "#121212",
       position: "top",
@@ -105,39 +100,13 @@ export function SketchybarEditor() {
       <Navbar config={config} />
 
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
-        <Card className="lg:w-80 p-4">
-          <Tabs defaultValue="bar">
-            <TabsList className="grid grid-cols-3 mb-4 w-full">
-              <TabsTrigger value="bar">Bar</TabsTrigger>
-              <TabsTrigger value="defaults">Defaults</TabsTrigger>
-              <TabsTrigger value="examples">Configs</TabsTrigger>
-            </TabsList>
 
-            <TabsContent value="bar">
-              <BarTab config={config} setConfig={setConfig} />
-            </TabsContent>
-
-            <TabsContent value="defaults">
-              <DefaultsTab config={config} setConfig={setConfig} />
-            </TabsContent>
-
-            <TabsContent value="examples">
-              <ExamplesTab config={config} setConfig={setConfig} />
-            </TabsContent>
-          </Tabs>
-        </Card>
-
+        <SidebarPane config={config} setConfig={setConfig} />
         <div className="flex flex-col w-full gap-4">
-          <Card className="flex-1 p-4 max-h-fit">
-            <h2 className="text-xl font-semibold">Preview</h2>
-            <SketchybarPreview config={config} />
-          </Card>
-          <Card className="flex-1 p-4">
-            <h2 className="text-xl font-semibold">Items</h2>
-            <ItemsPane config={config} setConfig={setConfig} />
-          </Card>
+          <PreviewPane config={config} />
+          <ItemsPane config={config} setConfig={setConfig} />
         </div>
       </div>
-    </div>
+    </div >
   )
 }

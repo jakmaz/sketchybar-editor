@@ -6,12 +6,12 @@ import { Plus, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { ItemPosition, ItemType, SketchybarConfig, SketchybarItem } from "@/components/sketchybar-editor"
+import type { ItemPosition, ItemType, Config, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 
 interface ItemsTabProps {
-  config: SketchybarConfig
-  setConfig: Dispatch<SetStateAction<SketchybarConfig>>
+  config: Config
+  setConfig: Dispatch<SetStateAction<Config>>
 }
 
 const ITEM_TYPES = [
@@ -68,80 +68,82 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4">
-        <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
-            <ItemsColumn
-              position="left"
-              items={leftItems}
-              config={config}
-              setConfig={setConfig}
-              removeItem={removeItem}
-              updateItemPosition={updateItemPosition}
-            />
-            <ItemsColumn
-              position="center"
-              items={centerItems}
-              config={config}
-              setConfig={setConfig}
-              removeItem={removeItem}
-              updateItemPosition={updateItemPosition}
-            />
-            <ItemsColumn
-              position="right"
-              items={rightItems}
-              config={config}
-              setConfig={setConfig}
-              removeItem={removeItem}
-              updateItemPosition={updateItemPosition}
-            />
+    <Card className="flex-1 p-4">
+      <h2 className="text-xl font-semibold">Items</h2>
+      <div className="space-y-6">
+        <div className="flex flex-col gap-4">
+          <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-4">
+              <ItemsColumn
+                position="left"
+                items={leftItems}
+                config={config}
+                setConfig={setConfig}
+                removeItem={removeItem}
+                updateItemPosition={updateItemPosition}
+              />
+              <ItemsColumn
+                position="center"
+                items={centerItems}
+                config={config}
+                setConfig={setConfig}
+                removeItem={removeItem}
+                updateItemPosition={updateItemPosition}
+              />
+              <ItemsColumn
+                position="right"
+                items={rightItems}
+                config={config}
+                setConfig={setConfig}
+                removeItem={removeItem}
+                updateItemPosition={updateItemPosition}
+              />
+            </div>
+          </div>
+          <h3 className="text-lg font-medium">Add New Item</h3>
+          <div className="space-y-2">
+            <Select value={newItemType} onValueChange={setNewItemType}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select item type" />
+              </SelectTrigger>
+              <SelectContent>
+                {ITEM_TYPES.map((type) => (
+                  <SelectItem key={type.value} value={type.value}>
+                    {type.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={newItemPosition} onValueChange={setNewItemPosition}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Position" />
+              </SelectTrigger>
+              <SelectContent>
+                {POSITIONS.map((pos) => (
+                  <SelectItem key={pos.value} value={pos.value}>
+                    {pos.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Button onClick={addItem} disabled={!newItemType} className="w-full">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Item
+            </Button>
           </div>
         </div>
-        <h3 className="text-lg font-medium">Add New Item</h3>
-        <div className="space-y-2">
-          <Select value={newItemType} onValueChange={setNewItemType}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select item type" />
-            </SelectTrigger>
-            <SelectContent>
-              {ITEM_TYPES.map((type) => (
-                <SelectItem key={type.value} value={type.value}>
-                  {type.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Select value={newItemPosition} onValueChange={setNewItemPosition}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Position" />
-            </SelectTrigger>
-            <SelectContent>
-              {POSITIONS.map((pos) => (
-                <SelectItem key={pos.value} value={pos.value}>
-                  {pos.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Button onClick={addItem} disabled={!newItemType} className="w-full">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Item
-          </Button>
-        </div>
       </div>
-
-    </div>
+    </Card>
   )
 }
 
 interface ItemsColumnProps {
   position: ItemPosition
-  items: SketchybarItem[]
-  config: SketchybarConfig
-  setConfig: Dispatch<SetStateAction<SketchybarConfig>>
+  items: Item[]
+  config: Config
+  setConfig: Dispatch<SetStateAction<Config>>
   removeItem: (id: string) => void
   updateItemPosition: (id: string, position: ItemPosition) => void
 }
@@ -179,8 +181,8 @@ function ItemsColumn({
 }
 
 interface ItemCardProps {
-  item: SketchybarItem
-  config: SketchybarConfig
+  item: Item
+  config: Config
   removeItem: (id: string) => void
   updateItemPosition: (id: string, position: ItemPosition) => void
 }

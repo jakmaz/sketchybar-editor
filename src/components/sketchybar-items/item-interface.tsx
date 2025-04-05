@@ -1,7 +1,7 @@
-import type { SketchybarConfig, SketchybarItem } from "@/components/sketchybar-editor"
+import type { Config, Item } from "@/components/sketchybar-editor"
 
 export interface SketchybarItemProps {
-  config: SketchybarConfig
+  config: Config
 }
 
 export interface SketchybarItemComponentProps extends SketchybarItemProps {
