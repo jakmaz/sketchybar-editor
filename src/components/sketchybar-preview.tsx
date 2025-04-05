@@ -14,47 +14,19 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
   const rightItems = config.items.filter((item) => item.position === "right")
 
   return (
-    <div className="relative w-full h-[200px] bg-gray-100 dark:bg-background rounded-sm overflow-hidden border">
-      {/* Desktop mockup */}
-      <div className="absolute inset-0 flex flex-col">
-        {config.bar.position === "top" && (
-          <div
-            className="w-full flex justify-between items-center"
-            style={{
-              height: `${config.bar.height}px`,
-              backgroundColor: config.bar.color,
-              borderRadius: `${config.bar.cornerRadius}px`,
-              paddingLeft: `${config.bar.padding}px`,
-              paddingRight: `${config.bar.padding}px`,
-            }}
-          >
-            <RenderItems items={leftItems} config={config} />
-            <RenderItems items={centerItems} config={config} />
-            <RenderItems items={rightItems} config={config} />
-          </div>
-        )}
-
-        <div className="flex-1 flex items-center justify-center text-muted-foreground">
-          <p>Desktop Content</p>
-        </div>
-
-        {config.bar.position === "bottom" && (
-          <div
-            className="w-full flex justify-between items-center"
-            style={{
-              height: `${config.bar.height}px`,
-              backgroundColor: config.bar.color,
-              borderRadius: `${config.bar.cornerRadius}px`,
-              paddingLeft: `${config.bar.padding}px`,
-              paddingRight: `${config.bar.padding}px`,
-            }}
-          >
-            <RenderItems items={leftItems} config={config} />
-            <RenderItems items={centerItems} config={config} />
-            <RenderItems items={rightItems} config={config} />
-          </div>
-        )}
-      </div>
+    <div
+      className="w-full flex justify-between items-center"
+      style={{
+        height: `${config.bar.height}px`,
+        backgroundColor: config.bar.color,
+        borderRadius: `${config.bar.cornerRadius}px`,
+        paddingLeft: `${config.bar.padding}px`,
+        paddingRight: `${config.bar.padding}px`,
+      }}
+    >
+      <RenderItems items={leftItems} config={config} />
+      <RenderItems items={centerItems} config={config} />
+      <RenderItems items={rightItems} config={config} />
     </div>
   )
 }
@@ -70,4 +42,3 @@ function RenderItems({ items, config }: { items: SketchybarConfig["items"]; conf
     </div>
   )
 }
-
