@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react"
 import type { SketchybarItemComponentProps } from "./item-interface"
+import { BaseItem } from "./base-item"
 
-export function ClockItem({ item, config, className }: SketchybarItemComponentProps) {
+export function ClockItem({ config }: SketchybarItemComponentProps) {
   const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
 
   useEffect(() => {
@@ -15,14 +16,7 @@ export function ClockItem({ item, config, className }: SketchybarItemComponentPr
   }, [])
 
   return (
-    <div
-      className={className}
-      style={{
-        color: item.color || "#ffffff",
-      }}
-    >
-      {time}
-    </div>
+    <BaseItem config={config} icon="C" label={time} />
   )
 }
 

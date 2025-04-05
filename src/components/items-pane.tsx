@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { ItemPosition, ItemType, SketchybarConfig, SketchybarItem } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 
 interface ItemsTabProps {
   config: SketchybarConfig

@@ -1,15 +1,9 @@
 import type { SketchybarItemComponentProps } from "./item-interface"
+import { BaseItem } from "./base-item"
 
-export function SpacesItem({ item, config, className }: SketchybarItemComponentProps) {
+export function SpacesItem({ config }: SketchybarItemComponentProps) {
   return (
-    <div
-      className={className}
-      style={{
-        color: item.color || "#ffffff",
-      }}
-    >
-      1 2 3
-    </div>
+    <BaseItem config={config} label="1 2 3" />
   )
 }
 
