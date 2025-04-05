@@ -9,7 +9,7 @@ interface ExamplesTabProps {
   setConfig: Dispatch<SetStateAction<Config>>;
 }
 
-export function ExamplesTab({ config, setConfig }: ExamplesTabProps) {
+export function ExamplesTab({ setConfig }: ExamplesTabProps) {
   const applyTheme = (theme: {
     barColor: string;
     backgroundColor: string;

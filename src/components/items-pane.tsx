@@ -152,7 +152,6 @@ function ItemsColumn({
   position,
   items,
   config,
-  setConfig,
   removeItem,
   updateItemPosition,
 }: ItemsColumnProps) {
