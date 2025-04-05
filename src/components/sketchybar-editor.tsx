@@ -13,6 +13,7 @@ export type ItemPosition = "left" | "center" | "right"
 
 import Navbar from "./navbar"
 import { ItemsPane } from "./items-pane"
+import { ExamplesTab } from "./editor-tabs/examples-tab"
 
 export interface SketchybarItem {
   id: string
@@ -106,9 +107,10 @@ export function SketchybarEditor() {
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
         <Card className="lg:w-80 p-4">
           <Tabs defaultValue="bar">
-            <TabsList className="grid grid-cols-2 mb-4 w-full">
+            <TabsList className="grid grid-cols-3 mb-4 w-full">
               <TabsTrigger value="bar">Bar</TabsTrigger>
               <TabsTrigger value="defaults">Defaults</TabsTrigger>
+              <TabsTrigger value="examples">Configs</TabsTrigger>
             </TabsList>
 
             <TabsContent value="bar">
@@ -117,6 +119,10 @@ export function SketchybarEditor() {
 
             <TabsContent value="defaults">
               <DefaultsTab config={config} setConfig={setConfig} />
+            </TabsContent>
+
+            <TabsContent value="examples">
+              <ExamplesTab config={config} setConfig={setConfig} />
             </TabsContent>
           </Tabs>
         </Card>
