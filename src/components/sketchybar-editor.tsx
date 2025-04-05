@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { BarTab } from "./editor-tabs/bar-tab"
-import { ItemsTab } from "./editor-tabs/items-tab"
 import { DefaultsTab } from "./editor-tabs/defaults-tab"
 import { SketchybarPreview } from "./sketchybar-preview"
 
@@ -13,6 +12,7 @@ export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar"
 export type ItemPosition = "left" | "center" | "right"
 
 import Navbar from "./navbar"
+import { ItemsPane } from "./items-pane"
 
 export interface SketchybarItem {
   id: string
@@ -106,10 +106,9 @@ export function SketchybarEditor() {
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
         <Card className="lg:w-80 p-4">
           <Tabs defaultValue="bar">
-            <TabsList className="grid grid-cols-3 mb-4 w-full">
+            <TabsList className="grid grid-cols-2 mb-4 w-full">
               <TabsTrigger value="bar">Bar</TabsTrigger>
               <TabsTrigger value="defaults">Defaults</TabsTrigger>
-              <TabsTrigger value="items">Items</TabsTrigger>
             </TabsList>
 
             <TabsContent value="bar">
@@ -119,17 +118,19 @@ export function SketchybarEditor() {
             <TabsContent value="defaults">
               <DefaultsTab config={config} setConfig={setConfig} />
             </TabsContent>
-
-            <TabsContent value="items">
-              <ItemsTab config={config} setConfig={setConfig} />
-            </TabsContent>
           </Tabs>
         </Card>
 
-        <Card className="flex-1 p-4">
-          <h2 className="text-xl font-semibold mb-4">Preview</h2>
-          <SketchybarPreview config={config} />
-        </Card>
+        <div className="flex flex-col w-full gap-4">
+          <Card className="flex-1 p-4 max-h-fit">
+            <h2 className="text-xl font-semibold">Preview</h2>
+            <SketchybarPreview config={config} />
+          </Card>
+          <Card className="flex-1 p-4">
+            <h2 className="text-xl font-semibold">Items</h2>
+            <ItemsPane config={config} setConfig={setConfig} />
+          </Card>
+        </div>
       </div>
     </div>
   )

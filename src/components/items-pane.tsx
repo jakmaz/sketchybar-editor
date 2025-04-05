@@ -29,7 +29,7 @@ const POSITIONS = [
   { value: "right", label: "Right" },
 ]
 
-export function ItemsTab({ config, setConfig }: ItemsTabProps) {
+export function ItemsPane({ config, setConfig }: ItemsTabProps) {
   const [newItemType, setNewItemType] = useState<string>("")
   const [newItemPosition, setNewItemPosition] = useState<string>("left")
 
