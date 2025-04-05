@@ -14,7 +14,7 @@ export function SketchybarPreview({ config }: SketchybarPreviewProps) {
   const rightItems = config.items.filter((item) => item.position === "right")
 
   return (
-    <div className="relative w-full h-[400px] bg-gray-100 dark:bg-gray-800 rounded-sm overflow-hidden border">
+    <div className="relative w-full h-[400px] bg-gray-100 dark:bg-background rounded-sm overflow-hidden border">
       {/* Desktop mockup */}
       <div className="absolute inset-0 flex flex-col">
         {config.position === "top" && (
