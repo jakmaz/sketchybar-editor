@@ -3,6 +3,7 @@ import { SpacesItem } from "./spaces-item"
 import { ClockItem } from "./clock-item"
 import { BatteryItem } from "./battery-item"
 import { CalendarItem } from "./calendar-item"
+import { CpuItem } from "./cpu-item"
 import { Config, Item } from "../sketchybar-editor"
 
 export function ItemFactory({ item, config }: { item: Item, config: Config }) {
@@ -19,6 +20,8 @@ export function ItemFactory({ item, config }: { item: Item, config: Config }) {
       return <BatteryItem config={config} />
     case "calendar":
       return <CalendarItem config={config} />
+    case "cpu":
+      return <CpuItem config={config} />
     default:
       return <div className={className}>{item.type}</div>
   }

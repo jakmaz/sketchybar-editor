@@ -20,6 +20,7 @@ const ITEM_TYPES = [
   { value: "clock", label: "Clock" },
   { value: "battery", label: "Battery" },
   { value: "calendar", label: "Calendar" },
+  { value: "cpu", label: "Cpu Usage" },
 ]
 
 const POSITIONS = [
