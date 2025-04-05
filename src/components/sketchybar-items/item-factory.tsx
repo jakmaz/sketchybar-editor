@@ -1,24 +1,24 @@
-import type { SketchybarItemProps } from "./item-interface"
 import { AppleItem } from "./apple-item"
 import { SpacesItem } from "./spaces-item"
 import { ClockItem } from "./clock-item"
 import { BatteryItem } from "./battery-item"
 import { CalendarItem } from "./calendar-item"
+import { Config, Item } from "../sketchybar-editor"
 
-export function ItemFactory({ item, config }: SketchybarItemProps) {
+export function ItemFactory({ item, config }: { item: Item, config: Config }) {
   const className = "px-2 py-1 text-xs rounded"
 
   switch (item.type) {
     case "apple":
-      return <AppleItem item={item} config={config} className={className} />
+      return <AppleItem config={config} />
     case "spaces":
-      return <SpacesItem item={item} config={config} className={className} />
+      return <SpacesItem config={config} />
     case "clock":
-      return <ClockItem item={item} config={config} className={className} />
+      return <ClockItem config={config} />
     case "battery":
-      return <BatteryItem item={item} config={config} className={className} />
+      return <BatteryItem config={config} />
     case "calendar":
-      return <CalendarItem item={item} config={config} className={className} />
+      return <CalendarItem config={config} />
     default:
       return <div className={className}>{item.type}</div>
   }
