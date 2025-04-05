@@ -19,8 +19,6 @@ export function ClockItem({ item, config, className }: SketchybarItemComponentPr
       className={className}
       style={{
         color: item.color || "#ffffff",
-        fontSize: `${config.fontSize}px`,
-        fontFamily: config.fontFamily,
       }}
     >
       {time}

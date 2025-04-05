@@ -21,8 +21,6 @@ export function CalendarItem({ item, config, className }: SketchybarItemComponen
       className={className}
       style={{
         color: item.color || "#ffffff",
-        fontSize: `${config.fontSize}px`,
-        fontFamily: config.fontFamily,
       }}
     >
       {date}

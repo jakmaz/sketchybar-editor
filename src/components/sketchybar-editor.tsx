@@ -63,7 +63,7 @@ export function SketchybarEditor() {
       cornerRadius: 8,
     },
     defaults: {
-      backgroundColor: "0x262626",
+      backgroundColor: "0xff0000",
       iconColor: "0xffffff",
       labelColor: "0xffffff",
       paddingLeft: 5,

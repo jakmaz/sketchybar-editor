@@ -6,8 +6,6 @@ export function SpacesItem({ item, config, className }: SketchybarItemComponentP
       className={className}
       style={{
         color: item.color || "#ffffff",
-        fontSize: `${config.fontSize}px`,
-        fontFamily: config.fontFamily,
       }}
     >
       1 2 3
