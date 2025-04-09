@@ -1,8 +1,7 @@
-import { type Dispatch, type SetStateAction, useState } from "react"
-import { Plus, Trash2 } from "lucide-react"
+import { type Dispatch, type SetStateAction } from "react"
+import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { ItemPosition, ItemType, Config, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -11,45 +10,32 @@ interface ItemsTabProps {
   setConfig: Dispatch<SetStateAction<Config>>
 }
 
-const ITEM_TYPES = [
-  { value: "apple", label: "Apple Logo" },
-  { value: "spaces", label: "Spaces" },
-  { value: "clock", label: "Clock" },
-  { value: "battery", label: "Battery" },
-  { value: "calendar", label: "Calendar" },
-  { value: "cpu", label: "Cpu Usage" },
-  { value: "media", label: "Media" },
-]
-
-const POSITIONS = [
-  { value: "left", label: "Left" },
-  { value: "center", label: "Center" },
-  { value: "right", label: "Right" },
+const itemTypes: ItemType[] = [
+  "apple",
+  "spaces",
+  "clock",
+  "battery",
+  "calendar",
+  "cpu",
+  "media",
 ]
 
 export function ItemsPane({ config, setConfig }: ItemsTabProps) {
-  const [newItemType, setNewItemType] = useState<string>("")
-  const [newItemPosition, setNewItemPosition] = useState<string>("left")
-
   const leftItems = config.items.filter((item) => item.position === "left")
   const centerItems = config.items.filter((item) => item.position === "center")
   const rightItems = config.items.filter((item) => item.position === "right")
 
-  const addItem = () => {
-    if (!newItemType) return
-
+  const addItem = (type: ItemType, position: ItemPosition) => {
     const newItem = {
-      id: `${newItemType}_${Date.now()}`,
-      type: newItemType as ItemType,
-      position: newItemPosition as ItemPosition,
+      id: `${type}_${Date.now()}`,
+      type: type,
+      position: position,
     }
 
     setConfig((prev) => ({
       ...prev,
       items: [...prev.items, newItem],
     }))
-
-    setNewItemType("")
   }
 
   const removeItem = (id: string) => {
@@ -101,36 +87,11 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
           </div>
           <h3 className="text-lg font-medium">Add New Item</h3>
           <div className="space-y-2">
-            <Select value={newItemType} onValueChange={setNewItemType}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select item type" />
-              </SelectTrigger>
-              <SelectContent>
-                {ITEM_TYPES.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={newItemPosition} onValueChange={setNewItemPosition}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Position" />
-              </SelectTrigger>
-              <SelectContent>
-                {POSITIONS.map((pos) => (
-                  <SelectItem key={pos.value} value={pos.value}>
-                    {pos.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Button onClick={addItem} disabled={!newItemType} className="w-full">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Item
-            </Button>
+            <div className="flex flex-wrap gap-4">
+              {itemTypes.map((type) => (
+                <ItemTypeCard key={type} type={type} addItem={addItem} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -185,10 +146,7 @@ interface ItemCardProps {
   updateItemPosition: (id: string, position: ItemPosition) => void
 }
 
-function ItemCard({
-  item,
-  removeItem,
-}: ItemCardProps) {
+function ItemCard({ item, removeItem }: ItemCardProps) {
   return (
     <Card className="py-0 px-0">
       <CardContent className="px-0 pl-4 pr-1">
@@ -198,6 +156,32 @@ function ItemCard({
           </div>
           <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
             <Trash2 className="h-4 w-4" color="grey" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+interface ItemTypeCardProps {
+  type: ItemType,
+  addItem: (type: ItemType, position: ItemPosition) => void
+}
+
+function ItemTypeCard({ type, addItem }: ItemTypeCardProps) {
+  return (
+    <Card className="w-64 py-4">
+      <CardContent className="flex gap-2 items-center justify-around px-0">
+        <h4 className="text-center font-medium">{type}</h4>
+        <div className="flex gap-2">
+          <Button variant="outline" size="icon" onClick={() => addItem(type, "left")}>
+            L
+          </Button>
+          <Button variant="outline" size="icon" onClick={() => addItem(type, "center")}>
+            C
+          </Button>
+          <Button variant="outline" size="icon" onClick={() => addItem(type, "right")}>
+            R
           </Button>
         </div>
       </CardContent>
