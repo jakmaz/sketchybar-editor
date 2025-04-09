@@ -1,6 +1,3 @@
-// components/items-pane.tsx
-"use client"
-
 import { type Dispatch, type SetStateAction, useState } from "react"
 import { Plus, Trash2 } from "lucide-react"
 
