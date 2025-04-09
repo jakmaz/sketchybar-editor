@@ -16,8 +16,8 @@ export function BaseItem({ itemSettings, icon, label }: BaseItemProps) {
         height: `${itemSettings.backgroundHeight}px`,
         display: "flex",
         alignItems: "center",
-        paddingLeft: `${itemSettings.paddingLeft}px`,
-        paddingRight: `${itemSettings.paddingRight}px`,
+        marginLeft: `${itemSettings.paddingLeft}px`,
+        marginRight: `${itemSettings.paddingRight}px`,
         justifyContent: "center",
       }}
     >

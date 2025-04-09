@@ -57,7 +57,7 @@ function RenderItems({
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center">
       {items.map((item) => (
         <ItemFactory key={item.id} item={item} config={config} />
       ))}
