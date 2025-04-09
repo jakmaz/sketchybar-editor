@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider"
 
 import type { Config } from "@/components/sketchybar-editor"
 import { ColorInput } from "../color-input"
+import { Alert, AlertDescription } from "../ui/alert"
 
 interface DefaultsTabProps {
   config: Config
@@ -93,144 +94,154 @@ export function DefaultsTab({ config, setConfig }: DefaultsTabProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <ColorInput
-        id="background-color"
-        label="Background Color"
-        value={config.defaults.backgroundColor}
-        onChange={handleBackgroundColorChange}
-        placeholder="0xff262626"
-      />
-
-      <ColorInput
-        id="icon-color"
-        label="Icon Color"
-        value={config.defaults.iconColor}
-        onChange={handleIconColorChange}
-        placeholder="0xffffffff"
-      />
-
-      <ColorInput
-        id="label-color"
-        label="Label Color"
-        value={config.defaults.labelColor}
-        onChange={handleLabelColorChange}
-        placeholder="0xffffffff"
-      />
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="padding-left">Padding Left: {config.defaults.paddingLeft}px</Label>
-        </div>
-        <Slider
-          id="padding-left"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.paddingLeft]}
-          onValueChange={handlePaddingLeftChange}
+    <div className="flex flex-col justify-around gap-8">
+      <div className="space-y-6">
+        <ColorInput
+          id="background-color"
+          label="Background Color"
+          value={config.defaults.backgroundColor}
+          onChange={handleBackgroundColorChange}
+          placeholder="0xff262626"
         />
+
+        <ColorInput
+          id="icon-color"
+          label="Icon Color"
+          value={config.defaults.iconColor}
+          onChange={handleIconColorChange}
+          placeholder="0xffffffff"
+        />
+
+        <ColorInput
+          id="label-color"
+          label="Label Color"
+          value={config.defaults.labelColor}
+          onChange={handleLabelColorChange}
+          placeholder="0xffffffff"
+        />
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="padding-left">Padding Left: {config.defaults.paddingLeft}px</Label>
+          </div>
+          <Slider
+            id="padding-left"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.paddingLeft]}
+            onValueChange={handlePaddingLeftChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="padding-right">Padding Right: {config.defaults.paddingRight}px</Label>
+          </div>
+          <Slider
+            id="padding-right"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.paddingRight]}
+            onValueChange={handlePaddingRightChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="icon-padding-left">Icon Padding Left: {config.defaults.iconPaddingLeft}px</Label>
+          </div>
+          <Slider
+            id="icon-padding-left"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.iconPaddingLeft]}
+            onValueChange={handleIconPaddingLeftChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="icon-padding-right">Icon Padding Right: {config.defaults.iconPaddingRight}px</Label>
+          </div>
+          <Slider
+            id="icon-padding-right"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.iconPaddingRight]}
+            onValueChange={handleIconPaddingRightChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="label-padding-left">Label Padding Left: {config.defaults.labelPaddingLeft}px</Label>
+          </div>
+          <Slider
+            id="label-padding-left"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.labelPaddingLeft]}
+            onValueChange={handleLabelPaddingLeftChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="label-padding-right">Label Padding Right: {config.defaults.labelPaddingRight}px</Label>
+          </div>
+          <Slider
+            id="label-padding-right"
+            min={0}
+            max={32}
+            step={1}
+            value={[config.defaults.labelPaddingRight]}
+            onValueChange={handleLabelPaddingRightChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="background-corner-radius">
+              Background Corner Radius: {config.defaults.backgroundCornerRadius}px
+            </Label>
+          </div>
+          <Slider
+            id="background-corner-radius"
+            min={0}
+            max={20}
+            step={1}
+            value={[config.defaults.backgroundCornerRadius]}
+            onValueChange={handleBackgroundCornerRadiusChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="background-height">Background Height: {config.defaults.backgroundHeight}px</Label>
+          </div>
+          <Slider
+            id="background-height"
+            min={16}
+            max={64}
+            step={1}
+            value={[config.defaults.backgroundHeight]}
+            onValueChange={handleBackgroundHeightChange}
+          />
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="padding-right">Padding Right: {config.defaults.paddingRight}px</Label>
-        </div>
-        <Slider
-          id="padding-right"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.paddingRight]}
-          onValueChange={handlePaddingRightChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="icon-padding-left">Icon Padding Left: {config.defaults.iconPaddingLeft}px</Label>
-        </div>
-        <Slider
-          id="icon-padding-left"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.iconPaddingLeft]}
-          onValueChange={handleIconPaddingLeftChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="icon-padding-right">Icon Padding Right: {config.defaults.iconPaddingRight}px</Label>
-        </div>
-        <Slider
-          id="icon-padding-right"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.iconPaddingRight]}
-          onValueChange={handleIconPaddingRightChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="label-padding-left">Label Padding Left: {config.defaults.labelPaddingLeft}px</Label>
-        </div>
-        <Slider
-          id="label-padding-left"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.labelPaddingLeft]}
-          onValueChange={handleLabelPaddingLeftChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="label-padding-right">Label Padding Right: {config.defaults.labelPaddingRight}px</Label>
-        </div>
-        <Slider
-          id="label-padding-right"
-          min={0}
-          max={32}
-          step={1}
-          value={[config.defaults.labelPaddingRight]}
-          onValueChange={handleLabelPaddingRightChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="background-corner-radius">
-            Background Corner Radius: {config.defaults.backgroundCornerRadius}px
-          </Label>
-        </div>
-        <Slider
-          id="background-corner-radius"
-          min={0}
-          max={20}
-          step={1}
-          value={[config.defaults.backgroundCornerRadius]}
-          onValueChange={handleBackgroundCornerRadiusChange}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="background-height">Background Height: {config.defaults.backgroundHeight}px</Label>
-        </div>
-        <Slider
-          id="background-height"
-          min={16}
-          max={64}
-          step={1}
-          value={[config.defaults.backgroundHeight]}
-          onValueChange={handleBackgroundHeightChange}
-        />
-      </div>
+      <Alert>
+        <AlertDescription className="text-sm">
+          Default settings are automatically applied to all items and can be
+          overridden by individual item settings. They help define the overall style while keeping your configuration
+          clean.
+        </AlertDescription>
+      </Alert>
     </div>
   )
 }
