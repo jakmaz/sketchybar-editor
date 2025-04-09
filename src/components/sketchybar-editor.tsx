@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { PreviewPane } from "./preview-pane"
 
-export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar" | "cpu"
+export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar" | "cpu" | "media"
 export type ItemPosition = "left" | "center" | "right"
 
 import Navbar from "./navbar"
@@ -97,11 +97,11 @@ export function SketchybarEditor() {
         }
       },
       {
-        id: "spaces",
-        type: "spaces",
+        id: "media",
+        type: "media",
         position: "center",
         overrides: {
-          labelPaddingLeft: 10,
+          backgroundColor: "#121212",
         }
       },
       {

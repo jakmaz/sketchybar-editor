@@ -6,6 +6,7 @@ import { CalendarItem } from "./calendar-item";
 import { CpuItem } from "./cpu-item";
 import { Config, Item } from "../sketchybar-editor";
 import { mergeItemWithDefaults } from "@/lib/utils";
+import { MediaItem } from "./media-item";
 
 export function ItemFactory({ item, config }: { item: Item; config: Config }) {
   const className = "px-2 py-1 text-xs rounded";
@@ -25,6 +26,8 @@ export function ItemFactory({ item, config }: { item: Item; config: Config }) {
       return <CalendarItem itemSettings={itemSettings} />;
     case "cpu":
       return <CpuItem itemSettings={itemSettings} />;
+    case "media":
+      return <MediaItem itemSettings={itemSettings} />;
     default:
       return <div className={className}>{item.type}</div>;
   }
