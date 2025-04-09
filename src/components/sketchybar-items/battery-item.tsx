@@ -3,6 +3,6 @@
 import type { SketchybarItemComponentProps } from "./item-interface"
 import { BaseItem } from "./base-item"
 
-export function BatteryItem({ config }: SketchybarItemComponentProps) {
-  return <BaseItem config={config} icon={""} label={"85%"} />
+export function BatteryItem({ itemSettings }: SketchybarItemComponentProps) {
+  return <BaseItem itemSettings={itemSettings} icon={""} label={"85%"} />
 }

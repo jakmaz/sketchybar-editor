@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import type { SketchybarItemComponentProps } from "./item-interface"
 import { BaseItem } from "./base-item"
 
-export function ClockItem({ config }: SketchybarItemComponentProps) {
+export function ClockItem({ itemSettings }: SketchybarItemComponentProps) {
   const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function ClockItem({ config }: SketchybarItemComponentProps) {
   }, [])
 
   return (
-    <BaseItem config={config} icon="" label={time} />
+    <BaseItem itemSettings={itemSettings} icon="" label={time} />
   )
 }
 

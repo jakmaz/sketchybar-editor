@@ -1,35 +1,34 @@
-"use client"
+import { DefaultsSettings } from "../sketchybar-editor";
+import React from "react";
 
-import type { SketchybarItemComponentProps } from "./item-interface"
-import React from "react"
-
-interface BaseItemProps extends SketchybarItemComponentProps {
-  icon?: React.ReactNode
-  label?: React.ReactNode
+interface BaseItemProps {
+  itemSettings: Required<DefaultsSettings>;
+  icon?: React.ReactNode;
+  label?: React.ReactNode;
 }
 
-export function BaseItem({ config, icon, label }: BaseItemProps) {
+export function BaseItem({ itemSettings, icon, label }: BaseItemProps) {
   return (
     <div
       style={{
-        backgroundColor: config.defaults.backgroundColor,
-        borderRadius: `${config.defaults.backgroundCornerRadius}px`,
-        height: `${config.defaults.backgroundHeight}px`,
+        backgroundColor: itemSettings.backgroundColor,
+        borderRadius: `${itemSettings.backgroundCornerRadius}px`,
+        height: `${itemSettings.backgroundHeight}px`,
         display: "flex",
         alignItems: "center",
-        paddingLeft: `${config.defaults.paddingLeft}px`,
-        paddingRight: `${config.defaults.paddingRight}px`,
+        paddingLeft: `${itemSettings.paddingLeft}px`,
+        paddingRight: `${itemSettings.paddingRight}px`,
         justifyContent: "center",
       }}
     >
       {icon && (
         <span
           style={{
-            color: config.defaults.iconColor,
-            fontFamily: config.defaults.iconFont,
+            color: itemSettings.iconColor,
+            fontFamily: itemSettings.iconFont,
             fontSize: 20,
-            paddingLeft: `${config.defaults.iconPaddingLeft}px`,
-            paddingRight: `${config.defaults.iconPaddingRight}px`,
+            paddingLeft: `${itemSettings.iconPaddingLeft}px`,
+            paddingRight: `${itemSettings.iconPaddingRight}px`,
           }}
         >
           {icon}
@@ -38,15 +37,15 @@ export function BaseItem({ config, icon, label }: BaseItemProps) {
       {label && (
         <span
           style={{
-            color: config.defaults.labelColor,
-            fontFamily: config.defaults.labelFont,
-            paddingLeft: `${config.defaults.labelPaddingLeft}px`,
-            paddingRight: `${config.defaults.labelPaddingRight}px`,
+            color: itemSettings.labelColor,
+            fontFamily: itemSettings.labelFont,
+            paddingLeft: `${itemSettings.labelPaddingLeft}px`,
+            paddingRight: `${itemSettings.labelPaddingRight}px`,
           }}
         >
           {label}
         </span>
       )}
     </div>
-  )
+  );
 }

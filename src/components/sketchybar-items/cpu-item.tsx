@@ -4,7 +4,7 @@ import type { SketchybarItemComponentProps } from "./item-interface";
 import { BaseItem } from "./base-item";
 import { useState, useEffect } from "react";
 
-export function CpuItem({ config }: SketchybarItemComponentProps) {
+export function CpuItem({ itemSettings }: SketchybarItemComponentProps) {
   const [cpuUsage, setCpuUsage] = useState<number>(20); // Start at 20%
 
   useEffect(() => {
@@ -25,5 +25,5 @@ export function CpuItem({ config }: SketchybarItemComponentProps) {
   }, [cpuUsage]); // Add cpuUsage as a dependency
   // so the interval restarts when cpuUsage changes.
 
-  return <BaseItem config={config} icon={""} label={`${cpuUsage}%`} />;
+  return <BaseItem itemSettings={itemSettings} icon={""} label={`${cpuUsage}%`} />;
 }

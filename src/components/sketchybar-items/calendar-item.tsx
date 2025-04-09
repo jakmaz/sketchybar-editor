@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import type { SketchybarItemComponentProps } from "./item-interface"
 import { BaseItem } from "./base-item"
 
-export function CalendarItem({ config }: SketchybarItemComponentProps) {
+export function CalendarItem({ itemSettings }: SketchybarItemComponentProps) {
   const [date, setDate] = useState(
     new Date().toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" }),
   )
@@ -18,7 +18,7 @@ export function CalendarItem({ config }: SketchybarItemComponentProps) {
   }, [])
 
   return (
-    <BaseItem config={config} icon="󰃭" label={date} />
+    <BaseItem itemSettings={itemSettings} icon="󰃭" label={date} />
   )
 }
 

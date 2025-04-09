@@ -11,12 +11,10 @@ import { ItemsPane } from "./items-pane"
 import { SidebarPane } from "./sidebar-pane"
 
 export interface Item {
-  id: string
-  type: ItemType
-  position: ItemPosition
-  color?: string
-  icon?: string
-  text?: string
+  id: string;
+  type: ItemType;
+  position: ItemPosition;
+  overrides?: Overrides;
 }
 
 export interface DefaultsSettings {
@@ -49,6 +47,22 @@ export interface BarSettings {
   cornerRadius: number
 }
 
+export interface Overrides {
+  backgroundColor?: string;
+  iconColor?: string;
+  labelColor?: string;
+  paddingLeft?: number;
+  paddingRight?: number;
+  iconFont?: string;
+  labelFont?: string;
+  backgroundCornerRadius?: number;
+  backgroundHeight?: number;
+  iconPaddingLeft?: number;
+  iconPaddingRight?: number;
+  labelPaddingLeft?: number;
+  labelPaddingRight?: number;
+}
+
 export function SketchybarEditor() {
   const [config, setConfig] = useState<Config>({
     bar: {
@@ -78,11 +92,17 @@ export function SketchybarEditor() {
         id: "apple",
         type: "apple",
         position: "left",
+        overrides: {
+          iconPaddingRight: 10,
+        }
       },
       {
         id: "spaces",
         type: "spaces",
         position: "center",
+        overrides: {
+          labelPaddingLeft: 10,
+        }
       },
       {
         id: "cpu",

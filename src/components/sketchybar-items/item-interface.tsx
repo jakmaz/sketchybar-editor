@@ -1,10 +1,10 @@
-import type { Config } from "@/components/sketchybar-editor"
+import type { Config, DefaultsSettings } from "@/components/sketchybar-editor"
 
 export interface SketchybarItemProps {
   config: Config
 }
 
-export interface SketchybarItemComponentProps extends SketchybarItemProps {
-  className?: string
+export interface SketchybarItemComponentProps {
+  itemSettings: Required<DefaultsSettings>;
 }
 
