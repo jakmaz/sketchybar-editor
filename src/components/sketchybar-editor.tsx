@@ -59,9 +59,9 @@ export function SketchybarEditor() {
       cornerRadius: 8,
     },
     defaults: {
-      backgroundColor: "0x3f3f3f",
-      iconColor: "0xffffff",
-      labelColor: "0xffffff",
+      backgroundColor: "#3f3f3f",
+      iconColor: "#ffffff",
+      labelColor: "#ffffff",
       paddingLeft: 5,
       paddingRight: 5,
       iconFont: "Hack Nerd Font:Bold:17.0",
@@ -78,6 +78,11 @@ export function SketchybarEditor() {
         id: "apple",
         type: "apple",
         position: "left",
+      },
+      {
+        id: "spaces",
+        type: "spaces",
+        position: "center",
       },
       {
         id: "cpu",

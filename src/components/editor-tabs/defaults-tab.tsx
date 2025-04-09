@@ -5,9 +5,9 @@ import type { Dispatch, SetStateAction } from "react"
 
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
-import { Input } from "@/components/ui/input"
 
 import type { Config } from "@/components/sketchybar-editor"
+import { ColorInput } from "../color-input"
 
 interface DefaultsTabProps {
   config: Config
@@ -94,65 +94,29 @@ export function DefaultsTab({ config, setConfig }: DefaultsTabProps) {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="background-color">Background Color</Label>
-        <div className="flex gap-2 items-center">
-          <div
-            className="w-8 h-8 rounded border"
-            style={{
-              backgroundColor: `#${config.defaults.backgroundColor.slice(2)}`,
-            }}
-          />
-          <Input
-            id="background-color"
-            type="text"
-            value={config.defaults.backgroundColor}
-            onChange={(e) => handleBackgroundColorChange(e.target.value)}
-            placeholder="0xff262626"
-            className="flex-1"
-          />
-        </div>
-      </div>
+      <ColorInput
+        id="background-color"
+        label="Background Color"
+        value={config.defaults.backgroundColor}
+        onChange={handleBackgroundColorChange}
+        placeholder="0xff262626"
+      />
 
-      <div className="space-y-2">
-        <Label htmlFor="icon-color">Icon Color</Label>
-        <div className="flex gap-2 items-center">
-          <div
-            className="w-8 h-8 rounded border"
-            style={{
-              backgroundColor: `#${config.defaults.iconColor.slice(2)}`,
-            }}
-          />
-          <Input
-            id="icon-color"
-            type="text"
-            value={config.defaults.iconColor}
-            onChange={(e) => handleIconColorChange(e.target.value)}
-            placeholder="0xffffffff"
-            className="flex-1"
-          />
-        </div>
-      </div>
+      <ColorInput
+        id="icon-color"
+        label="Icon Color"
+        value={config.defaults.iconColor}
+        onChange={handleIconColorChange}
+        placeholder="0xffffffff"
+      />
 
-      <div className="space-y-2">
-        <Label htmlFor="label-color">Label Color</Label>
-        <div className="flex gap-2 items-center">
-          <div
-            className="w-8 h-8 rounded border"
-            style={{
-              backgroundColor: `#${config.defaults.labelColor.slice(2)}`,
-            }}
-          />
-          <Input
-            id="label-color"
-            type="text"
-            value={config.defaults.labelColor}
-            onChange={(e) => handleLabelColorChange(e.target.value)}
-            placeholder="0xffffffff"
-            className="flex-1"
-          />
-        </div>
-      </div>
+      <ColorInput
+        id="label-color"
+        label="Label Color"
+        value={config.defaults.labelColor}
+        onChange={handleLabelColorChange}
+        placeholder="0xffffffff"
+      />
 
       <div className="space-y-2">
         <div className="flex justify-between">

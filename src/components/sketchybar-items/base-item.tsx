@@ -12,7 +12,7 @@ export function BaseItem({ config, icon, label }: BaseItemProps) {
   return (
     <div
       style={{
-        backgroundColor: `#${config.defaults.backgroundColor.slice(2)}`,
+        backgroundColor: config.defaults.backgroundColor,
         borderRadius: `${config.defaults.backgroundCornerRadius}px`,
         height: `${config.defaults.backgroundHeight}px`,
         display: "flex",
@@ -25,7 +25,7 @@ export function BaseItem({ config, icon, label }: BaseItemProps) {
       {icon && (
         <span
           style={{
-            color: `#${config.defaults.iconColor.slice(2)}`,
+            color: config.defaults.iconColor,
             fontFamily: config.defaults.iconFont,
             fontSize: 20,
             paddingLeft: `${config.defaults.iconPaddingLeft}px`,
@@ -38,7 +38,7 @@ export function BaseItem({ config, icon, label }: BaseItemProps) {
       {label && (
         <span
           style={{
-            color: `#${config.defaults.labelColor.slice(2)}`,
+            color: config.defaults.labelColor,
             fontFamily: config.defaults.labelFont,
             paddingLeft: `${config.defaults.labelPaddingLeft}px`,
             paddingRight: `${config.defaults.labelPaddingRight}px`,

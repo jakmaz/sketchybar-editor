@@ -4,10 +4,10 @@ import type { Dispatch, SetStateAction } from "react"
 
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
-import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import type { Config } from "@/components/sketchybar-editor"
+import { ColorInput } from "../color-input"
 
 interface AppearanceTabProps {
   config: Config
@@ -40,20 +40,13 @@ export function BarTab({ config, setConfig }: AppearanceTabProps) {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="bar-color">Color</Label>
-        <div className="flex gap-2 items-center">
-          <div className="w-8 h-8 rounded border" style={{ backgroundColor: config.bar.color }} />
-          <Input
-            id="bar-color"
-            type="text"
-            value={config.bar.color}
-            onChange={(e) => handleColorChange(e.target.value)}
-            placeholder="#000000"
-            className="flex-1"
-          />
-        </div>
-      </div>
+      <ColorInput
+        id="background-color"
+        label="Background Color"
+        value={config.bar.color}
+        onChange={handleColorChange}
+        placeholder="0xff262626"
+      />
 
       <div className="space-y-2">
         <Label>Position</Label>
