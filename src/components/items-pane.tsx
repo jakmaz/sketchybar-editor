@@ -197,7 +197,7 @@ function ItemCard({
       <CardContent className="px-0 pl-4 pr-1">
         <div className="flex justify-between items-center">
           <div>
-            <h4 className="font-medium capitalize">{item.type}</h4>
+            <h4>{item.type}</h4>
           </div>
           <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
             <Trash2 className="h-4 w-4" color="grey" />
