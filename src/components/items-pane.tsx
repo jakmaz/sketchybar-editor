@@ -164,7 +164,7 @@ function ItemsColumn({
         {items.length === 0 ? (
           <p className="text-muted-foreground">No items in {position}.</p>
         ) : (
-          <div className="space-y-2">
+          <div className="flex gap-2">
             {items.map((item) => (
               <ItemCard
                 key={item.id}
@@ -193,14 +193,14 @@ function ItemCard({
   removeItem,
 }: ItemCardProps) {
   return (
-    <Card className="py-2">
-      <CardContent>
+    <Card className="py-0 px-0">
+      <CardContent className="px-0 pl-4 pr-1">
         <div className="flex justify-between items-center">
           <div>
             <h4 className="font-medium capitalize">{item.type}</h4>
           </div>
           <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" color="grey" />
           </Button>
         </div>
       </CardContent>
