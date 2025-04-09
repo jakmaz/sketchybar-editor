@@ -87,9 +87,6 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
 function generateMainConfig(config: Config): string {
   return `#!/bin/bash
 
-# Sketchybar configuration
-# Generated with Sketchybar Editor
-
 # Define directories
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 ITEM_DIR="$CONFIG_DIR/items"
@@ -138,6 +135,8 @@ done
 
 # Finalizing setup
 sketchybar --update
+
+# Generated with Sketchybar Editor #
 `
 }
 
