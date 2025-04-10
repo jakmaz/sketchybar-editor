@@ -2,7 +2,7 @@ import { useState } from "react"
 import { DefaultsSettings, Item } from "./sketchybar-editor"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
-import { Edit } from "lucide-react"
+import { Edit, Settings } from "lucide-react"
 import { Label } from "./ui/label"
 import { Switch } from "./ui/switch"
 import { Separator } from "./ui/separator"
@@ -56,11 +56,20 @@ export function ItemEditPopover({ item, defaults, updateItemOverrides }: ItemEdi
     updateItemOverrides(item.id, newOverrides)
   }
 
+  const overridesCount = item.overrides ? Object.keys(item.overrides).length : 0
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Edit className="h-4 w-4" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="p-0 h-auto w-auto min-h-0 min-w-0"
+        >
+          <Settings
+            className="h-4 w-4"
+            color={overridesCount > 0 ? undefined : "grey"}
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 max-h-[80vh] overflow-y-auto">

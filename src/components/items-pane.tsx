@@ -106,7 +106,7 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
             </div>
           </div>
           <h3 className="text-lg font-medium">Add New Item</h3>
-          <div className="space-y-2">
+          <div className="flex gap-2">
             <div className="flex flex-wrap gap-4">
               {itemTypes.map((type) => (
                 <ItemTypeCard key={type} type={type} addItem={addItem} />
@@ -138,7 +138,7 @@ function ItemsColumn({ position, items, config, removeItem, updateItemOverrides 
         {items.length === 0 ? (
           <p className="text-muted-foreground">No items in {position}.</p>
         ) : (
-          <div className="space-y-2">
+          <div className="flex gap-2">
             {items.map((item) => (
               <ItemCard
                 key={item.id}
@@ -165,16 +165,16 @@ interface ItemCardProps {
 
 function ItemCard({ item, config, removeItem, updateItemOverrides }: ItemCardProps) {
   return (
-    <Card className="py-2">
-      <CardContent>
-        <div className="flex justify-between items-center">
+    <Card className="py-2 px-4">
+      <CardContent className="px-0">
+        <div className="flex justify-between gap-6 items-center">
           <div>
-            <h4 className="font-medium capitalize">{item.type}</h4>
+            <h4 className="font-medium">{item.type}</h4>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <ItemEditPopover item={item} defaults={config.defaults} updateItemOverrides={updateItemOverrides} />
-            <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
-              <Trash2 className="h-4 w-4" />
+            <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="p-0 h-auto w-auto min-h-0 min-w-0">
+              <Trash2 className="h-4 w-4" color="grey" />
             </Button>
           </div>
         </div>
