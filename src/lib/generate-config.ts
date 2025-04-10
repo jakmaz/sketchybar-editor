@@ -1,4 +1,5 @@
 import type { Config, Item } from "@/components/sketchybar-editor"
+import { getItemDefinition, getRequiredPlugins } from "./item-registry"
 
 function toSketchybarColor(hex: string): string {
   return `0xff${hex.replace(/^#/, "")}`
@@ -65,13 +66,15 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
   }
 
   // Generate plugin files
-  const pluginTypes = ["battery", "cpu", "media"]
-  for (const type of pluginTypes) {
-    if (config.items.some((item) => item.type === type)) {
+  const requiredPlugins = getRequiredPlugins(config.items)
+
+  for (const type of requiredPlugins) {
+    const itemDef = getItemDefinition(type)
+    if (itemDef && itemDef.pluginScript) {
       const pluginFile: ConfigFile = {
         name: `${type}.sh`,
         path: `plugins/${type}.sh`,
-        content: generatePluginFile(type),
+        content: itemDef.pluginScript,
         type: "file",
       }
       pluginsDir.children?.push(pluginFile)
@@ -148,33 +151,14 @@ function generateItemFile(type: string, items: Item[]): string {
 
   items.forEach((item) => {
     const itemName = `${item.type}_${item.id.split("_")[1] || "1"}`
+    const itemDef = getItemDefinition(item.type)
 
     content += `\n# ${itemName}\n`
     content += `sketchybar --add item ${itemName} ${item.position}\n`
 
-    // Add type-specific configuration
-    switch (item.type) {
-      case "apple":
-        content += `sketchybar --set ${itemName} icon=􀣺\n`
-        break
-      case "spaces":
-        content += `sketchybar --set ${itemName} label="1 2 3"\n`
-        break
-      case "clock":
-        content += `sketchybar --set ${itemName} update_freq=1 script="$PLUGIN_DIR/clock.sh"\n`
-        break
-      case "battery":
-        content += `sketchybar --set ${itemName} update_freq=120 script="$PLUGIN_DIR/battery.sh"\n`
-        break
-      case "calendar":
-        content += `sketchybar --set ${itemName} update_freq=60 script="$PLUGIN_DIR/calendar.sh"\n`
-        break
-      case "cpu":
-        content += `sketchybar --set ${itemName} update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`
-        break
-      case "media":
-        content += `sketchybar --set ${itemName} icon=􀑪 script="$PLUGIN_DIR/media.sh"\n`
-        break
+    // Use the item definition to generate config if available
+    if (itemDef && itemDef.generateItemConfig) {
+      content += itemDef.generateItemConfig(itemName)
     }
 
     // Add overrides if they exist
@@ -222,82 +206,4 @@ function generateItemFile(type: string, items: Item[]): string {
   })
 
   return content
-}
-
-function generatePluginFile(type: string): string {
-  switch (type) {
-    case "battery":
-      return `#!/bin/bash
-
-# Battery plugin for sketchybar
-PERCENTAGE=$(pmset -g batt | grep -Eo "\\d+%" | cut -d% -f1)
-CHARGING=$(pmset -g batt | grep 'AC Power')
-
-if [ $PERCENTAGE = "" ]; then
-  exit 0
-fi
-
-
-  9[0-9]|100) ICON="􀛨"
-    ;;
-  [6-8][0-9]) ICON="􀺸"
-    ;;
-  [3-5][0-9]) ICON="􀺶"
-    ;;
-  [1-2][0-9]) ICON="􀛩"
-    ;;
-  *) ICON="􀛪"
-    ;;
-esac
-
-if [[ $CHARGING != "" ]]; then
-  ICON="􀢋"
-fi
-
-sketchybar --set $NAME icon="$ICON
-`
-    case "cpu":
-      return `#!/bin/bash
-
-# CPU plugin for sketchybar
-CPU=$(top -l 2 | grep -E "^CPU" | tail -1 | awk '{ print $3 + $5 }')
-CPU_PERCENT=$(printf "%.0f" $CPU)
-
-sketchybar --set $NAME l
-`
-    case "media":
-      return `#!/bin/bash
-
-# Media plugin for sketchybar
-PLAYER_STATE=$(osascript -e 'tell application "Music" to player state as string')
-if [[ "$PLAYER_STATE" == "playing" ]]; then
-  TRACK=$(osascript -e 'tell application "Music" to name of current track as string')
-  ARTIST=$(osascript -e 'tell application "Music" to artist of current track as string')
-  
-  if [[ "$TRACK" == "" ]]; then
-    TRACK="Unknown"
-  fi
-  
-  if [[ "$ARTIST" == "" ]]; then
-    ARTIST="Unknown"
-  fi
-  
-  MEDIA="$ARTIST - $TRACK"
-  sketchybar --set $NAME label="$MEDIA" icon=􀊄
-else
-  sketchybar --set $NAME label="" icon=􀊄
-fi
-`
-    default:
-      return `#!/bin/bash
-
-# ${type} plugin for sketchybar
-echo "Plugin for ${type}"
-`
-  }
-}
-
-// Legacy function for backward compatibility
-export function generateSketchybarCode(config: Config): string {
-  return generateMainConfig(config)
 }

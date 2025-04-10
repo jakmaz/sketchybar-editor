@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
 import { ItemEditPopover } from "../item-edit-popover"
 
+// To change using getItemTypes()
 const itemTypes: ItemType[] = [
   "apple",
   "spaces",
