@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -13,28 +12,23 @@ const itemTypes = getItemTypes()
 export function ItemsPane() {
   const { config, setConfig } = useConfig()
 
-  const [newItemType, setNewItemType] = useState<string>("")
-  const [newItemPosition] = useState<string>("left")
-
   const leftItems = config.items.filter((item) => item.position === "left")
   const centerItems = config.items.filter((item) => item.position === "center")
   const rightItems = config.items.filter((item) => item.position === "right")
 
-  const addItem = () => {
-    if (!newItemType) return
+  const addItem = (type: string, position: ItemPosition) => {
+    if (!type) return
 
     const newItem = {
-      id: `${newItemType}_${Date.now()}`,
-      type: newItemType,
-      position: newItemPosition as ItemPosition,
+      id: `${type}_${Date.now()}`,
+      type: type,
+      position: position,
     }
 
     setConfig((prev) => ({
       ...prev,
       items: [...prev.items, newItem],
     }))
-
-    setNewItemType("")
   }
 
   const removeItem = (id: string) => {
