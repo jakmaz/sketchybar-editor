@@ -1,13 +1,13 @@
 "use client"
 
-import { PreviewPane } from "./preview-pane"
+import { PreviewPane } from "./panes/preview-pane"
 
 export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar" | "cpu" | "media"
 export type ItemPosition = "left" | "center" | "right"
 
-import Navbar from "./navbar"
-import { ItemsPane } from "./items-pane"
-import { SidebarPane } from "./sidebar-pane"
+import TopPane from "./panes/top-pane"
+import { ItemsPane } from "./panes/items-pane"
+import { SidebarPane } from "./panes/sidebar-pane"
 import { ConfigProvider } from "@/lib/config-context"
 
 export interface Item {
@@ -67,7 +67,7 @@ export function SketchybarEditor() {
   return (
     <ConfigProvider>
       <div className="flex flex-col min-h-screen p-4 gap-4">
-        <Navbar />
+        <TopPane />
 
         <div className="flex flex-col lg:flex-row flex-1 gap-4">
 

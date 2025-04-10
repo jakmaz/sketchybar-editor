@@ -1,9 +1,8 @@
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-import { BarTab } from "./editor-tabs/bar-tab"
-import { DefaultsTab } from "./editor-tabs/defaults-tab"
-import { ExamplesTab } from "./editor-tabs/examples-tab"
+import { BarTab } from "../editor-tabs/bar-tab"
+import { DefaultsTab } from "../editor-tabs/defaults-tab"
+import { ExamplesTab } from "../editor-tabs/examples-tab"
 
 
 

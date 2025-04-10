@@ -4,8 +4,8 @@ import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { ItemPosition, ItemType, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
-import { ItemEditPopover } from "./item-edit-popover"
 import { useConfig } from "@/lib/config-context"
+import { ItemEditPopover } from "../item-edit-popover"
 
 const itemTypes: ItemType[] = [
   "apple",

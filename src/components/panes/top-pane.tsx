@@ -17,14 +17,14 @@ import {
 
 import { generateConfigFiles } from "@/lib/generate-config"
 import type { ConfigFile } from "@/lib/generate-config"
-import { FileExplorer } from "./file-explorer"
 
 import { toast } from "sonner"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
-import { Textarea } from "./ui/textarea"
 import { useConfig } from "@/lib/config-context"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { FileExplorer } from "../file-explorer"
+import { Textarea } from "../ui/textarea"
 
-export default function Navbar() {
+export default function TopPane() {
   const { config, setConfig } = useConfig()
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)

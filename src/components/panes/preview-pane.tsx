@@ -2,9 +2,9 @@
 
 import { Card } from "@/components/ui/card"
 
-import type { Config } from "./sketchybar-editor"
-import { ItemFactory } from "./sketchybar-items/item-factory"
 import { useConfig } from "@/lib/config-context"
+import { Config } from "../sketchybar-editor"
+import { ItemFactory } from "../sketchybar-items/item-factory"
 
 export function PreviewPane() {
   const { config } = useConfig()
