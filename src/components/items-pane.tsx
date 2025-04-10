@@ -1,9 +1,10 @@
-import { type Dispatch, type SetStateAction } from "react"
+import { useState, type Dispatch, type SetStateAction } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import type { ItemPosition, ItemType, Config, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
+import { ItemEditPopover } from "./item-edit-popover"
 
 interface ItemsTabProps {
   config: Config
@@ -21,21 +22,28 @@ const itemTypes: ItemType[] = [
 ]
 
 export function ItemsPane({ config, setConfig }: ItemsTabProps) {
+  const [newItemType, setNewItemType] = useState<string>("")
+  const [newItemPosition, setNewItemPosition] = useState<string>("left")
+
   const leftItems = config.items.filter((item) => item.position === "left")
   const centerItems = config.items.filter((item) => item.position === "center")
   const rightItems = config.items.filter((item) => item.position === "right")
 
-  const addItem = (type: ItemType, position: ItemPosition) => {
+  const addItem = () => {
+    if (!newItemType) return
+
     const newItem = {
-      id: `${type}_${Date.now()}`,
-      type: type,
-      position: position,
+      id: `${newItemType}_${Date.now()}`,
+      type: newItemType as ItemType,
+      position: newItemPosition as ItemPosition,
     }
 
     setConfig((prev) => ({
       ...prev,
       items: [...prev.items, newItem],
     }))
+
+    setNewItemType("")
   }
 
   const removeItem = (id: string) => {
@@ -49,6 +57,15 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
     setConfig((prev) => ({
       ...prev,
       items: prev.items.map((item) => (item.id === id ? { ...item, position } : item)),
+    }))
+  }
+
+  const updateItemOverrides = (id: string, overrides: Record<string, any>) => {
+    setConfig((prev) => ({
+      ...prev,
+      items: prev.items.map((item) =>
+        item.id === id ? { ...item, overrides: { ...item.overrides, ...overrides } } : item,
+      ),
     }))
   }
 
@@ -66,6 +83,7 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
                 setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
+                updateItemOverrides={updateItemOverrides}
               />
               <ItemsColumn
                 position="center"
@@ -74,6 +92,7 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
                 setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
+                updateItemOverrides={updateItemOverrides}
               />
               <ItemsColumn
                 position="right"
@@ -82,6 +101,7 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
                 setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
+                updateItemOverrides={updateItemOverrides}
               />
             </div>
           </div>
@@ -106,15 +126,11 @@ interface ItemsColumnProps {
   setConfig: Dispatch<SetStateAction<Config>>
   removeItem: (id: string) => void
   updateItemPosition: (id: string, position: ItemPosition) => void
+  updateItemOverrides: (id: string, overrides: Record<string, any>) => void
 }
 
-function ItemsColumn({
-  position,
-  items,
-  config,
-  removeItem,
-  updateItemPosition,
-}: ItemsColumnProps) {
+
+function ItemsColumn({ position, items, config, removeItem, updateItemOverrides }: ItemsColumnProps) {
   return (
     <Card>
       <CardContent className="space-y-4">
@@ -122,14 +138,14 @@ function ItemsColumn({
         {items.length === 0 ? (
           <p className="text-muted-foreground">No items in {position}.</p>
         ) : (
-          <div className="flex gap-2">
+          <div className="space-y-2">
             {items.map((item) => (
               <ItemCard
                 key={item.id}
                 item={item}
                 config={config}
                 removeItem={removeItem}
-                updateItemPosition={updateItemPosition}
+                updateItemOverrides={updateItemOverrides}
               />
             ))}
           </div>
@@ -139,24 +155,28 @@ function ItemsColumn({
   )
 }
 
+
 interface ItemCardProps {
   item: Item
   config: Config
   removeItem: (id: string) => void
-  updateItemPosition: (id: string, position: ItemPosition) => void
+  updateItemOverrides: (id: string, overrides: Record<string, any>) => void
 }
 
-function ItemCard({ item, removeItem }: ItemCardProps) {
+function ItemCard({ item, config, removeItem, updateItemOverrides }: ItemCardProps) {
   return (
-    <Card className="py-0 px-0">
-      <CardContent className="px-0 pl-4 pr-1">
+    <Card className="py-2">
+      <CardContent>
         <div className="flex justify-between items-center">
           <div>
-            <h4>{item.type}</h4>
+            <h4 className="font-medium capitalize">{item.type}</h4>
           </div>
-          <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
-            <Trash2 className="h-4 w-4" color="grey" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <ItemEditPopover item={item} defaults={config.defaults} updateItemOverrides={updateItemOverrides} />
+            <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
