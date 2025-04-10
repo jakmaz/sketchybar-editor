@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Item } from "./sketchybar-editor"
+import { Item, Overrides } from "./sketchybar-editor"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { Settings } from "lucide-react"
@@ -12,14 +12,14 @@ import { useConfig } from "@/lib/config-context"
 
 interface ItemEditPopoverProps {
   item: Item
-  updateItemOverrides: (id: string, overrides: Record<string, any>) => void
+  updateItemOverrides: (id: string, overrides: Overrides) => void
 }
 
 export function ItemEditPopover({ item, updateItemOverrides }: ItemEditPopoverProps) {
   const { config } = useConfig()
   const { defaults } = config
 
-  const [overrides, setOverrides] = useState<Record<string, any>>(item.overrides || {})
+  const [overrides, setOverrides] = useState<Overrides>(item.overrides || {})
   const [activeOverrides, setActiveOverrides] = useState<Record<string, boolean>>({
     backgroundColor: !!item.overrides?.backgroundColor,
     iconColor: !!item.overrides?.iconColor,
@@ -41,7 +41,7 @@ export function ItemEditPopover({ item, updateItemOverrides }: ItemEditPopoverPr
     // If turning off an override, remove it from the overrides object
     if (!newActiveOverrides[property]) {
       const newOverrides = { ...overrides }
-      delete newOverrides[property]
+      delete (newOverrides as { [key: string]: unknown })[property];
       setOverrides(newOverrides)
       updateItemOverrides(item.id, newOverrides)
     }

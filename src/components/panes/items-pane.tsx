@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import type { ItemPosition, Item } from "@/components/sketchybar-editor"
+import type { ItemPosition, Item, Overrides } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
 import { ItemEditPopover } from "../item-edit-popover"
@@ -51,7 +51,7 @@ export function ItemsPane() {
     }))
   }
 
-  const updateItemOverrides = (id: string, overrides: Record<string, any>) => {
+  const updateItemOverrides = (id: string, overrides: Overrides) => {
     setConfig((prev) => ({
       ...prev,
       items: prev.items.map((item) =>
@@ -109,7 +109,7 @@ interface ItemsColumnProps {
   items: Item[]
   removeItem: (id: string) => void
   updateItemPosition: (id: string, position: ItemPosition) => void
-  updateItemOverrides: (id: string, overrides: Record<string, any>) => void
+  updateItemOverrides: (id: string, overrides: Overrides) => void
 }
 
 
@@ -141,7 +141,7 @@ function ItemsColumn({ position, items, removeItem, updateItemOverrides }: Items
 interface ItemCardProps {
   item: Item
   removeItem: (id: string) => void
-  updateItemOverrides: (id: string, overrides: Record<string, any>) => void
+  updateItemOverrides: (id: string, overrides: Overrides) => void
 }
 
 function ItemCard({ item, removeItem, updateItemOverrides }: ItemCardProps) {
