@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import Link from "next/link"
-import { Clipboard, Download, Github, Info, Moon, Sun } from "lucide-react"
+import { Clipboard, Download, Github, Import, Info, Moon, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -21,13 +21,17 @@ import type { ConfigFile } from "@/lib/generate-config"
 import { FileExplorer } from "./file-explorer"
 
 import { toast } from "sonner"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { Textarea } from "./ui/textarea"
 
-export default function Navbar({ config }: { config: Config }) {
+export default function Navbar({ config, setConfig }: { config: Config, setConfig: any }) {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)
   const [configFiles, setConfigFiles] = useState<ConfigFile[]>([])
   const [selectedFile, setSelectedFile] = useState<ConfigFile | null>(null)
-
+  const [importValue, setImportValue] = useState("")
+  const [importError, setImportError] = useState("")
+  const [activeTab, setActiveTab] = useState("files")
   const handleShowConfig = () => {
     // Generate sketchybar config files
     const files = generateConfigFiles(config)
@@ -36,6 +40,13 @@ export default function Navbar({ config }: { config: Config }) {
     // Select the main file by default
     const mainFile = files.find((file) => file.name === ".sketchybarrc")
     setSelectedFile(mainFile || null)
+
+    // Reset import state
+    setImportValue("")
+    setImportError("")
+
+    // Set active tab to files by default
+    setActiveTab("files")
 
     setIsConfigDialogOpen(true)
   }
@@ -64,12 +75,49 @@ export default function Navbar({ config }: { config: Config }) {
   }
 
   const handleCopyToClipboard = () => {
-    if (!selectedFile) return
+    if (activeTab === "files" && selectedFile) {
+      navigator.clipboard.writeText(selectedFile.content)
+      toast("File content copied", {
+        description: `${selectedFile.name} has been copied to clipboard.`,
+      })
+    } else if (activeTab === "export") {
+      const configJson = JSON.stringify(config, null, 2)
+      navigator.clipboard.writeText(configJson)
+      toast("Configuration exported", {
+        description: "Your configuration has been copied to clipboard.",
+      })
+    }
+  }
 
-    navigator.clipboard.writeText(selectedFile.content)
-    toast("File content copied", {
-      description: `${selectedFile.name} has been copied to clipboard.`,
-    })
+  const handleImportChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setImportValue(e.target.value)
+    setImportError("")
+  }
+
+  const handleImportSubmit = () => {
+    try {
+      // Parse the JSON
+      const importedConfig = JSON.parse(importValue)
+
+      // Basic validation
+      if (!importedConfig.bar || !importedConfig.defaults || !importedConfig.items) {
+        throw new Error("Invalid configuration format. Missing required sections.")
+      }
+
+      // More detailed validation could be added here
+
+      // Apply the imported config
+      setConfig(importedConfig)
+
+      // Close the dialog and show success message
+      setIsConfigDialogOpen(false)
+      toast("Configuration imported", {
+        description: "Your configuration has been successfully imported.",
+      })
+    } catch (error) {
+      // Show error message
+      setImportError(error instanceof Error ? error.message : "Invalid JSON format")
+    }
   }
 
   const toggleDarkMode = () => {
@@ -124,40 +172,83 @@ export default function Navbar({ config }: { config: Config }) {
         <DialogContent className="min-w-7xl max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Sketchybar Configuration</DialogTitle>
-            <DialogDescription>
-              Here&apos;s your generated sketchybar configuration files. Select a file to view its content.
-            </DialogDescription>
+            <DialogDescription>View, export, or import your sketchybar configuration.</DialogDescription>
           </DialogHeader>
 
-          <div className="flex gap-4 h-[60vh] mt-4 mb-6">
-            {/* File Explorer */}
-            <div className="w-1/4 h-full">
-              <FileExplorer files={configFiles} onFileSelect={handleFileSelect} />
-            </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
+            <TabsList className="grid grid-cols-3 mb-4">
+              <TabsTrigger value="files">Files</TabsTrigger>
+              <TabsTrigger value="export">Export</TabsTrigger>
+              <TabsTrigger value="import">Import</TabsTrigger>
+            </TabsList>
 
-            {/* File Content */}
-            <div className="flex-1 overflow-hidden flex flex-col">
-              {selectedFile && (
-                <>
-                  <div className="text-sm font-medium mb-2 px-2">{selectedFile.path}</div>
-                  <pre className="flex-1 p-4 bg-muted rounded-md text-sm overflow-auto whitespace-pre">
-                    {selectedFile.content}
-                  </pre>
-                </>
-              )}
-            </div>
-          </div>
+            {/* Files Tab */}
+            <TabsContent value="files" className="h-[60vh] flex flex-col">
+              <div className="flex gap-4 flex-1">
+                {/* File Explorer */}
+                <div className="w-1/4 h-full">
+                  <FileExplorer files={configFiles} onFileSelect={handleFileSelect} />
+                </div>
 
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={handleCopyToClipboard} disabled={!selectedFile}>
-              <Clipboard className="mr-2 h-4 w-4" />
-              Copy to Clipboard
-            </Button>
-            <Button onClick={handleDownload} disabled={!selectedFile}>
-              <Download className="mr-2 h-4 w-4" />
-              Download File
-            </Button>
-          </div>
+                {/* File Content */}
+                <div className="flex-1 flex flex-col">
+                  {selectedFile && (
+                    <>
+                      <div className="text-sm font-medium mb-2 px-2">{selectedFile.path}</div>
+                      <pre className="flex-1 p-4 bg-muted rounded-md text-sm font-mono whitespace-pre">
+                        {selectedFile.content}
+                      </pre>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 mt-4">
+                <Button variant="outline" onClick={handleCopyToClipboard} disabled={!selectedFile}>
+                  <Clipboard className="mr-2 h-4 w-4" />
+                  Copy to Clipboard
+                </Button>
+                <Button onClick={handleDownload} disabled={!selectedFile}>
+                  <Download className="mr-2 h-4 w-4" />
+                  Download File
+                </Button>
+              </div>
+            </TabsContent>
+
+            {/* Export Tab */}
+            <TabsContent value="export">
+              <pre className="p-4 bg-muted rounded-md text-sm font-mono whitespace-pre">
+                {JSON.stringify(config, null, 2)}
+              </pre>
+
+              <div className="flex justify-end gap-2 mt-4">
+                <Button onClick={handleCopyToClipboard}>
+                  <Clipboard className="mr-2 h-4 w-4" />
+                  Copy to Clipboard
+                </Button>
+              </div>
+            </TabsContent>
+
+            {/* Import Tab */}
+            <TabsContent value="import" className="h-[60vh] flex flex-col">
+              <div className="flex-1">
+                <Textarea
+                  className="min-h-[calc(60vh-80px)] font-mono text-sm w-full"
+                  placeholder="Paste your configuration JSON here..."
+                  value={importValue}
+                  onChange={handleImportChange}
+                />
+                {importError && <p className="text-destructive mt-2 text-sm">{importError}</p>}
+              </div>
+
+              <div className="flex justify-end gap-2 mt-4">
+                <Button onClick={handleImportSubmit} disabled={!importValue.trim()}>
+                  <Import className="mr-2 h-4 w-4" />
+                  Import Configuration
+                </Button>
+              </div>
+            </TabsContent>
+          </Tabs>
         </DialogContent>
       </Dialog>
     </Card>

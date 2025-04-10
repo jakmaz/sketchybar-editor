@@ -23,7 +23,7 @@ const itemTypes: ItemType[] = [
 
 export function ItemsPane({ config, setConfig }: ItemsTabProps) {
   const [newItemType, setNewItemType] = useState<string>("")
-  const [newItemPosition, setNewItemPosition] = useState<string>("left")
+  const [newItemPosition] = useState<string>("left")
 
   const leftItems = config.items.filter((item) => item.position === "left")
   const centerItems = config.items.filter((item) => item.position === "center")

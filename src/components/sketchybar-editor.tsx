@@ -124,7 +124,7 @@ export function SketchybarEditor() {
 
   return (
     <div className="flex flex-col min-h-screen p-4 gap-4">
-      <Navbar config={config} />
+      <Navbar config={config} setConfig={setConfig} />
 
       <div className="flex flex-col lg:flex-row flex-1 gap-4">
 
