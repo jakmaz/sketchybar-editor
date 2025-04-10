@@ -3,9 +3,10 @@
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 
-import { ColorInput } from "../color-input"
-import { Alert, AlertDescription } from "../ui/alert"
+import { ColorInput } from "@/components/color-input"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useConfig } from "@/lib/config-context"
+import { Config } from "@/components/sketchybar-editor"
 
 export function DefaultsTab() {
   const { config, setConfig } = useConfig()
