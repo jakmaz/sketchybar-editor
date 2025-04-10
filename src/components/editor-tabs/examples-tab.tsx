@@ -1,16 +1,13 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
-import type { Config } from "@/components/sketchybar-editor";
+import { useConfig } from "@/lib/config-context";
 
-interface ExamplesTabProps {
-  config: Config;
-  setConfig: Dispatch<SetStateAction<Config>>;
-}
+export function ExamplesTab() {
+  const { setConfig } = useConfig()
 
-export function ExamplesTab({ setConfig }: ExamplesTabProps) {
   const applyTheme = (theme: {
+
     barColor: string;
     backgroundColor: string;
     iconColor: string;

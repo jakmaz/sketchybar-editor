@@ -1,15 +1,11 @@
-import { useState, type Dispatch, type SetStateAction } from "react"
+import { useState } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import type { ItemPosition, ItemType, Config, Item } from "@/components/sketchybar-editor"
+import type { ItemPosition, ItemType, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { ItemEditPopover } from "./item-edit-popover"
-
-interface ItemsTabProps {
-  config: Config
-  setConfig: Dispatch<SetStateAction<Config>>
-}
+import { useConfig } from "@/lib/config-context"
 
 const itemTypes: ItemType[] = [
   "apple",
@@ -21,7 +17,9 @@ const itemTypes: ItemType[] = [
   "media",
 ]
 
-export function ItemsPane({ config, setConfig }: ItemsTabProps) {
+export function ItemsPane() {
+  const { config, setConfig } = useConfig()
+
   const [newItemType, setNewItemType] = useState<string>("")
   const [newItemPosition] = useState<string>("left")
 
@@ -79,8 +77,6 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
               <ItemsColumn
                 position="left"
                 items={leftItems}
-                config={config}
-                setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
                 updateItemOverrides={updateItemOverrides}
@@ -88,8 +84,6 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
               <ItemsColumn
                 position="center"
                 items={centerItems}
-                config={config}
-                setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
                 updateItemOverrides={updateItemOverrides}
@@ -97,8 +91,6 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
               <ItemsColumn
                 position="right"
                 items={rightItems}
-                config={config}
-                setConfig={setConfig}
                 removeItem={removeItem}
                 updateItemPosition={updateItemPosition}
                 updateItemOverrides={updateItemOverrides}
@@ -122,15 +114,13 @@ export function ItemsPane({ config, setConfig }: ItemsTabProps) {
 interface ItemsColumnProps {
   position: ItemPosition
   items: Item[]
-  config: Config
-  setConfig: Dispatch<SetStateAction<Config>>
   removeItem: (id: string) => void
   updateItemPosition: (id: string, position: ItemPosition) => void
   updateItemOverrides: (id: string, overrides: Record<string, any>) => void
 }
 
 
-function ItemsColumn({ position, items, config, removeItem, updateItemOverrides }: ItemsColumnProps) {
+function ItemsColumn({ position, items, removeItem, updateItemOverrides }: ItemsColumnProps) {
   return (
     <Card>
       <CardContent className="space-y-4">
@@ -143,7 +133,6 @@ function ItemsColumn({ position, items, config, removeItem, updateItemOverrides 
               <ItemCard
                 key={item.id}
                 item={item}
-                config={config}
                 removeItem={removeItem}
                 updateItemOverrides={updateItemOverrides}
               />
@@ -158,12 +147,11 @@ function ItemsColumn({ position, items, config, removeItem, updateItemOverrides 
 
 interface ItemCardProps {
   item: Item
-  config: Config
   removeItem: (id: string) => void
   updateItemOverrides: (id: string, overrides: Record<string, any>) => void
 }
 
-function ItemCard({ item, config, removeItem, updateItemOverrides }: ItemCardProps) {
+function ItemCard({ item, removeItem, updateItemOverrides }: ItemCardProps) {
   return (
     <Card className="py-2 px-4">
       <CardContent className="px-0">
@@ -172,7 +160,7 @@ function ItemCard({ item, config, removeItem, updateItemOverrides }: ItemCardPro
             <h4 className="font-medium">{item.type}</h4>
           </div>
           <div className="flex items-center gap-2">
-            <ItemEditPopover item={item} defaults={config.defaults} updateItemOverrides={updateItemOverrides} />
+            <ItemEditPopover item={item} updateItemOverrides={updateItemOverrides} />
             <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="p-0 h-auto w-auto min-h-0 min-w-0">
               <Trash2 className="h-4 w-4" color="grey" />
             </Button>

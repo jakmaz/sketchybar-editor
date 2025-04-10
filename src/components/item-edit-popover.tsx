@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { DefaultsSettings, Item } from "./sketchybar-editor"
+import { Item } from "./sketchybar-editor"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { Settings } from "lucide-react"
@@ -8,14 +8,17 @@ import { Switch } from "./ui/switch"
 import { Separator } from "./ui/separator"
 import { ColorInput } from "./color-input"
 import { Slider } from "./ui/slider"
+import { useConfig } from "@/lib/config-context"
 
 interface ItemEditPopoverProps {
   item: Item
-  defaults: DefaultsSettings
   updateItemOverrides: (id: string, overrides: Record<string, any>) => void
 }
 
-export function ItemEditPopover({ item, defaults, updateItemOverrides }: ItemEditPopoverProps) {
+export function ItemEditPopover({ item, updateItemOverrides }: ItemEditPopoverProps) {
+  const { config } = useConfig()
+  const { defaults } = config
+
   const [overrides, setOverrides] = useState<Record<string, any>>(item.overrides || {})
   const [activeOverrides, setActiveOverrides] = useState<Record<string, boolean>>({
     backgroundColor: !!item.overrides?.backgroundColor,

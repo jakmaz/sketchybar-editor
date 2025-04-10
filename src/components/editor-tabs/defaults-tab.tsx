@@ -1,23 +1,17 @@
-// components/editor-tabs/defaults-tab.tsx
 "use client"
-
-import type { Dispatch, SetStateAction } from "react"
 
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 
-import type { Config } from "@/components/sketchybar-editor"
 import { ColorInput } from "../color-input"
 import { Alert, AlertDescription } from "../ui/alert"
+import { useConfig } from "@/lib/config-context"
 
-interface DefaultsTabProps {
-  config: Config
-  setConfig: Dispatch<SetStateAction<Config>>
-}
+export function DefaultsTab() {
+  const { config, setConfig } = useConfig()
 
-export function DefaultsTab({ config, setConfig }: DefaultsTabProps) {
   const handleBackgroundColorChange = (backgroundColor: string) => {
-    setConfig((prev) => ({
+    setConfig((prev: Config) => ({
       ...prev,
       defaults: { ...prev.defaults, backgroundColor },
     }))

@@ -1,5 +1,3 @@
-import type { Dispatch, SetStateAction } from "react"
-
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -7,14 +5,9 @@ import { BarTab } from "./editor-tabs/bar-tab"
 import { DefaultsTab } from "./editor-tabs/defaults-tab"
 import { ExamplesTab } from "./editor-tabs/examples-tab"
 
-import { Config } from "./sketchybar-editor"
 
-interface SidebarProps {
-  config: Config
-  setConfig: Dispatch<SetStateAction<Config>>
-}
 
-export function SidebarPane({ config, setConfig }: SidebarProps) {
+export function SidebarPane() {
   return (
     <Card className="lg:w-80 p-4">
       <Tabs defaultValue="bar">
@@ -25,15 +18,15 @@ export function SidebarPane({ config, setConfig }: SidebarProps) {
         </TabsList>
 
         <TabsContent value="bar">
-          <BarTab config={config} setConfig={setConfig} />
+          <BarTab />
         </TabsContent>
 
         <TabsContent value="defaults">
-          <DefaultsTab config={config} setConfig={setConfig} />
+          <DefaultsTab />
         </TabsContent>
 
         <TabsContent value="examples">
-          <ExamplesTab config={config} setConfig={setConfig} />
+          <ExamplesTab />
         </TabsContent>
       </Tabs>
     </Card>

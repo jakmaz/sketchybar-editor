@@ -4,12 +4,11 @@ import { Card } from "@/components/ui/card"
 
 import type { Config } from "./sketchybar-editor"
 import { ItemFactory } from "./sketchybar-items/item-factory"
+import { useConfig } from "@/lib/config-context"
 
-interface SketchybarPreviewProps {
-  config: Config
-}
+export function PreviewPane() {
+  const { config } = useConfig()
 
-export function PreviewPane({ config }: SketchybarPreviewProps) {
   // Organize items by position
   const leftItems = config.items.filter((item) => item.position === "left")
   const centerItems = config.items.filter((item) => item.position === "center")
@@ -29,17 +28,17 @@ export function PreviewPane({ config }: SketchybarPreviewProps) {
         }}
       >
         {/* Left Items (pushed left by justify-between) */}
-        <RenderItems items={leftItems} config={config} />
+        <RenderItems items={leftItems} />
 
         {/* Center Items Container (Absolutely Positioned) */}
         <div
           className="absolute left-1/2 transform -translate-x-1/2 flex items-center" // Absolute centering classes
         >
-          <RenderItems items={centerItems} config={config} />
+          <RenderItems items={centerItems} />
         </div>
 
         {/* Right Items (pushed right by justify-between) */}
-        <RenderItems items={rightItems} config={config} />
+        <RenderItems items={rightItems} />
       </div>
     </Card>
   )
@@ -47,10 +46,8 @@ export function PreviewPane({ config }: SketchybarPreviewProps) {
 
 function RenderItems({
   items,
-  config,
 }: {
   items: Config["items"]
-  config: Config
 }) {
   if (items.length === 0) {
     return null // Return null if no items
@@ -59,7 +56,7 @@ function RenderItems({
   return (
     <div className="flex items-center">
       {items.map((item) => (
-        <ItemFactory key={item.id} item={item} config={config} />
+        <ItemFactory key={item.id} item={item} />
       ))}
     </div>
   )

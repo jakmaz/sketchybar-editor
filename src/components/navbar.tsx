@@ -16,15 +16,16 @@ import {
 } from "@/components/ui/dialog"
 
 import { generateConfigFiles } from "@/lib/generate-config"
-import type { Config } from "./sketchybar-editor"
 import type { ConfigFile } from "@/lib/generate-config"
 import { FileExplorer } from "./file-explorer"
 
 import { toast } from "sonner"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Textarea } from "./ui/textarea"
+import { useConfig } from "@/lib/config-context"
 
-export default function Navbar({ config, setConfig }: { config: Config, setConfig: any }) {
+export default function Navbar() {
+  const { config, setConfig } = useConfig()
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)
   const [configFiles, setConfigFiles] = useState<ConfigFile[]>([])

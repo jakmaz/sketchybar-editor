@@ -1,20 +1,15 @@
 "use client"
 
-import type { Dispatch, SetStateAction } from "react"
-
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-import type { Config } from "@/components/sketchybar-editor"
 import { ColorInput } from "../color-input"
+import { useConfig } from "@/lib/config-context"
 
-interface AppearanceTabProps {
-  config: Config
-  setConfig: Dispatch<SetStateAction<Config>>
-}
+export function BarTab() {
+  const { config, setConfig } = useConfig()
 
-export function BarTab({ config, setConfig }: AppearanceTabProps) {
   const handleColorChange = (color: string) => {
     setConfig((prev) => ({ ...prev, bar: { ...prev.bar, color } }));
   };
