@@ -2,21 +2,13 @@ import { useState } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import type { ItemPosition, ItemType, Item } from "@/components/sketchybar-editor"
+import type { ItemPosition, Item } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
 import { ItemEditPopover } from "../item-edit-popover"
+import { getItemTypes } from "@/lib/item-registry"
 
-// To change using getItemTypes()
-const itemTypes: ItemType[] = [
-  "apple",
-  "spaces",
-  "clock",
-  "battery",
-  "calendar",
-  "cpu",
-  "media",
-]
+const itemTypes = getItemTypes()
 
 export function ItemsPane() {
   const { config, setConfig } = useConfig()
@@ -33,7 +25,7 @@ export function ItemsPane() {
 
     const newItem = {
       id: `${newItemType}_${Date.now()}`,
-      type: newItemType as ItemType,
+      type: newItemType,
       position: newItemPosition as ItemPosition,
     }
 
@@ -173,8 +165,8 @@ function ItemCard({ item, removeItem, updateItemOverrides }: ItemCardProps) {
 }
 
 interface ItemTypeCardProps {
-  type: ItemType,
-  addItem: (type: ItemType, position: ItemPosition) => void
+  type: string,
+  addItem: (type: string, position: ItemPosition) => void
 }
 
 function ItemTypeCard({ type, addItem }: ItemTypeCardProps) {

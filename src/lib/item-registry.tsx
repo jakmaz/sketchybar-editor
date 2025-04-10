@@ -1,6 +1,5 @@
 import React from "react"
 import { AppleItem } from "@/components/sketchybar-items/apple-item"
-import { SpacesItem } from "@/components/sketchybar-items/spaces-item"
 import { ClockItem } from "@/components/sketchybar-items/clock-item"
 import { BatteryItem } from "@/components/sketchybar-items/battery-item"
 import { CalendarItem } from "@/components/sketchybar-items/calendar-item"
@@ -40,15 +39,6 @@ const itemRegistry: Record<string, ItemDefinition> = {
     component: AppleItem,
     defaultIcon: "􀣺",
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=􀣺\n`,
-  },
-
-  spaces: {
-    type: "spaces",
-    displayName: "Spaces",
-    description: "Shows workspace spaces",
-    component: SpacesItem,
-    defaultLabel: "1 2 3",
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} label="1 2 3"\n`,
   },
 
   clock: {

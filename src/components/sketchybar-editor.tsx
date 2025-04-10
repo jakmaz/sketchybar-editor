@@ -2,7 +2,6 @@
 
 import { PreviewPane } from "./panes/preview-pane"
 
-export type ItemType = "apple" | "spaces" | "clock" | "battery" | "calendar" | "cpu" | "media"
 export type ItemPosition = "left" | "center" | "right"
 
 import TopPane from "./panes/top-pane"
@@ -12,7 +11,7 @@ import { ConfigProvider } from "@/lib/config-context"
 
 export interface Item {
   id: string;
-  type: ItemType;
+  type: string;
   position: ItemPosition;
   overrides?: Overrides;
 }
