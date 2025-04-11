@@ -1,19 +1,10 @@
 import { useState } from "react"
 
 import Link from "next/link"
-import { Github, Info, Moon, Sun } from "lucide-react"
+import { Github, Moon, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 import { ConfigDialog } from "../config-dialog"
 import { InfoDialog } from "../info-dialog"
