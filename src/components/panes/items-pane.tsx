@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
 import { ItemEditPopover } from "../item-edit-popover"
 import { getItemTypes } from "@/lib/item-registry"
+import DraggableCardsList from "../draggable-cards"
 
 const itemTypes = getItemTypes()
 
@@ -56,6 +57,8 @@ export function ItemsPane() {
 
   return (
     <Card className="flex-1 p-4">
+      <h2 className="text-xl font-semibold">Items</h2>
+      <DraggableCardsList />
       <h2 className="text-xl font-semibold">Items</h2>
       <div className="space-y-6">
         <div className="flex flex-col gap-4">
