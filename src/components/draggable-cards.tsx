@@ -18,19 +18,21 @@ import { CSS } from "@dnd-kit/utilities"
 import { Button } from "./ui/button"
 import { Settings, Trash2 } from "lucide-react"
 import { useConfig } from "@/lib/config-context"
+import { Overrides } from "./sketchybar-editor"
 
 // Define the types for our items
-type ItemType = "item" | "divider"
+type DragType = "item" | "divider"
 
-interface Item {
+interface DraggableItem {
   id: string
-  type: ItemType
+  dragType: DragType
   name: string | null
-  section: "left" | "center" | "right"
+  position: "left" | "center" | "right"
+  overrides?: Overrides
 }
 
 // Component for a draggable card
-const DraggableCard = ({ item }: { item: Item }) => {
+const DraggableCard = ({ item }: { item: DraggableItem }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })
@@ -45,15 +47,15 @@ const DraggableCard = ({ item }: { item: Item }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${item.type === "divider" ? "bg-gray-300 w-4 h-12 rouned-full" : "w-full h-12"
+      className={`${item.dragType === "divider" ? "bg-gray-300 w-4 h-12 rouned-full" : "w-full h-12"
         } flex items-center justify-center mx-1 cursor-grab`}
       {...attributes}
       {...listeners}
     >
-      {item.type === "item" ? (
+      {item.dragType === "item" ? (
         <Card className="w-full h-full flex justify-center">
           <CardContent className="flex justify-between">
-            <h4 className="font-medium">{item.type}</h4>
+            <h4 className="font-medium">{item.name}</h4>
             <div className="flex gap-2">
               <Button variant="ghost" size="icon" className="p-0 h-auto w-auto min-h-0 min-w-0">
                 <Settings className="h-4 w-4" color="grey" />
@@ -70,18 +72,18 @@ const DraggableCard = ({ item }: { item: Item }) => {
 }
 
 // Component for the card when being dragged
-const DragOverlayCard = ({ item }: { item: Item }) => {
+const DragOverlayCard = ({ item }: { item: DraggableItem }) => {
   if (!item) return null
 
   return (
     <div
-      className={`${item.type === "divider" ? "bg-gray-300 w-1 h-12 rouned-full" : "w-full h-12"
+      className={`${item.dragType === "divider" ? "bg-gray-300 w-1 h-12 rouned-full" : "w-full h-12"
         } flex items-center justify-center mx-1`}
     >
-      {item.type === "item" ? (
+      {item.dragType === "item" ? (
         <Card className="w-full h-full flex justify-center">
           <CardContent className="flex justify-between">
-            <h4 className="font-medium">{item.type}</h4>
+            <h4 className="font-medium">{item.name}</h4>
             <div className="flex gap-2">
               <Button variant="ghost" size="icon" className="p-0 h-auto w-auto min-h-0 min-w-0">
                 <Settings className="h-4 w-4" color="grey" />
@@ -103,17 +105,58 @@ export default function DraggableCardsList() {
 
   const configItems = config.items;
   // Initialize items with cards and dividers
-  const [items, setItems] = useState<Item[]>([
-    { id: "card-1", type: "item", name: "apple", section: "left" },
-    { id: "divider-1", type: "divider", name: null, section: "left" },
-    { id: "card-4", type: "item", name: "media", section: "center" },
-    { id: "divider-2", type: "divider", name: null, section: "center" },
-    { id: "card-7", type: "item", name: "cpu", section: "right" },
-    { id: "card-8", type: "item", name: "battery", section: "right" },
-    { id: "card-9", type: "item", name: "clock", section: "right" },
+  const [items, setItems] = useState<DraggableItem[]>([
+    {
+      "id": "apple",
+      dragType: "item",
+      "name": "apple",
+      "position": "left",
+      "overrides": {
+        "iconPaddingRight": 10
+      }
+    },
+    {
+      "id": "divider-1",
+      dragType: "divider",
+      "name": "apple",
+      "position": "left",
+    },
+    {
+      "id": "media",
+      dragType: "item",
+      "name": "media",
+      "position": "center",
+      "overrides": {
+        "backgroundColor": "#121212"
+      }
+    },
+    {
+      "id": "divider-2",
+      dragType: "divider",
+      "name": "apple",
+      "position": "center",
+    },
+    {
+      "id": "cpu",
+      dragType: "item",
+      "name": "cpu",
+      "position": "right"
+    },
+    {
+      "id": "battery",
+      dragType: "item",
+      "name": "battery",
+      "position": "right"
+    },
+    {
+      "id": "clock",
+      dragType: "item",
+      "name": "clock",
+      "position": "right"
+    }
   ])
 
-  const [activeItem, setActiveItem] = useState<Item | null>(null)
+  const [activeItem, setActiveItem] = useState<DraggableItem | null>(null)
 
   // Set up sensors for drag and drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor))
