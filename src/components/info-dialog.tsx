@@ -14,7 +14,7 @@ export function InfoDialog() {
           <span className="sr-only">App Information</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] sm:h-[800px] flex flex-col">
+      <DialogContent className="sm:max-w-[600px] sm:h-[600px] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-xl">Sketchybar Editor</DialogTitle>
         </DialogHeader>
@@ -41,7 +41,7 @@ export function InfoDialog() {
               <h3 className="text-lg font-medium">How to Use</h3>
               <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
                 <li>Use the editor to customize your Sketchybar</li>
-                <li>Click the "Download Config" button to download the generated .sketchybarrc file</li>
+                <li>Click the &quot;View Config&quot; button to download the generated .sketchybarrc file</li>
                 <li>Move the downloaded file to your Sketchybar configuration directory (usually ~/.sketchybarrc)</li>
                 <li>Restart Sketchybar to apply the new configuration</li>
               </ol>
@@ -50,32 +50,24 @@ export function InfoDialog() {
 
           <TabsContent value="features" className="space-y-4 mt-4 overflow-y-auto flex-1">
             <div className="space-y-2">
-              <h3 className="text-lg font-medium">Current Features</h3>
+              <h3 className="text-lg font-medium">Key Features</h3>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Visual Configuration with sliders, color pickers, and dropdown menus</li>
-                <li>Real-time Preview of your changes</li>
-                <li>Downloadable Config file generation</li>
-                <li>Basic Customization Options:</li>
-                <ul className="pl-6 mt-1 space-y-1 list-disc list-inside">
-                  <li>Color: Set the bar's background color</li>
-                  <li>Position: Choose top or bottom screen placement</li>
-                  <li>Height: Adjust the bar's height</li>
-                  <li>Padding: Control spacing around elements</li>
-                  <li>Corner Radius: Round the corners of the bar</li>
-                  <li>Font Size: Set default text size</li>
-                  <li>Font Family: Select from various font options</li>
-                </ul>
+                <li>Real-time Preview of Changes</li>
+                <li>Visual Configuration with Sliders, Color Pickers, and Dropdown Menus</li>
+                <li>Ready-to-use Pre-made Components</li>
+                <li>Popular Color Themes for Quick Styling</li>
+                <li>Downloadable Configuration File Generation</li>
+                <li>Sketchybar Editor Configuration Import and Export</li>
+                <li>Dark/Light Mode Toggle for System Preference Matching</li>
               </ul>
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-lg font-medium">Upcoming Features</h3>
+              <h3 className="text-lg font-medium">Upcoming Enhancements</h3>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Advanced Item Configuration: Create and customize individual items</li>
-                <li>Plugin Integration: Support for popular Sketchybar plugins</li>
-                <li>Template Library: Pre-made configurations to use as starting points</li>
-                <li>Configuration Sharing: Share your designs with the community</li>
-                <li>Dark/Light Mode Toggle: Adapt to your system preferences</li>
+                <li>Template Library with Starter Configurations</li>
+                <li>Configuration Sharing within the Community</li>
+                <li>Custom Component and Plugin Support with Sharing Capabilities</li>
               </ul>
             </div>
           </TabsContent>
@@ -85,28 +77,19 @@ export function InfoDialog() {
               <h3 className="text-lg font-medium">Version History</h3>
 
               <div className="border-l-2 border-muted pl-4 space-y-4">
-                <div>
-                  <h4 className="text-sm font-semibold">v1.2.0 - April 2025</h4>
-                  <ul className="text-sm text-muted-foreground mt-1 space-y-1 list-disc list-inside">
-                    <li>Added font preview functionality</li>
-                    <li>Improved color picker with opacity control</li>
-                    <li>Fixed position toggle issues on certain displays</li>
-                    <li>Added export options for different Sketchybar versions</li>
-                  </ul>
-                </div>
+
+                {/* <div> */}
+                {/*   <h4 className="text-sm font-semibold">v1.1.0 - February 2025</h4> */}
+                {/*   <ul className="text-sm text-muted-foreground mt-1 space-y-1 list-disc list-inside"> */}
+                {/*     <li>Added real-time preview functionality</li> */}
+                {/*     <li>Improved UI responsiveness</li> */}
+                {/*     <li>Fixed configuration download issues</li> */}
+                {/*     <li>Added more font family options</li> */}
+                {/*   </ul> */}
+                {/* </div> */}
 
                 <div>
-                  <h4 className="text-sm font-semibold">v1.1.0 - February 2025</h4>
-                  <ul className="text-sm text-muted-foreground mt-1 space-y-1 list-disc list-inside">
-                    <li>Added real-time preview functionality</li>
-                    <li>Improved UI responsiveness</li>
-                    <li>Fixed configuration download issues</li>
-                    <li>Added more font family options</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-semibold">v1.0.0 - December 2024</h4>
+                  <h4 className="text-sm font-semibold">v1.0.0 - April 2025</h4>
                   <ul className="text-sm text-muted-foreground mt-1 space-y-1 list-disc list-inside">
                     <li>Initial release</li>
                     <li>Basic customization options</li>
@@ -114,6 +97,7 @@ export function InfoDialog() {
                     <li>Simple user interface</li>
                   </ul>
                 </div>
+
               </div>
             </div>
           </TabsContent>

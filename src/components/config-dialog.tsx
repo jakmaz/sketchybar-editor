@@ -21,7 +21,7 @@ import { toast } from "sonner"
 export function ConfigDialog() {
   const { config, setConfig } = useConfig()
 
-  const [_isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)
+  const [, setIsConfigDialogOpen] = useState(false)
   const [configFiles, setConfigFiles] = useState<ConfigFile[]>([])
   const [selectedFile, setSelectedFile] = useState<ConfigFile | null>(null)
   const [importValue, setImportValue] = useState("")
