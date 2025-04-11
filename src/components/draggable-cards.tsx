@@ -54,8 +54,8 @@ const DraggableCard = ({
       ref={setNodeRef}
       style={style}
       className={`${item.dragType === "divider"
-          ? "bg-gray-300 w-4 h-12 rounded-full"
-          : "w-full h-12"
+        ? "bg-gray-300 w-4 h-12 rounded-full"
+        : "w-full h-12"
         } flex items-center justify-center mx-1 cursor-grab`}
       {...attributes}
       {...listeners}
@@ -99,8 +99,8 @@ const DragOverlayCard = ({ item }: { item: DraggableItem }) => {
   return (
     <div
       className={`${item.dragType === "divider"
-          ? "bg-gray-300 w-4 h-12 rounded-full"
-          : "w-full h-12"
+        ? "bg-gray-300 w-4 h-12 rounded-full"
+        : "w-full h-12"
         } flex items-center justify-center mx-1`}
     >
       {item.dragType === "item" ? (
@@ -146,6 +146,15 @@ export default function DraggableCardsList() {
       items: prev.items.filter((item) => item.id !== id),
     }));
   };
+
+  const updateItemOverrides = (id: string, overrides: Overrides) => {
+    setConfig((prev) => ({
+      ...prev,
+      items: prev.items.map((item) =>
+        item.id === id ? { ...item, overrides: { ...item.overrides, ...overrides } } : item,
+      ),
+    }))
+  }
 
   // Build the draggable list (including divider items) based on the config groups.
   const buildDraggableItems = () => {
