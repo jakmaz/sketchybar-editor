@@ -170,13 +170,13 @@ export default function TopPane() {
 
       {/* Config Dialog */}
       <Dialog open={isConfigDialogOpen} onOpenChange={setIsConfigDialogOpen}>
-        <DialogContent className="min-w-7xl max-h-[80vh] flex flex-col">
+        <DialogContent className="min-w-7xl max-h-[80vh] flex flex-col h-[900px] overflow-hidden">
           <DialogHeader>
             <DialogTitle>Sketchybar Configuration</DialogTitle>
             <DialogDescription>View, export, or import your sketchybar configuration.</DialogDescription>
           </DialogHeader>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4 flex-1 flex flex-col overflow-hidden">
             <TabsList className="grid grid-cols-3 mb-4">
               <TabsTrigger value="files">Files</TabsTrigger>
               <TabsTrigger value="export">Export</TabsTrigger>
@@ -184,19 +184,19 @@ export default function TopPane() {
             </TabsList>
 
             {/* Files Tab */}
-            <TabsContent value="files" className="h-[60vh] flex flex-col">
-              <div className="flex gap-4 flex-1">
+            <TabsContent value="files" className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex gap-4 flex-1 overflow-hidden">
                 {/* File Explorer */}
-                <div className="w-1/4 h-full">
+                <div className="w-1/4 overflow-auto">
                   <FileExplorer files={configFiles} onFileSelect={handleFileSelect} />
                 </div>
 
                 {/* File Content */}
-                <div className="flex-1 flex flex-col">
+                <div className="flex-1 flex flex-col overflow-hidden">
                   {selectedFile && (
                     <>
                       <div className="text-sm font-medium mb-2 px-2">{selectedFile.path}</div>
-                      <pre className="flex-1 p-4 bg-muted rounded-md text-sm font-mono whitespace-pre">
+                      <pre className="flex-1 p-4 bg-muted rounded-md text-sm font-mono whitespace-pre overflow-auto">
                         {selectedFile.content}
                       </pre>
                     </>
@@ -217,8 +217,8 @@ export default function TopPane() {
             </TabsContent>
 
             {/* Export Tab */}
-            <TabsContent value="export">
-              <pre className="p-4 bg-muted rounded-md text-sm font-mono whitespace-pre">
+            <TabsContent value="export" className="flex-1 flex flex-col overflow-hidden">
+              <pre className="p-4 bg-muted rounded-md text-sm font-mono whitespace-pre overflow-auto flex-1">
                 {JSON.stringify(config, null, 2)}
               </pre>
 
@@ -231,10 +231,10 @@ export default function TopPane() {
             </TabsContent>
 
             {/* Import Tab */}
-            <TabsContent value="import" className="h-[60vh] flex flex-col">
-              <div className="flex-1">
+            <TabsContent value="import" className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-hidden">
                 <Textarea
-                  className="min-h-[calc(60vh-80px)] font-mono text-sm w-full"
+                  className="h-full font-mono text-sm w-full resize-none"
                   placeholder="Paste your configuration JSON here..."
                   value={importValue}
                   onChange={handleImportChange}
