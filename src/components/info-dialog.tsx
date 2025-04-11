@@ -56,7 +56,7 @@ export function InfoDialog() {
                 <li>Visual Configuration with Sliders, Color Pickers, and Dropdown Menus</li>
                 <li>Ready-to-use Pre-made Components</li>
                 <li>Popular Color Themes for Quick Styling</li>
-                <li>Downloadable Configuration File Generation</li>
+                <li>Downloadable Configuration File Structure</li>
                 <li>Sketchybar Editor Configuration Import and Export</li>
                 <li>Dark/Light Mode Toggle for System Preference Matching</li>
               </ul>
@@ -68,6 +68,7 @@ export function InfoDialog() {
                 <li>Template Library with Starter Configurations</li>
                 <li>Configuration Sharing within the Community</li>
                 <li>Custom Component and Plugin Support with Sharing Capabilities</li>
+                <li>Automated sketchybar config download to your device</li>
               </ul>
             </div>
           </TabsContent>
