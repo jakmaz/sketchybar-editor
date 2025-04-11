@@ -33,10 +33,15 @@ interface DraggableItem {
 }
 
 // Component for an individual draggable card.
-const DraggableCard = ({ item }: { item: DraggableItem }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: item.id,
-  });
+const DraggableCard = ({
+  item,
+  removeItem,
+}: {
+  item: DraggableItem;
+  removeItem: (id: string) => void;
+}) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -60,10 +65,23 @@ const DraggableCard = ({ item }: { item: DraggableItem }) => {
           <CardContent className="flex justify-between">
             <h4 className="font-medium">{item.name}</h4>
             <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="p-0 h-auto w-auto min-h-0 min-w-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="p-0 h-auto w-auto min-h-0 min-w-0"
+              >
                 <Settings className="h-4 w-4" color="grey" />
               </Button>
-              <Button variant="ghost" size="icon" className="p-0 h-auto w-auto min-h-0 min-w-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="p-0 h-auto w-auto min-h-0 min-w-0"
+                onPointerDown={(e) => e.stopPropagation()} // Prevent drag start on pointer down
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeItem(item.id);
+                }}
+              >
                 <Trash2 className="h-4 w-4" color="grey" />
               </Button>
             </div>
@@ -122,6 +140,13 @@ export default function DraggableCardsList() {
     overrides: item.overrides,
   });
 
+  const removeItem = (id: string) => {
+    setConfig((prev) => ({
+      ...prev,
+      items: prev.items.filter((item) => item.id !== id),
+    }));
+  };
+
   // Build the draggable list (including divider items) based on the config groups.
   const buildDraggableItems = () => {
     // Convert all config items.
@@ -141,7 +166,6 @@ export default function DraggableCardsList() {
         id: "divider-1",
         dragType: "divider",
         name: null,
-        // Divider’s position is not used in rendering for items.
         position: "left",
       });
       newItems = newItems.concat(centerItems);
@@ -163,13 +187,20 @@ export default function DraggableCardsList() {
   const [items, setItems] = useState<DraggableItem[]>(buildDraggableItems());
   const [activeItem, setActiveItem] = useState<DraggableItem | null>(null);
 
-  // If config changes, rebuild the items list.
+  // Rebuild the items list if config changes.
   useEffect(() => {
     setItems(buildDraggableItems());
   }, [config.items]);
 
-  // Set up sensors for the DnD operations.
-  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
+  // Set up sensors with an activation constraint.
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(KeyboardSensor)
+  );
 
   // On drag start, record the active item.
   const handleDragStart = (event: DragStartEvent) => {
@@ -183,28 +214,24 @@ export default function DraggableCardsList() {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      // Rearrange the items (which include the dividers).
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
       const updatedItems = arrayMove(items, oldIndex, newIndex);
 
       setItems(updatedItems);
 
-      // Determine the divider indices to recalculate positions.
+      // Determine divider indices.
       const divider1Index = updatedItems.findIndex((item) => item.id === "divider-1");
       const divider2Index = updatedItems.findIndex((item) => item.id === "divider-2");
 
-      // Recompute the positions for non-divider items based on their placement.
+      // Recompute positions for non-divider items.
       const newConfigItems = updatedItems
         .filter((item) => item.dragType === "item")
-        .map((item, index, arr) => {
-          // Derive the new position based on the item’s index in the full list.
-          // If a divider is present, use its index to split the groups.
+        .map((item, index) => {
           let newPosition: "left" | "center" | "right" = "left";
           if (divider1Index !== -1 && index < divider1Index) {
             newPosition = "left";
           } else if (divider1Index !== -1 && (divider2Index === -1 || index < divider2Index - 1)) {
-            // Note: subtract one if divider1 is in the array
             newPosition = "center";
           } else if (divider2Index !== -1) {
             newPosition = "right";
@@ -217,7 +244,6 @@ export default function DraggableCardsList() {
           };
         });
 
-      // Update the config with the new order (without the divider items).
       setConfig((prevConfig) => ({
         ...prevConfig,
         items: newConfigItems,
@@ -241,7 +267,7 @@ export default function DraggableCardsList() {
         <div className="flex items-center justify-center">
           <SortableContext items={itemIds} strategy={horizontalListSortingStrategy}>
             {items.map((item) => (
-              <DraggableCard key={item.id} item={item} />
+              <DraggableCard key={item.id} item={item} removeItem={removeItem} />
             ))}
           </SortableContext>
         </div>
