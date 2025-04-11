@@ -9,8 +9,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const hackMono = localFont({
+const hackMonoBold = localFont({
   src: "./HackNerdFontMono-Bold.ttf",
+  variable: "--font-hack-mono-bold"
+})
+
+const hackMono = localFont({
+  src: "./HackNerdFontMono-Regular.ttf",
   variable: "--font-hack-mono"
 })
 
@@ -27,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${hackMono.variable} antialiased`}
+        className={`${geistSans.variable} ${hackMonoBold.variable} ${hackMono.variable} antialiased`}
       >
         {children}
         <Toaster />

@@ -18,7 +18,7 @@ export function PreviewPane() {
     <Card className="flex-1 p-4 max-h-fit">
       <h2 className="text-xl font-semibold">Preview</h2>
       <div
-        className="relative w-full flex justify-between items-center font-hack-mono" // Added relative positioning
+        className="relative w-full flex justify-between items-center font-hack-mono-bold" // Added relative positioning
         style={{
           height: `${config.bar.height}px`,
           backgroundColor: config.bar.color,

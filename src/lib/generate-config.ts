@@ -145,8 +145,6 @@ sketchybar --update
 
 function generateItemFile(type: string, items: Item[]): string {
   let content = `#!/bin/bash
-
-# ${type.toUpperCase()} item configuration
 `
 
   items.forEach((item) => {

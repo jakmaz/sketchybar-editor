@@ -38,7 +38,7 @@ const itemRegistry: Record<string, ItemDefinition> = {
     description: "Shows the Apple logo",
     component: AppleItem,
     defaultIcon: "􀣺",
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=􀣺\n`,
+    generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=\n`,
   },
 
   clock: {
@@ -51,7 +51,6 @@ const itemRegistry: Record<string, ItemDefinition> = {
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=1 script="$PLUGIN_DIR/clock.sh"\n`,
     pluginScript: `#!/bin/bash
 
-# Clock plugin for sketchybar
 TIME=$(date +"%H:%M")
 sketchybar --set "$NAME" label="$TIME"
 `,
@@ -67,7 +66,6 @@ sketchybar --set "$NAME" label="$TIME"
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=120 script="$PLUGIN_DIR/battery.sh"\n`,
     pluginScript: `#!/bin/bash
 
-# Battery plugin for sketchybar
 PERCENTAGE=$(pmset -g batt | grep -Eo "\\d+%" | cut -d% -f1)
 CHARGING=$(pmset -g batt | grep 'AC Power')
 
@@ -76,20 +74,20 @@ if [ $PERCENTAGE = "" ]; then
 fi
 
 case {PERCENTAGE} in
-  9[0-9]|100) ICON="􀛨"
+  9[0-9]|100) ICON=""
     ;;
-  [6-8][0-9]) ICON="􀺸"
+  [6-8][0-9]) ICON=""
     ;;
-  [3-5][0-9]) ICON="􀺶"
+  [3-5][0-9]) ICON=""
     ;;
-  [1-2][0-9]) ICON="􀛩"
+  [1-2][0-9]) ICON=""
     ;;
-  *) ICON="􀛪"
+  *) ICON=""
     ;;
 esac
 
 if [[ $CHARGING != "" ]]; then
-  ICON="􀢋"
+  ICON=""
 fi
 
 sketchybar --set $NAME icon="$ICON" label="{PERCENTAGE}%"
@@ -106,7 +104,6 @@ sketchybar --set $NAME icon="$ICON" label="{PERCENTAGE}%"
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=60 script="$PLUGIN_DIR/calendar.sh"\n`,
     pluginScript: `#!/bin/bash
 
-# Calendar plugin for sketchybar
 DATE=$(date +"%a %b %d")
 sketchybar --set "$NAME" label="$DATE"
 `,
@@ -122,7 +119,6 @@ sketchybar --set "$NAME" label="$DATE"
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
     pluginScript: `#!/bin/bash
 
-# CPU plugin for sketchybar
 CPU=$(top -l 2 | grep -E "^CPU" | tail -1 | awk '{ print $3 + $5 }')
 CPU_PERCENT=$(printf "%.0f" $CPU)
 
@@ -140,24 +136,12 @@ sketchybar --set $NAME label="{CPU_PERCENT}%"
     generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=􀑪 script="$PLUGIN_DIR/media.sh"\n`,
     pluginScript: `#!/bin/bash
 
-# Media plugin for sketchybar
-PLAYER_STATE=$(osascript -e 'tell application "Music" to player state as string')
-if [[ "$PLAYER_STATE" == "playing" ]]; then
-  TRACK=$(osascript -e 'tell application "Music" to name of current track as string')
-  ARTIST=$(osascript -e 'tell application "Music" to artist of current track as string')
-  
-  if [[ "$TRACK" == "" ]]; then
-    TRACK="Unknown"
-  fi
-  
-  if [[ "$ARTIST" == "" ]]; then
-    ARTIST="Unknown"
-  fi
-  
-  MEDIA="$ARTIST - $TRACK"
-  sketchybar --set $NAME label="$MEDIA" icon=􀊄
+STATE="$(echo "$INFO" | jq -r '.state')"
+if [ "$STATE" = "playing" ]; then
+  MEDIA="$(echo "$INFO" | jq -r '.title + " - " + .artist')"
+  sketchybar --set $NAME label="$MEDIA" drawing=on
 else
-  sketchybar --set $NAME label="" icon=􀊄
+  sketchybar --set $NAME drawing=off
 fi
 `,
   },

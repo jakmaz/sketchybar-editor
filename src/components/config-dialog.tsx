@@ -149,7 +149,7 @@ export function ConfigDialog() {
                 {selectedFile && (
                   <>
                     <div className="text-sm font-medium mb-2 px-2">{selectedFile.path}</div>
-                    <pre className="flex-1 p-4 bg-muted rounded-md text-sm font-mono whitespace-pre overflow-auto">
+                    <pre className="flex-1 p-4 bg-muted rounded-md text-sm font-hack-mono whitespace-pre overflow-auto">
                       {selectedFile.content}
                     </pre>
                   </>
