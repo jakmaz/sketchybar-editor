@@ -37,11 +37,9 @@ interface DraggableItem {
 const DraggableCard = ({
   item,
   removeItem,
-  updateItemOverrides,
 }: {
   item: DraggableItem;
   removeItem: (id: string) => void;
-  updateItemOverrides: (id: string, overrides: Overrides) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: item.id });
@@ -74,10 +72,7 @@ const DraggableCard = ({
           <CardContent className="flex justify-between">
             <h4 className="font-medium">{item.name}</h4>
             <div className="flex gap-2">
-              <ItemEditPopover 
-                item={configItem} 
-                updateItemOverrides={updateItemOverrides} 
-              />
+              <ItemEditPopover item={configItem} />
               <Button
                 variant="ghost"
                 size="icon"
@@ -152,16 +147,6 @@ export default function DraggableCardsList() {
       items: prev.items.filter((item) => item.id !== id),
     }));
   };
-
-  const updateItemOverrides = (id: string, overrides: Overrides) => {
-    setConfig((prev) => ({
-      ...prev,
-      items: prev.items.map((item) =>
-        item.id === id ? { ...item, overrides: { ...item.overrides, ...overrides } } : item,
-      ),
-    }))
-  }
-
   // Build the draggable list (including divider items) based on the config groups.
   const buildDraggableItems = useCallback(() => {
     // Convert all config items.
@@ -300,7 +285,6 @@ export default function DraggableCardsList() {
                 key={item.id} 
                 item={item} 
                 removeItem={removeItem} 
-                updateItemOverrides={updateItemOverrides}
               />
             ))}
           </SortableContext>
