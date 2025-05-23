@@ -104,8 +104,17 @@ export function InfoDialog() {
           </TabsContent>
         </Tabs>
 
-        <div className="mt-4 text-xs text-center text-muted-foreground">
-          Sketchybar Editor is open source under the MIT License
+        <div className="text-center text-muted-foreground space-y-1">
+          <div>
+            <a 
+              href="https://roadwiseapp.com/app/sketchybar-editor" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Suggest changes and see planned features here!
+            </a>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
