@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   DndContext,
@@ -19,6 +19,7 @@ import { Button } from "./ui/button";
 import { Settings, Trash2 } from "lucide-react";
 import { useConfig } from "@/lib/config-context";
 import { Overrides } from "./sketchybar-editor";
+import { ItemEditPopover } from "./item-edit-popover";
 
 // Define types for our draggable items.
 type DragType = "item" | "divider";
@@ -36,9 +37,11 @@ interface DraggableItem {
 const DraggableCard = ({
   item,
   removeItem,
+  updateItemOverrides,
 }: {
   item: DraggableItem;
   removeItem: (id: string) => void;
+  updateItemOverrides: (id: string, overrides: Overrides) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: item.id });
@@ -48,6 +51,12 @@ const DraggableCard = ({
     transition,
     opacity: isDragging ? 0.5 : 1,
   };
+
+  // Find the corresponding config item to pass to the ItemEditPopover
+  const { config } = useConfig();
+  const configItem = item.dragType === "item" 
+    ? config.items.find((configItem) => configItem.id === item.id) 
+    : null;
 
   return (
     <div
@@ -60,18 +69,15 @@ const DraggableCard = ({
       {...attributes}
       {...listeners}
     >
-      {item.dragType === "item" ? (
+      {item.dragType === "item" && configItem ? (
         <Card className="w-full h-full flex justify-center">
           <CardContent className="flex justify-between">
             <h4 className="font-medium">{item.name}</h4>
             <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="p-0 h-auto w-auto min-h-0 min-w-0"
-              >
-                <Settings className="h-4 w-4" color="grey" />
-              </Button>
+              <ItemEditPopover 
+                item={configItem} 
+                updateItemOverrides={updateItemOverrides} 
+              />
               <Button
                 variant="ghost"
                 size="icon"
@@ -157,7 +163,7 @@ export default function DraggableCardsList() {
   }
 
   // Build the draggable list (including divider items) based on the config groups.
-  const buildDraggableItems = () => {
+  const buildDraggableItems = useCallback(() => {
     // Convert all config items.
     const baseItems = config.items.map(convertConfigItem);
     // Group by the specified positions.
@@ -190,7 +196,7 @@ export default function DraggableCardsList() {
       newItems = newItems.concat(rightItems);
     }
     return newItems;
-  };
+  }, [config.items]);
 
   // Local state for draggable items.
   const [items, setItems] = useState<DraggableItem[]>(buildDraggableItems());
@@ -199,7 +205,7 @@ export default function DraggableCardsList() {
   // Rebuild the items list if config changes.
   useEffect(() => {
     setItems(buildDraggableItems());
-  }, [config.items]);
+  }, [buildDraggableItems]);
 
   // Set up sensors with an activation constraint.
   const sensors = useSensors(
@@ -290,7 +296,12 @@ export default function DraggableCardsList() {
         <div className="flex items-center justify-center">
           <SortableContext items={itemIds} strategy={horizontalListSortingStrategy}>
             {items.map((item) => (
-              <DraggableCard key={item.id} item={item} removeItem={removeItem} />
+              <DraggableCard 
+                key={item.id} 
+                item={item} 
+                removeItem={removeItem} 
+                updateItemOverrides={updateItemOverrides}
+              />
             ))}
           </SortableContext>
         </div>

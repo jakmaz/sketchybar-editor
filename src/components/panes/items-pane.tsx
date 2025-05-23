@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import type { ItemPosition, Overrides } from "@/components/sketchybar-editor"
+import type { ItemPosition } from "@/components/sketchybar-editor"
 import { Card, CardContent } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
 import { getItemTypes } from "@/lib/item-registry"
@@ -8,7 +8,7 @@ import DraggableCardsList from "../draggable-cards"
 const itemTypes = getItemTypes()
 
 export function ItemsPane() {
-  const { config, setConfig } = useConfig()
+  const { setConfig } = useConfig()
 
   const addItem = (type: string, position: ItemPosition) => {
     if (!type) return
