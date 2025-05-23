@@ -38,24 +38,12 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
     children: [],
   };
 
-  // Group items by type
-  const itemsByType = config.items.reduce(
-    (acc, item) => {
-      if (!acc[item.type]) {
-        acc[item.type] = [];
-      }
-      acc[item.type].push(item);
-      return acc;
-    },
-    {} as Record<string, typeof config.items>,
-  );
-
   // Generate item files
-  for (const [type, items] of Object.entries(itemsByType)) {
+  for (const item of config.items) {
     const itemFile: ConfigFile = {
-      name: `${type}.sh`,
-      path: `items/${type}.sh`,
-      content: generateItemFile(type, items),
+      name: `${item.id}.sh`,
+      path: `items/${item.id}.sh`,
+      content: generateItemFile(item),
       type: "file",
     };
     itemsDir.children?.push(itemFile);
@@ -127,10 +115,12 @@ default=(
 
 sketchybar --default "\${default[@]}"
 
-# Source all item configs
-for item in "$ITEM_DIR"/*.sh; do
-  source "$item"
-done
+# Source item configs in order
+${config.items
+  .map((item) => {
+    return `source "$ITEM_DIR/${item.id}.sh"`;
+  })
+  .join("\n")}
 
 # Finalizing setup
 sketchybar --update
@@ -139,11 +129,19 @@ sketchybar --update
 `;
 }
 
-function generateItemFile(type: string, items: Item[]): string {
+function generateItemFile(item: Item): string {
+  const itemDef = getItemDefinition(item.type);
+
   let content = `#!/bin/bash
+
+# ${item.id}
+sketchybar --add item ${item.id} ${item.position}
 `;
 
-  // Map Overrides property keys to sketchybar config keys
+  if (itemDef && itemDef.generateItemConfig) {
+    content += itemDef.generateItemConfig(item.id);
+  }
+
   const overrideKeyMap: Record<keyof Overrides, string> = {
     backgroundColor: "background.color",
     iconColor: "icon.color",
@@ -160,33 +158,20 @@ function generateItemFile(type: string, items: Item[]): string {
     labelFont: "label.font",
   };
 
-  items.forEach((item) => {
-    const itemName = `${item.type}_${item.id.split("_")[1] || "1"}`;
-    const itemDef = getItemDefinition(item.type);
+  if (item.overrides) {
+    const overrides: string[] = [];
 
-    content += `\n# ${itemName}\n`;
-    content += `sketchybar --add item ${itemName} ${item.position}\n`;
-
-    if (itemDef && itemDef.generateItemConfig) {
-      content += itemDef.generateItemConfig(itemName);
-    }
-
-    if (item.overrides) {
-      const overrides: string[] = [];
-
-      for (const [key, configKey] of Object.entries(overrideKeyMap) as [keyof Overrides, string][]) {
-        const val = item.overrides[key];
-        // Include values if defined and not null or empty string
-        if (val !== undefined && val !== null && val !== "") {
-          overrides.push(`${configKey}=${val}`);
-        }
-      }
-
-      if (overrides.length > 0) {
-        content += `sketchybar --set ${itemName} ${overrides.join(" ")}\n`;
+    for (const [key, configKey] of Object.entries(overrideKeyMap) as [keyof Overrides, string][]) {
+      const val = item.overrides[key];
+      if (val !== undefined && val !== null && val !== "") {
+        overrides.push(`${configKey}=${val}`);
       }
     }
-  });
+
+    if (overrides.length > 0) {
+      content += `sketchybar --set ${item.id} ${overrides.join(" ")}\n`;
+    }
+  }
 
   return content;
 }
