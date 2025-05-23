@@ -1,4 +1,3 @@
-"use client"
 import { RgbaColorPicker } from "react-colorful"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
@@ -16,7 +15,7 @@ export function ColorInput({ id, label, value, onChange }: ColorInputProps) {
   const hexToRgba = (hex: string) => {
     // Remove 0x if present
     hex = hex.replace(/^0x/, '')
-    
+
     if (hex.length === 8) {
       return {
         r: parseInt(hex.slice(2, 4), 16),
@@ -25,22 +24,22 @@ export function ColorInput({ id, label, value, onChange }: ColorInputProps) {
         a: parseInt(hex.slice(0, 2), 16) / 255
       }
     }
-    
+
     return { r: 0, g: 0, b: 0, a: 1 }
   }
-  
+
   // Convert RGBA object to 0xAARRGGBB hex
   const rgbaToHex = (rgba: { r: number, g: number, b: number, a: number }) => {
     const toHex = (value: number) => {
       const hex = Math.round(value).toString(16)
       return hex.length === 1 ? '0' + hex : hex
     }
-    
+
     return `0x${toHex(rgba.a * 255)}${toHex(rgba.r)}${toHex(rgba.g)}${toHex(rgba.b)}`
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <Label htmlFor={id}>{label}</Label>
       <div className="flex gap-2 items-center">
         <Popover>
@@ -51,9 +50,9 @@ export function ColorInput({ id, label, value, onChange }: ColorInputProps) {
             />
           </PopoverTrigger>
           <PopoverContent className="w-auto p-3" align="start">
-            <RgbaColorPicker 
-              color={hexToRgba(value)} 
-              onChange={(color) => onChange(rgbaToHex(color))} 
+            <RgbaColorPicker
+              color={hexToRgba(value)}
+              onChange={(color) => onChange(rgbaToHex(color))}
             />
           </PopoverContent>
         </Popover>

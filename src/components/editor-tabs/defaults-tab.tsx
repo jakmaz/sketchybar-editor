@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 
 import { ColorInput } from "@/components/color-input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useConfig } from "@/lib/config-context"
 import { Config } from "@/components/sketchybar-editor"
 
@@ -89,8 +88,8 @@ export function DefaultsTab() {
   }
 
   return (
-    <div className="flex flex-col justify-around gap-8">
-      <div className="space-y-6">
+    <div className="flex flex-col justify-around space-y-6">
+      <div className="space-y-4">
         <ColorInput
           id="background-color"
           label="Background Color"
@@ -111,6 +110,8 @@ export function DefaultsTab() {
           value={config.defaults.labelColor}
           onChange={handleLabelColorChange}
         />
+      </div>
+      <div className="space-y-6">
 
         <div className="space-y-2">
           <div className="flex justify-between">
@@ -226,14 +227,6 @@ export function DefaultsTab() {
           />
         </div>
       </div>
-
-      <Alert>
-        <AlertDescription className="text-sm">
-          Default settings are automatically applied to all items and can be
-          overridden by individual item settings. They help define the overall style while keeping your configuration
-          clean.
-        </AlertDescription>
-      </Alert>
     </div>
   )
 }

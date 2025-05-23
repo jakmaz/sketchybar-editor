@@ -12,8 +12,8 @@ export function SidebarPane() {
       <Tabs defaultValue="bar">
         <TabsList className="grid grid-cols-3 mb-4 w-full">
           <TabsTrigger value="bar">Bar</TabsTrigger>
-          <TabsTrigger value="defaults">Defaults</TabsTrigger>
-          <TabsTrigger value="examples">Configs</TabsTrigger>
+          <TabsTrigger value="defaults">Items</TabsTrigger>
+          <TabsTrigger value="examples">Themes</TabsTrigger>
         </TabsList>
 
         <TabsContent value="bar">
