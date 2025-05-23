@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import { Item, Overrides } from "./sketchybar-editor"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
@@ -18,11 +18,35 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
   const { config, setConfig } = useConfig()
   const { defaults } = config
 
+  const itemInConfig = config.items.find(configItem => configItem.id === item.id)
+  const overrides = itemInConfig?.overrides || {}
+
+  // Check if a property is overridden
   const isOverriden = (property: keyof Overrides) => {
-    const itemInConfig = config.items.find(configItem => configItem.id === item.id);
-    return Boolean(itemInConfig?.overrides?.[property as unknown as keyof Overrides]);
+    return overrides[property] !== undefined
   }
-  // Function to update item overrides directly in the config
+
+  // Toggle override: add or remove override for property
+  const handleToggleOverride = <K extends keyof Overrides>(property: K) => {
+    const currentOverrides = { ...overrides }
+    if (isOverriden(property)) {
+      delete currentOverrides[property]
+    } else {
+      if (property in defaults) {
+        currentOverrides[property] = defaults[property] as Overrides[K]
+      } else {
+        console.warn(`Property "${property}" does not exist in defaults.`)
+      }
+    }
+    updateItemOverrides(item.id, currentOverrides)
+  }  
+
+  // Generic update of an override property value
+  const handleOverrideChange = <K extends keyof Overrides>(property: K, value: Overrides[K]) => {
+    updateItemOverrides(item.id, { ...overrides, [property]: value })
+  }
+
+  // Update the item's overrides in config
   const updateItemOverrides = (id: string, newOverrides: Overrides) => {
     setConfig((prev) => ({
       ...prev,
@@ -34,42 +58,7 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
     }))
   }
 
-  const handleToggleOverride = (property: keyof Overrides) => {
-    const itemInConfig = config.items.find(configItem => configItem.id === item.id);
-    const currentOverrides = itemInConfig?.overrides || {};
-    const isCurrentlyOverridden = currentOverrides[property] !== undefined;
-
-    const newOverrides = { ...currentOverrides };
-
-    if (isCurrentlyOverridden) {
-      delete newOverrides[property];
-    } else {
-      if (property in defaults) {
-        newOverrides[property] = (defaults as any)[property];
-
-      } else {
-        console.warn(`Property "${property}" does not exist in defaults.`);
-      }
-    }
-
-    updateItemOverrides(item.id, newOverrides);
-  };
-
-  const handleOverrideChange = <K extends keyof Overrides>(property: K, value: Overrides[K]) => {
-    const itemInConfig = config.items.find(configItem => configItem.id === item.id);
-    const currentOverrides = itemInConfig?.overrides || {};
-  
-    const newOverrides = {
-      ...currentOverrides,
-      [property]: value,
-    };
-  
-    updateItemOverrides(item.id, newOverrides);
-  };
-  
-
-
-  const overridesCount = item.overrides ? Object.keys(item.overrides).length : 0
+  const overridesCount = Object.keys(overrides).length
 
   return (
     <Popover>
@@ -85,6 +74,7 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
           />
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-80 max-h-[80vh] overflow-y-auto">
         <div className="space-y-4">
           <h3 className="font-medium text-lg">Edit {item.type} Item</h3>
@@ -95,31 +85,132 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
           <Separator />
 
           {/* Colors Section */}
-<div className="space-y-4">
-  <h4 className="font-medium">Colors</h4>
+          <div className="space-y-4">
+            <h4 className="font-medium">Colors</h4>
 
-  <div className="flex items-center justify-between">
-    <Label htmlFor="override-bg-color" className="text-sm">
-      Background Color
-    </Label>
-    <Switch
-      id="override-bg-color"
-      checked={isOverriden("backgroundColor")}
-      onCheckedChange={() => handleToggleOverride("backgroundColor")}
-    />
-  </div>
+            {(["backgroundColor", "iconColor", "labelColor"] as (keyof Overrides)[]).map((property) => (
+              <div key={property}>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor={`override-${property}`} className="text-sm capitalize">
+                    {property.replace(/([A-Z])/g, " $1")}
+                  </Label>
+                  <Switch
+                    id={`override-${property}`}
+                    checked={isOverriden(property)}
+                    onCheckedChange={() => handleToggleOverride(property)}
+                  />
+                </div>
+                {isOverriden(property) && (
+                  <ColorInput
+                    id={`item-${property}`}
+                    label=""
+                    value={String(overrides[property] || defaults[property])}
+                    onChange={(value) => handleOverrideChange(property, value)}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
 
-  {isOverriden("backgroundColor") && (
-    <ColorInput
-  id="item-bg-color"
-  label=""
-  value={item.overrides?.backgroundColor || defaults.backgroundColor}
-  onChange={(value) => handleOverrideChange("backgroundColor", value)}
-/>
+          <Separator />
 
-  )}
-</div>
+          {/* Dimensions Section */}
+          <div className="space-y-4">
+            <h4 className="font-medium">Dimensions</h4>
 
+            {([
+              { property: "backgroundHeight", min: 16, max: 64 },
+              { property: "backgroundCornerRadius", min: 0, max: 20 },
+            ] as const).map(({ property, min, max }) => (
+              <div key={property}>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor={`override-${property}`} className="text-sm capitalize">
+                    {property.replace(/([A-Z])/g, " $1")}
+                  </Label>
+                  <Switch
+                    id={`override-${property}`}
+                    checked={isOverriden(property)}
+                    onCheckedChange={() => handleToggleOverride(property)}
+                  />
+                </div>
+
+                {isOverriden(property) && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <Label htmlFor={`item-${property}`} className="text-xs">
+                        {`${property.replace(/([A-Z])/g, " $1")}: ${overrides[property] ?? defaults[property]
+                          }px`}
+                      </Label>
+                    </div>
+                    <Slider
+                      id={`item-${property}`}
+                      min={min}
+                      max={max}
+                      step={1}
+                      value={[overrides[property] ?? defaults[property]]}
+                      onValueChange={(value) => handleOverrideChange(property, value[0])}
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <Separator />
+
+          {/* Padding Sections */}
+          {[
+            {
+              title: "Padding",
+              props: ["paddingLeft", "paddingRight"] as (keyof Overrides)[],
+            },
+            {
+              title: "Icon Padding",
+              props: ["iconPaddingLeft", "iconPaddingRight"] as (keyof Overrides)[],
+            },
+            {
+              title: "Label Padding",
+              props: ["labelPaddingLeft", "labelPaddingRight"] as (keyof Overrides)[],
+            },
+          ].map(({ title, props }) => (
+            <div key={title} className="space-y-4">
+              <h4 className="font-medium">{title}</h4>
+
+              {props.map((property) => (
+                <div key={property}>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor={`override-${property}`} className="text-sm capitalize">
+                      {property.replace(/([A-Z])/g, " $1")}
+                    </Label>
+                    <Switch
+                      id={`override-${property}`}
+                      checked={isOverriden(property)}
+                      onCheckedChange={() => handleToggleOverride(property)}
+                    />
+                  </div>
+
+                  {isOverriden(property) && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <Label htmlFor={`item-${property}`} className="text-xs">
+                          {`${property.replace(/([A-Z])/g, " $1")}: ${overrides[property] ?? defaults[property]
+                            }px`}
+                        </Label>
+                      </div>
+                      <Slider
+                        id={`item-${property}`}
+                        min={0}
+                        max={32}
+                        step={1}
+                        value={[Number(overrides[property] ?? defaults[property])]}
+                        onValueChange={(value) => handleOverrideChange(property, value[0])}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </PopoverContent>
     </Popover>
