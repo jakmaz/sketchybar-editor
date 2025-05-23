@@ -1,9 +1,5 @@
-import type { Config, Item } from "@/components/sketchybar-editor";
+import type { Config, Item, Overrides } from "@/components/sketchybar-editor";
 import { getItemDefinition, getRequiredPlugins } from "./item-registry";
-
-function toSketchybarColor(hex: string): string {
-  return `0x${hex.replace(/^#/, "")}`;
-}
 
 export interface ConfigFile {
   name: string;
@@ -95,10 +91,10 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 ITEM_DIR="$CONFIG_DIR/items"
 
 # Colors
-BAR_COLOR=${toSketchybarColor(config.bar.color)}
-ITEM_BG_COLOR=${toSketchybarColor(config.defaults.backgroundColor)}
-ITEM_LABEL_COLOR=${toSketchybarColor(config.defaults.labelColor)}
-ITEM_ICON_COLOR=${toSketchybarColor(config.defaults.iconColor)}
+BAR_COLOR=${config.bar.color}
+ITEM_BG_COLOR=${config.defaults.backgroundColor}
+ITEM_LABEL_COLOR=${config.defaults.labelColor}
+ITEM_ICON_COLOR=${config.defaults.iconColor}
 
 # Bar Appearance
 bar=(
@@ -147,6 +143,23 @@ function generateItemFile(type: string, items: Item[]): string {
   let content = `#!/bin/bash
 `;
 
+  // Map Overrides property keys to sketchybar config keys
+  const overrideKeyMap: Record<keyof Overrides, string> = {
+    backgroundColor: "background.color",
+    iconColor: "icon.color",
+    labelColor: "label.color",
+    paddingLeft: "padding_left",
+    paddingRight: "padding_right",
+    iconPaddingLeft: "icon.padding_left",
+    iconPaddingRight: "icon.padding_right",
+    labelPaddingLeft: "label.padding_left",
+    labelPaddingRight: "label.padding_right",
+    backgroundCornerRadius: "background.corner_radius",
+    backgroundHeight: "background.height",
+    iconFont: "icon.font",
+    labelFont: "label.font",
+  };
+
   items.forEach((item) => {
     const itemName = `${item.type}_${item.id.split("_")[1] || "1"}`;
     const itemDef = getItemDefinition(item.type);
@@ -154,47 +167,19 @@ function generateItemFile(type: string, items: Item[]): string {
     content += `\n# ${itemName}\n`;
     content += `sketchybar --add item ${itemName} ${item.position}\n`;
 
-    // Use the item definition to generate config if available
     if (itemDef && itemDef.generateItemConfig) {
       content += itemDef.generateItemConfig(itemName);
     }
 
-    // Add overrides if they exist
     if (item.overrides) {
-      const overrides = [];
+      const overrides: string[] = [];
 
-      if (item.overrides.backgroundColor) {
-        overrides.push(`background.color=${toSketchybarColor(item.overrides.backgroundColor)}`);
-      }
-      if (item.overrides.iconColor) {
-        overrides.push(`icon.color=${toSketchybarColor(item.overrides.iconColor)}`);
-      }
-      if (item.overrides.labelColor) {
-        overrides.push(`label.color=${toSketchybarColor(item.overrides.labelColor)}`);
-      }
-      if (item.overrides.paddingLeft !== undefined) {
-        overrides.push(`padding_left=${item.overrides.paddingLeft}`);
-      }
-      if (item.overrides.paddingRight !== undefined) {
-        overrides.push(`padding_right=${item.overrides.paddingRight}`);
-      }
-      if (item.overrides.iconPaddingLeft !== undefined) {
-        overrides.push(`icon.padding_left=${item.overrides.iconPaddingLeft}`);
-      }
-      if (item.overrides.iconPaddingRight !== undefined) {
-        overrides.push(`icon.padding_right=${item.overrides.iconPaddingRight}`);
-      }
-      if (item.overrides.labelPaddingLeft !== undefined) {
-        overrides.push(`label.padding_left=${item.overrides.labelPaddingLeft}`);
-      }
-      if (item.overrides.labelPaddingRight !== undefined) {
-        overrides.push(`label.padding_right=${item.overrides.labelPaddingRight}`);
-      }
-      if (item.overrides.backgroundCornerRadius !== undefined) {
-        overrides.push(`background.corner_radius=${item.overrides.backgroundCornerRadius}`);
-      }
-      if (item.overrides.backgroundHeight !== undefined) {
-        overrides.push(`background.height=${item.overrides.backgroundHeight}`);
+      for (const [key, configKey] of Object.entries(overrideKeyMap) as [keyof Overrides, string][]) {
+        const val = item.overrides[key];
+        // Include values if defined and not null or empty string
+        if (val !== undefined && val !== null && val !== "") {
+          overrides.push(`${configKey}=${val}`);
+        }
       }
 
       if (overrides.length > 0) {

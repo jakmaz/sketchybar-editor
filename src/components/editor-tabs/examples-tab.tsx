@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/lib/config-context";
+import { argbToRgba } from "@/lib/convert-color";
 
 export function ExamplesTab() {
   const { setConfig } = useConfig()
@@ -109,8 +110,8 @@ export function ExamplesTab() {
           onClick={() => applyTheme(theme)}
           className="w-full"
           style={{
-            backgroundColor: theme.barColor,
-            color: theme.iconColor,
+            backgroundColor: argbToRgba(theme.barColor),
+            color: argbToRgba(theme.iconColor),
           }}
         >
           {theme.name}
