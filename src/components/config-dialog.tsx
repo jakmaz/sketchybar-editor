@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FileExplorer } from "@/components/file-explorer"
 import { Textarea } from "@/components/ui/textarea"
+import { saveAs } from "file-saver"
 
 import {
   Dialog,
@@ -11,11 +12,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "./ui/button"
-import { Download, Clipboard, Import } from "lucide-react"
+import { Download, Clipboard, Import, FileCode, FolderCode } from "lucide-react"
 import { useState } from "react"
 import { ConfigFile, generateConfigFiles } from "@/lib/generate-config"
 import { useConfig } from "@/lib/config-context"
 import { toast } from "sonner"
+import JSZip from "jszip"
 
 
 export function ConfigDialog() {
@@ -51,7 +53,7 @@ export function ConfigDialog() {
     setSelectedFile(file)
   }
 
-  const handleDownload = () => {
+  const handleFileDownload = () => {
     if (!selectedFile) return
 
     // Create a blob and download it
@@ -69,6 +71,38 @@ export function ConfigDialog() {
       description: `Your file has been downloaded.`,
     })
   }
+
+  const handleZipDownload = async () => {
+    const zip = new JSZip()
+
+    const addFilesToZip = (files: ConfigFile[], basePath = "") => {
+      for (const file of files) {
+        const filePath = basePath ? `${basePath}/${file.name}` : file.name
+
+        if (file.type === "file") {
+          // Mark as executable if it's in plugins/ or is .sketchybarrc
+          const isExecutable =
+            filePath === ".sketchybarrc" || filePath.startsWith("plugins/")
+
+          zip.file(filePath, file.content, {
+            unixPermissions: isExecutable ? "755" : undefined,
+          })
+        } else if (file.type === "directory" && file.children) {
+          addFilesToZip(file.children, filePath)
+        }
+      }
+    }
+
+    addFilesToZip(configFiles)
+
+    const blob = await zip.generateAsync({ type: "blob" })
+    saveAs(blob, "sketchybar.zip")
+
+    toast("ZIP file downloaded", {
+      description: `The entire configuration has downloaded`,
+    })
+  }
+
 
   const handleCopyToClipboard = () => {
     if (activeTab === "files" && selectedFile) {
@@ -162,9 +196,13 @@ export function ConfigDialog() {
                 <Clipboard className="mr-2 h-4 w-4" />
                 Copy to Clipboard
               </Button>
-              <Button onClick={handleDownload} disabled={!selectedFile}>
-                <Download className="mr-2 h-4 w-4" />
+              <Button variant="outline" onClick={handleFileDownload} disabled={!selectedFile}>
+                <FileCode className="mr-2 h-4 w-4" />
                 Download File
+              </Button>
+              <Button onClick={handleZipDownload} disabled={!selectedFile}>
+                <FolderCode className="mr-2 h-4 w-4" />
+                Download Zip
               </Button>
             </div>
           </TabsContent>
