@@ -6,32 +6,24 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { ColorInput } from "../color-input"
 import { useConfig } from "@/lib/config-context"
+import { BarSettings } from "../sketchybar-editor"
 
 export function BarTab() {
   const { config, setConfig } = useConfig()
 
-  const handleColorChange = (color: string) => {
-    setConfig((prev) => ({ ...prev, bar: { ...prev.bar, color } }));
-  };
-
-  const handlePositionChange = (position: "top" | "bottom") => {
-    setConfig((prev) => ({ ...prev, bar: { ...prev.bar, position } }));
-  };
-
-  const handleHeightChange = (value: number[]) => {
-    setConfig((prev) => ({ ...prev, bar: { ...prev.bar, height: value[0] } }));
-  };
-
-  const handlePaddingChange = (value: number[]) => {
-    setConfig((prev) => ({ ...prev, bar: { ...prev.bar, padding: value[0] } }));
-  };
-
-  const handleCornerRadiusChange = (value: number[]) => {
+  const handleBarChange = <K extends keyof BarSettings>(
+    key: K,
+    value: BarSettings[K]
+  ) => {
     setConfig((prev) => ({
       ...prev,
-      bar: { ...prev.bar, cornerRadius: value[0] },
+      bar: {
+        ...prev.bar,
+        [key]: value,
+      },
     }));
   };
+
 
   return (
     <div className="space-y-6">
@@ -39,14 +31,14 @@ export function BarTab() {
         id="background-color"
         label="Background Color"
         value={config.bar.color}
-        onChange={handleColorChange}
+        onChange={(val) => handleBarChange("color", val)}
       />
 
       <div className="space-y-2">
         <Label>Position</Label>
         <RadioGroup
           value={config.bar.position}
-          onValueChange={(value) => handlePositionChange(value as "top" | "bottom")}
+          onValueChange={(val) => handleBarChange("position", val as "top" | "bottom")}
           className="flex gap-4"
         >
           <div className="flex items-center space-x-2">
@@ -64,7 +56,10 @@ export function BarTab() {
         <div className="flex justify-between">
           <Label htmlFor="bar-height">Height: {config.bar.height}px</Label>
         </div>
-        <Slider id="bar-height" min={16} max={64} step={1} value={[config.bar.height]} onValueChange={handleHeightChange} />
+        <Slider id="bar-height" min={16} max={64} step={1}
+          value={[config.bar.height]}
+          onValueChange={(val) => handleBarChange("height", val[0])}
+        />
       </div>
 
       <div className="space-y-2">
@@ -77,7 +72,7 @@ export function BarTab() {
           max={32}
           step={1}
           value={[config.bar.padding]}
-          onValueChange={handlePaddingChange}
+          onValueChange={(val) => handleBarChange("padding", val[0])}
         />
       </div>
 
@@ -91,7 +86,7 @@ export function BarTab() {
           max={20}
           step={1}
           value={[config.bar.cornerRadius]}
-          onValueChange={handleCornerRadiusChange}
+          onValueChange={(val) => handleBarChange("cornerRadius", val[0])}
         />
       </div>
     </div>

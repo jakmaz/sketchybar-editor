@@ -5,14 +5,14 @@ import { Slider } from "@/components/ui/slider"
 
 import { ColorInput } from "@/components/color-input"
 import { useConfig } from "@/lib/config-context"
-import { Config } from "@/components/sketchybar-editor"
+import { DefaultsSettings } from "@/components/sketchybar-editor"
 
 export function DefaultsTab() {
   const { config, setConfig } = useConfig()
 
-  const handleDefaultChange = <K extends keyof Config["defaults"]>(
+  const handleDefaultChange = <K extends keyof DefaultsSettings>(
     key: K,
-    value: Config["defaults"][K]
+    value: DefaultsSettings[K]
   ) => {
     setConfig((prev) => ({
       ...prev,
