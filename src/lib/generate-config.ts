@@ -1,20 +1,20 @@
-import type { Config, Item } from "@/components/sketchybar-editor"
-import { getItemDefinition, getRequiredPlugins } from "./item-registry"
+import type { Config, Item } from "@/components/sketchybar-editor";
+import { getItemDefinition, getRequiredPlugins } from "./item-registry";
 
 function toSketchybarColor(hex: string): string {
-  return `0xff${hex.replace(/^#/, "")}`
+  return `0x${hex.replace(/^#/, "")}`;
 }
 
 export interface ConfigFile {
-  name: string
-  path: string
-  content: string
-  type: "file" | "directory"
-  children?: ConfigFile[]
+  name: string;
+  path: string;
+  content: string;
+  type: "file" | "directory";
+  children?: ConfigFile[];
 }
 
 export function generateConfigFiles(config: Config): ConfigFile[] {
-  const files: ConfigFile[] = []
+  const files: ConfigFile[] = [];
 
   // Main .sketchybarrc file
   files.push({
@@ -22,7 +22,7 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
     path: ".sketchybarrc",
     content: generateMainConfig(config),
     type: "file",
-  })
+  });
 
   // Create items directory
   const itemsDir: ConfigFile = {
@@ -31,7 +31,7 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
     content: "",
     type: "directory",
     children: [],
-  }
+  };
 
   // Create plugins directory
   const pluginsDir: ConfigFile = {
@@ -40,19 +40,19 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
     content: "",
     type: "directory",
     children: [],
-  }
+  };
 
   // Group items by type
   const itemsByType = config.items.reduce(
     (acc, item) => {
       if (!acc[item.type]) {
-        acc[item.type] = []
+        acc[item.type] = [];
       }
-      acc[item.type].push(item)
-      return acc
+      acc[item.type].push(item);
+      return acc;
     },
     {} as Record<string, typeof config.items>,
-  )
+  );
 
   // Generate item files
   for (const [type, items] of Object.entries(itemsByType)) {
@@ -61,30 +61,30 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
       path: `items/${type}.sh`,
       content: generateItemFile(type, items),
       type: "file",
-    }
-    itemsDir.children?.push(itemFile)
+    };
+    itemsDir.children?.push(itemFile);
   }
 
   // Generate plugin files
-  const requiredPlugins = getRequiredPlugins(config.items)
+  const requiredPlugins = getRequiredPlugins(config.items);
 
   for (const type of requiredPlugins) {
-    const itemDef = getItemDefinition(type)
+    const itemDef = getItemDefinition(type);
     if (itemDef && itemDef.pluginScript) {
       const pluginFile: ConfigFile = {
         name: `${type}.sh`,
         path: `plugins/${type}.sh`,
         content: itemDef.pluginScript,
         type: "file",
-      }
-      pluginsDir.children?.push(pluginFile)
+      };
+      pluginsDir.children?.push(pluginFile);
     }
   }
 
-  files.push(itemsDir)
-  files.push(pluginsDir)
+  files.push(itemsDir);
+  files.push(pluginsDir);
 
-  return files
+  return files;
 }
 
 function generateMainConfig(config: Config): string {
@@ -140,68 +140,68 @@ done
 sketchybar --update
 
 # Generated with Sketchybar Editor #
-`
+`;
 }
 
 function generateItemFile(type: string, items: Item[]): string {
   let content = `#!/bin/bash
-`
+`;
 
   items.forEach((item) => {
-    const itemName = `${item.type}_${item.id.split("_")[1] || "1"}`
-    const itemDef = getItemDefinition(item.type)
+    const itemName = `${item.type}_${item.id.split("_")[1] || "1"}`;
+    const itemDef = getItemDefinition(item.type);
 
-    content += `\n# ${itemName}\n`
-    content += `sketchybar --add item ${itemName} ${item.position}\n`
+    content += `\n# ${itemName}\n`;
+    content += `sketchybar --add item ${itemName} ${item.position}\n`;
 
     // Use the item definition to generate config if available
     if (itemDef && itemDef.generateItemConfig) {
-      content += itemDef.generateItemConfig(itemName)
+      content += itemDef.generateItemConfig(itemName);
     }
 
     // Add overrides if they exist
     if (item.overrides) {
-      const overrides = []
+      const overrides = [];
 
       if (item.overrides.backgroundColor) {
-        overrides.push(`background.color=${toSketchybarColor(item.overrides.backgroundColor)}`)
+        overrides.push(`background.color=${toSketchybarColor(item.overrides.backgroundColor)}`);
       }
       if (item.overrides.iconColor) {
-        overrides.push(`icon.color=${toSketchybarColor(item.overrides.iconColor)}`)
+        overrides.push(`icon.color=${toSketchybarColor(item.overrides.iconColor)}`);
       }
       if (item.overrides.labelColor) {
-        overrides.push(`label.color=${toSketchybarColor(item.overrides.labelColor)}`)
+        overrides.push(`label.color=${toSketchybarColor(item.overrides.labelColor)}`);
       }
       if (item.overrides.paddingLeft !== undefined) {
-        overrides.push(`padding_left=${item.overrides.paddingLeft}`)
+        overrides.push(`padding_left=${item.overrides.paddingLeft}`);
       }
       if (item.overrides.paddingRight !== undefined) {
-        overrides.push(`padding_right=${item.overrides.paddingRight}`)
+        overrides.push(`padding_right=${item.overrides.paddingRight}`);
       }
       if (item.overrides.iconPaddingLeft !== undefined) {
-        overrides.push(`icon.padding_left=${item.overrides.iconPaddingLeft}`)
+        overrides.push(`icon.padding_left=${item.overrides.iconPaddingLeft}`);
       }
       if (item.overrides.iconPaddingRight !== undefined) {
-        overrides.push(`icon.padding_right=${item.overrides.iconPaddingRight}`)
+        overrides.push(`icon.padding_right=${item.overrides.iconPaddingRight}`);
       }
       if (item.overrides.labelPaddingLeft !== undefined) {
-        overrides.push(`label.padding_left=${item.overrides.labelPaddingLeft}`)
+        overrides.push(`label.padding_left=${item.overrides.labelPaddingLeft}`);
       }
       if (item.overrides.labelPaddingRight !== undefined) {
-        overrides.push(`label.padding_right=${item.overrides.labelPaddingRight}`)
+        overrides.push(`label.padding_right=${item.overrides.labelPaddingRight}`);
       }
       if (item.overrides.backgroundCornerRadius !== undefined) {
-        overrides.push(`background.corner_radius=${item.overrides.backgroundCornerRadius}`)
+        overrides.push(`background.corner_radius=${item.overrides.backgroundCornerRadius}`);
       }
       if (item.overrides.backgroundHeight !== undefined) {
-        overrides.push(`background.height=${item.overrides.backgroundHeight}`)
+        overrides.push(`background.height=${item.overrides.backgroundHeight}`);
       }
 
       if (overrides.length > 0) {
-        content += `sketchybar --set ${itemName} ${overrides.join(" ")}\n`
+        content += `sketchybar --set ${itemName} ${overrides.join(" ")}\n`;
       }
     }
-  })
+  });
 
-  return content
+  return content;
 }

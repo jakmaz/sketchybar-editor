@@ -16,16 +16,16 @@ const ConfigContext = createContext<ConfigContextType | undefined>(undefined)
 // Default configuration
 const defaultConfig: Config = {
 	bar: {
-		color: "#121212",
+		color: "0xff121212",
 		position: "top",
 		height: 40,
 		padding: 8,
 		cornerRadius: 8,
 	},
 	defaults: {
-		backgroundColor: "#3f3f3f",
-		iconColor: "#ffffff",
-		labelColor: "#ffffff",
+		backgroundColor: "0xff3f3f3f",
+		iconColor: "0xffffffff",
+		labelColor: "0xffffffff",
 		paddingLeft: 5,
 		paddingRight: 5,
 		iconFont: "Hack Nerd Font:Bold:17.0",
