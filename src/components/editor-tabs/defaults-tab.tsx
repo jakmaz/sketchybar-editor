@@ -96,7 +96,6 @@ export function DefaultsTab() {
           label="Background Color"
           value={config.defaults.backgroundColor}
           onChange={handleBackgroundColorChange}
-          placeholder="0xff262626"
         />
 
         <ColorInput
@@ -104,7 +103,6 @@ export function DefaultsTab() {
           label="Icon Color"
           value={config.defaults.iconColor}
           onChange={handleIconColorChange}
-          placeholder="0xffffffff"
         />
 
         <ColorInput
@@ -112,7 +110,6 @@ export function DefaultsTab() {
           label="Label Color"
           value={config.defaults.labelColor}
           onChange={handleLabelColorChange}
-          placeholder="0xffffffff"
         />
 
         <div className="space-y-2">

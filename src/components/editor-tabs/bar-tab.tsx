@@ -40,7 +40,6 @@ export function BarTab() {
         label="Background Color"
         value={config.bar.color}
         onChange={handleColorChange}
-        placeholder="0xff262626"
       />
 
       <div className="space-y-2">
