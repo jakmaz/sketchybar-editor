@@ -225,8 +225,22 @@ export default function DraggableCardsList() {
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
-      const updatedItems = arrayMove(items, oldIndex, newIndex);
-
+      
+      // Check if this move would place dividers next to each other
+      const updatedItems = arrayMove([...items], oldIndex, newIndex);
+      
+      // Prevent dividers from being adjacent
+      const hasMergedDividers = updatedItems.some((item, index) => {
+        if (index === 0) return false;
+        return item.dragType === "divider" && updatedItems[index - 1].dragType === "divider";
+      });
+      
+      // If dividers would merge, don't allow the move
+      if (hasMergedDividers) {
+        setActiveItem(null);
+        return;
+      }
+      
       setItems(updatedItems);
 
       // Determine divider indices.
