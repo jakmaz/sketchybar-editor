@@ -10,82 +10,18 @@ import { Config } from "@/components/sketchybar-editor"
 export function DefaultsTab() {
   const { config, setConfig } = useConfig()
 
-  const handleBackgroundColorChange = (backgroundColor: string) => {
-    setConfig((prev: Config) => ({
-      ...prev,
-      defaults: { ...prev.defaults, backgroundColor },
-    }))
-  }
-
-  const handleIconColorChange = (iconColor: string) => {
+  const handleDefaultChange = <K extends keyof Config["defaults"]>(
+    key: K,
+    value: Config["defaults"][K]
+  ) => {
     setConfig((prev) => ({
       ...prev,
-      defaults: { ...prev.defaults, iconColor },
-    }))
-  }
-
-  const handleLabelColorChange = (labelColor: string) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, labelColor },
-    }))
-  }
-
-  const handlePaddingLeftChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, paddingLeft: value[0] },
-    }))
-  }
-
-  const handlePaddingRightChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, paddingRight: value[0] },
-    }))
-  }
-
-  const handleIconPaddingLeftChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, iconPaddingLeft: value[0] },
-    }))
-  }
-
-  const handleIconPaddingRightChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, iconPaddingRight: value[0] },
-    }))
-  }
-
-  const handleLabelPaddingLeftChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, labelPaddingLeft: value[0] },
-    }))
-  }
-
-  const handleLabelPaddingRightChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, labelPaddingRight: value[0] },
-    }))
-  }
-
-  const handleBackgroundCornerRadiusChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, backgroundCornerRadius: value[0] },
-    }))
-  }
-
-  const handleBackgroundHeightChange = (value: number[]) => {
-    setConfig((prev) => ({
-      ...prev,
-      defaults: { ...prev.defaults, backgroundHeight: value[0] },
-    }))
-  }
+      defaults: {
+        ...prev.defaults,
+        [key]: value,
+      },
+    }));
+  };
 
   return (
     <div className="flex flex-col justify-around space-y-6">
@@ -94,21 +30,21 @@ export function DefaultsTab() {
           id="background-color"
           label="Background Color"
           value={config.defaults.backgroundColor}
-          onChange={handleBackgroundColorChange}
+          onChange={(val) => handleDefaultChange("backgroundColor", val)}
         />
 
         <ColorInput
           id="icon-color"
           label="Icon Color"
           value={config.defaults.iconColor}
-          onChange={handleIconColorChange}
+          onChange={(val) => handleDefaultChange("iconColor", val)}
         />
 
         <ColorInput
           id="label-color"
           label="Label Color"
           value={config.defaults.labelColor}
-          onChange={handleLabelColorChange}
+          onChange={(val) => handleDefaultChange("labelColor", val)}
         />
       </div>
       <div className="space-y-6">
@@ -123,7 +59,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.paddingLeft]}
-            onValueChange={handlePaddingLeftChange}
+            onValueChange={(val) => handleDefaultChange("paddingLeft", val[0])}
           />
         </div>
 
@@ -137,7 +73,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.paddingRight]}
-            onValueChange={handlePaddingRightChange}
+            onValueChange={(val) => handleDefaultChange("paddingRight", val[0])}
           />
         </div>
 
@@ -151,7 +87,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.iconPaddingLeft]}
-            onValueChange={handleIconPaddingLeftChange}
+            onValueChange={(val) => handleDefaultChange("iconPaddingLeft", val[0])}
           />
         </div>
 
@@ -165,7 +101,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.iconPaddingRight]}
-            onValueChange={handleIconPaddingRightChange}
+            onValueChange={(val) => handleDefaultChange("iconPaddingRight", val[0])}
           />
         </div>
 
@@ -179,7 +115,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.labelPaddingLeft]}
-            onValueChange={handleLabelPaddingLeftChange}
+            onValueChange={(val) => handleDefaultChange("labelPaddingLeft", val[0])}
           />
         </div>
 
@@ -193,7 +129,7 @@ export function DefaultsTab() {
             max={32}
             step={1}
             value={[config.defaults.labelPaddingRight]}
-            onValueChange={handleLabelPaddingRightChange}
+            onValueChange={(val) => handleDefaultChange("labelPaddingRight", val[0])}
           />
         </div>
 
@@ -209,7 +145,7 @@ export function DefaultsTab() {
             max={20}
             step={1}
             value={[config.defaults.backgroundCornerRadius]}
-            onValueChange={handleBackgroundCornerRadiusChange}
+            onValueChange={(val) => handleDefaultChange("backgroundCornerRadius", val[0])}
           />
         </div>
 
@@ -223,7 +159,7 @@ export function DefaultsTab() {
             max={64}
             step={1}
             value={[config.defaults.backgroundHeight]}
-            onValueChange={handleBackgroundHeightChange}
+            onValueChange={(val) => handleDefaultChange("backgroundHeight", val[0])}
           />
         </div>
       </div>
