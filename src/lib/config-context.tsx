@@ -51,7 +51,7 @@ const defaultConfig: Config = {
 			type: "media",
 			position: "center",
 			overrides: {
-				backgroundColor: "#121212",
+				backgroundColor: "0xff121212",
 			},
 		},
 		{
