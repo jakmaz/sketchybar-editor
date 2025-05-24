@@ -12,7 +12,7 @@ export const appleItemDefinition: ItemDefinition = {
   description: 'Shows the Apple logo',
   tags: ['logo', 'system'],
   component: AppleItem,
-  defaultIcon: '􀣺',
   requiresPlugin: false,
-  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=\n`
+  defaultIcon: "󰀵",
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵\n`
 }

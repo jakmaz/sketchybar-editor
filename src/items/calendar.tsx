@@ -29,6 +29,7 @@ export const calendarItemDefinition: ItemDefinition = {
   component: CalendarItem,
   updateFrequency: 60,
   requiresPlugin: true,
+  defaultIcon: "󰃭",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=60 script="$PLUGIN_DIR/calendar.sh"\n`,
   pluginScript: `#!/bin/bash
 
