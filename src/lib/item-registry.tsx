@@ -8,8 +8,8 @@ export interface ItemDefinition {
   type: string;
   displayName: string;
   description: string;
-  tags?: string[];
-  author?: string;
+  authorGithubUrl: string;
+  tags: string[];
 
   // Component
   component: React.ComponentType<SketchybarItemComponentProps>;

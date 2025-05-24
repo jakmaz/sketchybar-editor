@@ -10,6 +10,7 @@ export const appleItemDefinition: ItemDefinition = {
   type: 'apple',
   displayName: 'Apple Logo',
   description: 'Shows the Apple logo',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['logo', 'system'],
   component: AppleItem,
   requiresPlugin: false,

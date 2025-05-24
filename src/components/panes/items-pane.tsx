@@ -6,9 +6,10 @@ import { type ItemDefinition } from "@/lib/item-registry"
 import DraggableCardsList from "../draggable-cards"
 import React, { useCallback, useState } from "react"
 import type { ItemPosition } from "@/components/sketchybar-editor"
-import { User, Tag } from "lucide-react"
+import { Tag } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { AddItemsSection } from "../add-items-section"
+import { Avatar, AvatarImage } from "../ui/avatar"
 
 export function ItemsPane() {
   const { setConfig } = useConfig()
@@ -54,7 +55,7 @@ export function ItemsPane() {
             <>
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-3">
-                  <span className="text-2xl font-hack-mono">{selectedItem.defaultIcon || ''}</span>
+                  <span className="text-3xl font-hack-mono">{selectedItem.defaultIcon || ''}</span>
                   {selectedItem.displayName}
                 </DialogTitle>
                 <DialogDescription className="text-base">
@@ -62,21 +63,26 @@ export function ItemsPane() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="space-y-4">
-                {selectedItem.author && (
-                  <div className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    <span className="text-sm font-medium">Author:</span>
-                    <span className="text-sm">{selectedItem.author}</span>
-                  </div>
-                )}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Avatar>
+                    <AvatarImage src={selectedItem.authorGithubUrl + ".png"} alt="@shadcn" />
+                  </Avatar>
+                  <span className="text-sm font-medium">Author:</span>
+                  <a
+                    href={selectedItem.authorGithubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm hover:underline"
+                  >
+                    {selectedItem.authorGithubUrl.split('/').pop()}
+                  </a>
+                </div>
 
-                {selectedItem.tags && selectedItem.tags.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Tag className="h-4 w-4" />
-                      <span className="text-sm font-medium">Tags:</span>
-                    </div>
+                <div>
+                  <div className="flex flex-row items-center gap-2 mb-2">
+                    <Tag className="h-4 w-4 mx-2" />
+                    <span className="text-sm font-medium">Tags:</span>
                     <div className="flex flex-wrap gap-1">
                       {selectedItem.tags.map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs">
@@ -85,7 +91,7 @@ export function ItemsPane() {
                       ))}
                     </div>
                   </div>
-                )}
+                </div>
 
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   {selectedItem.updateFrequency && (

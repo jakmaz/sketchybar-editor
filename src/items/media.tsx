@@ -10,6 +10,7 @@ export const mediaItemDefinition: ItemDefinition = {
   type: 'media',
   displayName: 'Media',
   description: 'Shows currently playing media',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['media', 'music'],
   component: MediaItem,
   defaultIcon: '󰝚',

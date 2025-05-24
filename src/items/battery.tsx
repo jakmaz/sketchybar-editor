@@ -10,6 +10,7 @@ export const batteryItemDefinition: ItemDefinition = {
   type: 'battery',
   displayName: 'Battery',
   description: 'Shows battery status',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['system', 'power'],
   component: BatteryItem,
   updateFrequency: 120,

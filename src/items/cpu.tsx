@@ -30,6 +30,7 @@ export const cpuItemDefinition: ItemDefinition = {
   type: 'cpu',
   displayName: 'CPU',
   description: 'Shows CPU usage',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['system', 'performance'],
   component: CpuItem,
   updateFrequency: 2,

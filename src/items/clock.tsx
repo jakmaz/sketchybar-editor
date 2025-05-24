@@ -23,6 +23,7 @@ export const clockItemDefinition: ItemDefinition = {
   type: 'clock',
   displayName: 'Clock',
   description: 'Shows the current time',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['time'],
   component: ClockItem,
   updateFrequency: 1,

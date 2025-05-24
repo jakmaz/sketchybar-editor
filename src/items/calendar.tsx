@@ -25,6 +25,7 @@ export const calendarItemDefinition: ItemDefinition = {
   type: 'calendar',
   displayName: 'Calendar',
   description: 'Shows the current date',
+  authorGithubUrl: 'https://github.com/jakmaz',
   tags: ['time', 'date'],
   component: CalendarItem,
   updateFrequency: 60,
