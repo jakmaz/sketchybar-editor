@@ -1,5 +1,5 @@
 import React from "react";
-import type { SketchybarItemComponentProps } from "@/components/sketchybar-items/item-interface";
+import type { SketchybarItemComponentProps } from "@/lib/item-interface";
 import type { Item } from "@/components/sketchybar-editor";
 import * as items from "./items-imports";
 

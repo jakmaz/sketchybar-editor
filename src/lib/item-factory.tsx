@@ -1,4 +1,4 @@
-import type { Item } from "../sketchybar-editor"
+import type { Item } from "../components/sketchybar-editor"
 import { mergeItemWithDefaults } from "@/lib/utils"
 import { useConfig } from "@/lib/config-context"
 import { getItemDefinition } from "@/lib/item-registry"

@@ -1,4 +1,4 @@
-import { SketchybarItemComponentProps } from '@/components/sketchybar-items/item-interface';
+import { SketchybarItemComponentProps } from '@/lib/item-interface';
 import { ItemDefinition } from '@/lib/item-registry';
 import { useEffect, useState } from 'react';
 import { BaseItem } from './base-item';

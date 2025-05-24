@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 
 import { useConfig } from "@/lib/config-context"
 import { Config } from "../sketchybar-editor"
-import { ItemFactory } from "../sketchybar-items/item-factory"
+import { ItemFactory } from "../../lib/item-factory"
 import { argbToRgba } from "@/lib/convert-color"
 
 
