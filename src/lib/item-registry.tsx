@@ -1,150 +1,52 @@
 import React from "react"
-import { AppleItem } from "@/components/sketchybar-items/apple-item"
-import { ClockItem } from "@/components/sketchybar-items/clock-item"
-import { BatteryItem } from "@/components/sketchybar-items/battery-item"
-import { CalendarItem } from "@/components/sketchybar-items/calendar-item"
-import { CpuItem } from "@/components/sketchybar-items/cpu-item"
-import { MediaItem } from "@/components/sketchybar-items/media-item"
 import type { SketchybarItemComponentProps } from "@/components/sketchybar-items/item-interface"
 import type { Item } from "@/components/sketchybar-editor"
+import * as items from './items-imports'
 
 export interface ItemDefinition {
-  // Basic metadata
+  // Metadata
   type: string
   displayName: string
-  description?: string
+  description: string
+  tags?: string[]
+  author?: string
 
-  // Component to render in the preview
+  // Component
   component: React.ComponentType<SketchybarItemComponentProps>
 
-  // Configuration for generating sketchybar config
+  // Configuration
   defaultIcon?: string
   defaultLabel?: string
   updateFrequency?: number
-  requiresPlugin?: boolean
+  requiresPlugin: boolean
 
-  // Plugin generation info
+  // Plugin info
   pluginScript?: string
 
-  // Item-specific configuration
-  generateItemConfig?: (itemName: string) => string
+  // Validation
+  validateConfig?: (config: any) => boolean
+
+  // Generation
+  generateItemConfig: (itemName: string) => string
 }
 
-// The registry of all available item types
-const itemRegistry: Record<string, ItemDefinition> = {
-  apple: {
-    type: "apple",
-    displayName: "Apple Logo",
-    description: "Shows the Apple logo",
-    component: AppleItem,
-    defaultIcon: "􀣺",
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=\n`,
-  },
+const itemRegistry: Record<string, ItemDefinition> = {}
 
-  clock: {
-    type: "clock",
-    displayName: "Clock",
-    description: "Shows the current time",
-    component: ClockItem,
-    updateFrequency: 1,
-    requiresPlugin: true,
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=1 script="$PLUGIN_DIR/clock.sh"\n`,
-    pluginScript: `#!/bin/bash
 
-TIME=$(date +"%H:%M")
-sketchybar --set "$NAME" label="$TIME"
-`,
-  },
+for (const def of Object.values(items)) {
+  if (validateItemDefinition(def)) {
+    itemRegistry[def.type] = def
+  }
+}
 
-  battery: {
-    type: "battery",
-    displayName: "Battery",
-    description: "Shows battery status",
-    component: BatteryItem,
-    updateFrequency: 120,
-    requiresPlugin: true,
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=120 script="$PLUGIN_DIR/battery.sh"\n`,
-    pluginScript: `#!/bin/bash
-
-PERCENTAGE=$(pmset -g batt | grep -Eo "\\d+%" | cut -d% -f1)
-CHARGING=$(pmset -g batt | grep 'AC Power')
-
-if [ $PERCENTAGE = "" ]; then
-  exit 0
-fi
-
-case {PERCENTAGE} in
-  9[0-9]|100) ICON=""
-    ;;
-  [6-8][0-9]) ICON=""
-    ;;
-  [3-5][0-9]) ICON=""
-    ;;
-  [1-2][0-9]) ICON=""
-    ;;
-  *) ICON=""
-    ;;
-esac
-
-if [[ $CHARGING != "" ]]; then
-  ICON=""
-fi
-
-sketchybar --set $NAME icon="$ICON" label="{PERCENTAGE}%"
-`,
-  },
-
-  calendar: {
-    type: "calendar",
-    displayName: "Calendar",
-    description: "Shows the current date",
-    component: CalendarItem,
-    updateFrequency: 60,
-    requiresPlugin: true,
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=60 script="$PLUGIN_DIR/calendar.sh"\n`,
-    pluginScript: `#!/bin/bash
-
-DATE=$(date +"%a %b %d")
-sketchybar --set "$NAME" label="$DATE"
-`,
-  },
-
-  cpu: {
-    type: "cpu",
-    displayName: "CPU",
-    description: "Shows CPU usage",
-    component: CpuItem,
-    updateFrequency: 2,
-    requiresPlugin: true,
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
-    pluginScript: `#!/bin/bash
-
-CPU=$(top -l 2 | grep -E "^CPU" | tail -1 | awk '{ print $3 + $5 }')
-CPU_PERCENT=$(printf "%.0f" $CPU)
-
-sketchybar --set $NAME label="{CPU_PERCENT}%"
-`,
-  },
-
-  media: {
-    type: "media",
-    displayName: "Media",
-    description: "Shows currently playing media",
-    component: MediaItem,
-    defaultIcon: "􀑪",
-    requiresPlugin: true,
-    generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=􀑪 script="$PLUGIN_DIR/media.sh"\n`,
-    pluginScript: `#!/bin/bash
-
-STATE="$(echo "$INFO" | jq -r '.state')"
-if [ "$STATE" = "playing" ]; then
-  MEDIA="$(echo "$INFO" | jq -r '.title + " - " + .artist')"
-  sketchybar --set $NAME label="$MEDIA" drawing=on
-else
-  sketchybar --set $NAME drawing=off
-fi
-`,
-  },
+function validateItemDefinition(def: any): def is ItemDefinition {
+  return (
+    typeof def.type === 'string' &&
+    typeof def.displayName === 'string' &&
+    typeof def.component === 'function' &&
+    typeof def.generateItemConfig === 'function' &&
+    typeof def.requiresPlugin === 'boolean'
+  )
 }
 
 // Helper functions to work with the registry
@@ -165,6 +67,19 @@ export function getRequiredPlugins(items: Item[]): string[] {
   return Object.values(itemRegistry)
     .filter(def => uniqueTypes.has(def.type) && def.requiresPlugin && def.pluginScript)
     .map(def => def.type)
+}
+
+export function getItemsByTag(tag: string): ItemDefinition[] {
+  return Object.values(itemRegistry).filter(item => item.tags?.includes(tag))
+}
+
+export function searchItems(query: string): ItemDefinition[] {
+  const lowerQuery = query.toLowerCase()
+  return Object.values(itemRegistry).filter(item =>
+    item.displayName.toLowerCase().includes(lowerQuery) ||
+    item.description.toLowerCase().includes(lowerQuery) ||
+    item.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
+  )
 }
 
 export default itemRegistry

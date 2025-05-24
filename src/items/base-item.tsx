@@ -1,5 +1,5 @@
+import { DefaultsSettings } from "@/components/sketchybar-editor";
 import { argbToRgba } from "@/lib/convert-color";
-import { DefaultsSettings } from "../sketchybar-editor";
 import React from "react";
 
 
