@@ -2,7 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Info } from "lucide-react"
+import { Info, MessageSquarePlus, Star } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function InfoDialog() {
@@ -104,17 +104,20 @@ export function InfoDialog() {
           </TabsContent>
         </Tabs>
 
-        <div className="text-center text-muted-foreground space-y-1">
-          <div>
-            <a 
-              href="https://roadwiseapp.com/app/sketchybar-editor" 
-              target="_blank" 
+        <div className="mt-4 flex justify-center">
+          <Button
+            variant="outline"
+            asChild
+            className="w-full"
+          >
+            <a
+              href="https://roadwiseapp.com/app/sketchybar-editor"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline"
             >
-              Suggest changes and see planned features here!
+              Suggest features and provide feedback here!
             </a>
-          </div>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
