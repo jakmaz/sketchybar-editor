@@ -2,36 +2,71 @@
 
 ## Description
 
-The Sketchybar Editor is a user-friendly, web-based tool designed to simplify the creation of basic Sketchybar configurations.  It provides a visual interface to customize your status bar, making it easier for both new and experienced users to generate `.sketchybarrc` files without needing to write code directly. This editor allows you to quickly adjust and preview common settings, streamlining the process of setting up your Sketchybar.
+A web-based tool for creating Sketchybar configurations visually. This editor provides an intuitive interface to customize your macOS status
+bar without writing code directly.
 
 ## Features
 
-*   **Visual Configuration:** Easily adjust Sketchybar settings using sliders, color pickers, and dropdown menus, eliminating the need to manually edit configuration files.
-*   **Real-time Preview:** See your changes instantly reflected in a live preview, ensuring you get the exact look and feel you desire.
-*   **Downloadable Config:** Generate and download a ready-to-use `.sketchybarrc` file with your customized settings.
-*   **Basic Customization Options:**  Customize fundamental bar properties, including:
-    *   Color: Set the bar's background color using a color picker.
-    *   Position: Choose whether the bar appears at the top or bottom of the screen.
-    *   Height: Adjust the bar's height to fit your content.
-    *   Padding: Control the spacing around the bar's elements.
-    *   Corner Radius:  Round the corners of the bar for a softer appearance.
-    *   Font Size: Set the default font size for text elements in the bar.
-    *   Font Family: Select from a range of font families to match your system.
+- **Visual Configuration:** Adjust settings using interactive controls instead of editing files manually
+- **Real-time Preview:** See changes instantly in a live preview
+- **Downloadable Config:** Generate and download a ready-to-use `.sketchybarrc` file
+- **Customization Options:** Modify bar properties including:
+  - Color, position, height, padding
+  - Corner radius, font size, font family
+  - Add and configure various items
 
 ## How to Use
 
-1.  Use the editor to customize your Sketchybar.
-2.  Click the "Download Config" button to download the generated `.sketchybarrc` file.
-3.  Move the downloaded `.sketchybarrc` file to your Sketchybar configuration directory (usually `~/.sketchybarrc`).
-4.  Restart Sketchybar to apply the new configuration:
-
-    ```bash
-    sketchybar --restart
-    ```
+1. Use the editor to customize your Sketchybar
+2. Click the "Download Config" button to get your `.sketchybarrc` file
+3. Move the file to your Sketchybar configuration directory (usually `~/.sketchybarrc`)
+4. Restart Sketchybar to apply the configuration:
+   ```bash
+   sketchybar --restart
+   ```
 
 ## Contributing
 
-This project is open source, and contributions are highly appreciated! If you have suggestions, bug reports, or would like to contribute code, please visit the [GitHub repository](<repository_url>).
+Contributions to improve Sketchybar Editor are welcome! Here's how you can contribute:
+
+### Adding New Items
+
+The most common contribution is adding new item types:
+
+1. Create a new item definition file in `/src/items/` directory
+2. Follow the existing item structure (see examples like `apple.tsx` or `battery.tsx`)
+3. Register your item in `src/lib/items-imports.tsx` by adding a named export
+
+Example of a basic item structure:
+
+```ts
+function AppleItem({ itemSettings }: SketchybarItemComponentProps) {
+  return <BaseItem itemSettings={itemSettings} icon={"󰀵"} />;
+}
+
+export const appleItemDefinition: ItemDefinition = {
+  type: 'apple',
+  displayName: 'Apple Logo',
+  description: 'Shows the Apple logo',
+  tags: ['logo', 'system'],
+  component: AppleItem,
+  requiresPlugin: false,
+  defaultIcon: "󰀵",
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵\n`
+}
+```
+
+### Other Contributions
+
+We also welcome contributions in these areas:
+
+- UI/UX improvements
+- Performance optimizations
+- Bug fixes
+- New features and functionality
+- Documentation improvements
+
+To contribute, fork the repository, make your changes, and submit a pull request with a clear description of your modifications.
 
 ## License
 
@@ -39,5 +74,4 @@ This project is open source, and contributions are highly appreciated! If you ha
 
 ## Acknowledgments
 
-*   This project is inspired by and built for use with [Sketchybar](https://github.com/FelixKratz/SketchyBar), a customizable status bar for macOS.
-
+This project is built for use with [Sketchybar](https://github.com/FelixKratz/SketchyBar), a customizable status bar for macOS.
