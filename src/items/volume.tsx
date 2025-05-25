@@ -7,7 +7,7 @@ function VolumeIcon({ itemSettings }: SketchybarItemComponentProps) {
 }
 
 export const volumeItemDefinition: ItemDefinition = {
-  type: 'apple',
+  type: 'volume',
   displayName: 'Volume',
   description: 'Shows the current volume',
   authorGithubUsername: 'jakmaz',
@@ -15,5 +15,5 @@ export const volumeItemDefinition: ItemDefinition = {
   component: VolumeIcon,
   requiresPlugin: false,
   defaultIcon: "󰕾",
-  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵\n`
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰕾\n`
 }
