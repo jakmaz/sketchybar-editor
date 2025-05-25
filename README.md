@@ -1,6 +1,4 @@
-# Sketchybar Editor
-
-[opengraph-image](./src/app/opengraph-image.png)
+![opengraph-image](./src/app/opengraph-image.png)
 
 ## Description
 
