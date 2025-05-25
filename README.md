@@ -2,32 +2,27 @@
 
 ## Description
 
-A web-based tool for creating Sketchybar configurations visually. This editor provides an intuitive interface to customize your macOS status
-bar without writing code directly.
-
-## Features
-
-- **Visual Configuration:** Adjust settings using interactive controls instead of editing files manually
-- **Real-time Preview:** See changes instantly in a live preview
-- **Downloadable Config:** Generate and download a ready-to-use `.sketchybarrc` file
-- **Customization Options:** Modify bar properties including:
-  - Color, position, height, padding
-  - Corner radius, font size, font family
-  - Add and configure various items
+SketchyBar Editor is a web-based tool that helps you create a solid starting configuration for SketchyBar. It gives you a clean,
+well-structured file you can download, study, and build on—making it easier to understand how things work before diving into code.
 
 ## How to Use
 
-1. Use the editor to customize your Sketchybar
-2. Click the "Download Config" button to get your `.sketchybarrc` file
-3. Move the file to your Sketchybar configuration directory (usually `~/.sketchybarrc`)
-4. Restart Sketchybar to apply the configuration:
+1. Open the editor and start adding items to your status bar
+2. Customize the layout and behavior using the visual interface
+3. Click the **"View Config"** button to export your configuration as a `sketchybar.zip` file
+4. Extract the contents into your SketchyBar config directory (`~/.config/sketchybar/`).  
+   Make sure the files go **directly** into the `sketchybar` folder—not into a nested `sketchybar/sketchybar` path.
+
+   Terminal example:
+
    ```bash
-   sketchybar --restart
+   mkdir -p ~/.config/sketchybar
+   unzip sketchybar.zip -d ~/.config/sketchybar
    ```
 
 ## Contributing
 
-Contributions to improve Sketchybar Editor are welcome! Here's how you can contribute:
+Contributions to improve SketchyBar Editor are welcome! Here's how you can contribute:
 
 ### Adding New Items
 
@@ -74,4 +69,4 @@ To contribute, fork the repository, make your changes, and submit a pull request
 
 ## Acknowledgments
 
-This project is built for use with [Sketchybar](https://github.com/FelixKratz/SketchyBar), a customizable status bar for macOS.
+Built for use with [SketchyBar](https://github.com/FelixKratz/SketchyBar), a powerful and customizable status bar for macOS.
