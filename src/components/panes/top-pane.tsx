@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import Link from "next/link"
-import { Github, Moon, Sun } from "lucide-react"
+import { Github, Moon, PencilRuler, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -17,9 +17,12 @@ export default function TopPane() {
   }
 
   return (
-    <Card className="p-3 pl-6">
+    <Card className="p-3">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
+        <div className="flex flex-row gap-2 items-center">
+          <div className="bg-foreground p-1 rounded-md"><PencilRuler className="text-background h-6 w-6" /></div>
+          <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
+        </div>
         <div className="flex gap-2">
           {/* Github */}
           <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">
@@ -42,6 +45,6 @@ export default function TopPane() {
       </div>
 
       {/* Config Dialog */}
-    </Card>
+    </Card >
   )
 }
