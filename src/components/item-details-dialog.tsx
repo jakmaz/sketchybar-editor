@@ -81,18 +81,21 @@ export function ItemDetailsDialog({ selectedItem, onAddItem }: ItemDetailsDialog
             <h4 className="font-medium mb-3">Add to Position:</h4>
             <div className="flex gap-2">
               <Button
+                variant="outline"
                 onClick={() => handleAddItem("left")}
                 className="flex-1"
               >
                 Left Side
               </Button>
               <Button
+                variant="outline"
                 onClick={() => handleAddItem("center")}
                 className="flex-1"
               >
                 Center
               </Button>
               <Button
+                variant="outline"
                 onClick={() => handleAddItem("right")}
                 className="flex-1"
               >

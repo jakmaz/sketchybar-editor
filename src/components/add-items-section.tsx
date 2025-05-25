@@ -57,6 +57,7 @@ function ItemCard({ item, onAddItem }: ItemCardProps) {
         <div className="flex gap-2">
           <Button
             size="sm"
+            variant="outline"
             onClick={(e) => {
               e.stopPropagation()
               onAddItem(item.type, "left")
@@ -66,6 +67,7 @@ function ItemCard({ item, onAddItem }: ItemCardProps) {
             Left
           </Button>
           <Button
+            variant="outline"
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
@@ -76,6 +78,7 @@ function ItemCard({ item, onAddItem }: ItemCardProps) {
             Center
           </Button>
           <Button
+            variant="outline"
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
