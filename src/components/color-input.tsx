@@ -59,10 +59,12 @@ export function ColorInput({ id, label, value, onChange }: ColorInputProps) {
               style={{ backgroundColor: `rgba(${tempColor.r}, ${tempColor.g}, ${tempColor.b}, ${tempColor.a})` }}
             />
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-3" align="start">
+          <PopoverContent className="w-auto p-3" align="start" onPointerDown={(e) => e.stopPropagation()}>
             <div
               onPointerUp={handleRelease}
               onPointerCancel={handleRelease}
+              onPointerDown={(e) => e.stopPropagation()}
+              onPointerMove={(e) => e.stopPropagation()}
             >
               <RgbaColorPicker
                 color={tempColor}

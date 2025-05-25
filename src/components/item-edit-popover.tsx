@@ -67,6 +67,7 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
           variant="ghost"
           size="icon"
           className="p-0 h-auto w-auto min-h-0 min-w-0"
+          onPointerDown={(e) => e.stopPropagation()} // Prevent drag start on pointer down
         >
           <Settings
             className="h-4 w-4"
@@ -75,7 +76,11 @@ export function ItemEditPopover({ item }: ItemEditPopoverProps) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[600px] max-h-[80vh] overflow-y-auto">
+      <PopoverContent 
+        className="w-[600px] max-h-[80vh] overflow-y-auto" 
+        onPointerDown={(e) => e.stopPropagation()} // Prevent drag start when interacting with popover content
+        onPointerMove={(e) => e.stopPropagation()} // Prevent drag move when interacting with popover content
+      >
         <div className="space-y-2">
           <h3 className="font-medium text-lg">Edit {item.type} Item</h3>
           <p className="text-sm text-muted-foreground">
