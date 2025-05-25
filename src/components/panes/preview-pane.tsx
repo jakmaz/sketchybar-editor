@@ -20,8 +20,7 @@ export function PreviewPane() {
   const barColor = argbToRgba(config.bar.color)
 
   return (
-    <Card className="flex-1 p-4 max-h-fit">
-      <h2 className="text-xl font-semibold">Preview</h2>
+    <Card className="flex-1 p-2 max-h-fit gap-2">
       <div
         className="relative w-full flex justify-between items-center font-hack-mono-bold"
         style={{

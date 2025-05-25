@@ -8,7 +8,7 @@ import { ExamplesTab } from "../editor-tabs/examples-tab"
 
 export function SidebarPane() {
   return (
-    <Card className="lg:w-80 p-4">
+    <Card className="lg:w-70 p-4">
       <Tabs defaultValue="bar">
         <TabsList className="grid grid-cols-3 mb-4 w-full">
           <TabsTrigger value="bar">Bar</TabsTrigger>

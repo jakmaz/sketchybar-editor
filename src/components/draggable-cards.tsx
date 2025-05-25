@@ -52,8 +52,8 @@ const DraggableCard = ({
 
   // Find the corresponding config item to pass to the ItemEditPopover
   const { config } = useConfig();
-  const configItem = item.dragType === "item" 
-    ? config.items.find((configItem) => configItem.id === item.id) 
+  const configItem = item.dragType === "item"
+    ? config.items.find((configItem) => configItem.id === item.id)
     : null;
 
   return (
@@ -216,22 +216,22 @@ export default function DraggableCardsList() {
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
-      
+
       // Check if this move would place dividers next to each other
       const updatedItems = arrayMove([...items], oldIndex, newIndex);
-      
+
       // Prevent dividers from being adjacent
       const hasMergedDividers = updatedItems.some((item, index) => {
         if (index === 0) return false;
         return item.dragType === "divider" && updatedItems[index - 1].dragType === "divider";
       });
-      
+
       // If dividers would merge, don't allow the move
       if (hasMergedDividers) {
         setActiveItem(null);
         return;
       }
-      
+
       setItems(updatedItems);
 
       // Determine divider indices.
@@ -271,33 +271,27 @@ export default function DraggableCardsList() {
   const itemIds = items.map((item) => item.id);
 
   return (
-    <div>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="flex items-center justify-center">
-          <SortableContext items={itemIds} strategy={horizontalListSortingStrategy}>
-            {items.map((item) => (
-              <DraggableCard 
-                key={item.id} 
-                item={item} 
-                removeItem={removeItem} 
-              />
-            ))}
-          </SortableContext>
-        </div>
-
-        <DragOverlay>
-          {activeItem ? <DragOverlayCard item={activeItem} /> : null}
-        </DragOverlay>
-      </DndContext>
-
-      <div className="mt-6 text-sm text-gray-500">
-        <p>Drag cards to reorder them within a section or move them between sections.</p>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="flex items-center justify-center">
+        <SortableContext items={itemIds} strategy={horizontalListSortingStrategy}>
+          {items.map((item) => (
+            <DraggableCard
+              key={item.id}
+              item={item}
+              removeItem={removeItem}
+            />
+          ))}
+        </SortableContext>
       </div>
-    </div>
+
+      <DragOverlay>
+        {activeItem ? <DragOverlayCard item={activeItem} /> : null}
+      </DragOverlay>
+    </DndContext>
   );
 }

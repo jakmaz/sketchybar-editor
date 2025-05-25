@@ -24,7 +24,7 @@ export function ItemsPane() {
   }, [setConfig])
 
   return (
-    <Card className="flex-1 p-6">
+    <Card className="flex-1 p-4 gap-2">
       <CardHeader className="px-0 pb-4">
         <CardTitle className="text-2xl font-bold">Items</CardTitle>
         <CardDescription>
@@ -32,13 +32,11 @@ export function ItemsPane() {
         </CardDescription>
       </CardHeader>
 
-      <div className="mb-6">
+      <div className="flex flex-col gap-6">
         <DraggableCardsList />
-      </div>
-
-      <AddItemsSection
-        onAddItem={addItem}
-      />
+        <AddItemsSection
+          onAddItem={addItem}
+        /></div>
     </Card>
   )
 }

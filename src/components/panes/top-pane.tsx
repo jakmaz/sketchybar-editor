@@ -17,9 +17,9 @@ export default function TopPane() {
   }
 
   return (
-    <Card className="p-4">
+    <Card className="p-3 pl-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Sketchybar Editor - Work in Progress</h1>
+        <h1 className="text-2xl font-bold">Sketchybar Editor</h1>
         <div className="flex gap-2">
           {/* Github */}
           <Link href="https://github.com/jakmaz/sketchybar-editor" target="_blank" rel="noopener noreferrer">

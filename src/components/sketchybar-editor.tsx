@@ -65,13 +65,13 @@ export interface Overrides {
 export function SketchybarEditor() {
   return (
     <ConfigProvider>
-      <div className="flex flex-col min-h-screen p-4 gap-4">
+      <div className="flex flex-col min-h-screen p-2 gap-2">
         <TopPane />
 
-        <div className="flex flex-col lg:flex-row flex-1 gap-4">
+        <div className="flex flex-col lg:flex-row flex-1 gap-2">
 
           <SidebarPane />
-          <div className="flex flex-col w-full gap-4">
+          <div className="flex flex-col w-full gap-2">
             <PreviewPane />
             <ItemsPane />
           </div>

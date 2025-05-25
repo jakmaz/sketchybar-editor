@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getAllItemDefinitions, getItemsByTag, searchItems, type ItemDefinition } from "@/lib/item-registry"
-import { Plus, Search, Tag } from "lucide-react"
+import { Search, Tag } from "lucide-react"
 import React, { useMemo, useState } from "react"
 import type { ItemPosition } from "@/components/sketchybar-editor"
 import { ItemDetailsDialog } from "./item-details-dialog"
@@ -122,7 +122,6 @@ export function AddItemsSection({ onAddItem }: AddItemsSectionProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Plus className="h-5 w-5" />
           Add New Item
         </h3>
         <Badge variant="secondary">
