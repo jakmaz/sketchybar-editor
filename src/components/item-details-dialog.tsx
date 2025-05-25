@@ -5,6 +5,7 @@ import type { ItemPosition } from "@/components/sketchybar-editor"
 import { Info, Tag } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { useState } from "react"
 
 interface ItemDetailsDialogProps {
   selectedItem: ItemDefinition
@@ -12,14 +13,19 @@ interface ItemDetailsDialogProps {
 }
 
 export function ItemDetailsDialog({ selectedItem, onAddItem }: ItemDetailsDialogProps) {
+  // Create a state to control the dialog
+  const [open, setOpen] = useState(false)
+
   const handleAddItem = (position: ItemPosition) => {
     if (selectedItem) {
       onAddItem(selectedItem.type, position)
+      // Close the dialog after adding the item
+      setOpen(false)
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
