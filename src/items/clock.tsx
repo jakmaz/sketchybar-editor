@@ -23,12 +23,12 @@ export const clockItemDefinition: ItemDefinition = {
   type: 'clock',
   displayName: 'Clock',
   description: 'Shows the current time',
-  authorGithubUrl: 'https://github.com/jakmaz',
+  authorGithubUsername: 'jakmaz',
   tags: ['time'],
   component: ClockItem,
   updateFrequency: 1,
   requiresPlugin: true,
-  defaultIcon: "",
+  defaultIcon: "",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=1 script="$PLUGIN_DIR/clock.sh"\n`,
   pluginScript: `#!/bin/bash
 

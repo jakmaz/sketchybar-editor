@@ -8,7 +8,7 @@ export interface ItemDefinition {
   type: string;
   displayName: string;
   description: string;
-  authorGithubUrl: string;
+  authorGithubUsername: string;
   tags: string[];
 
   // Component

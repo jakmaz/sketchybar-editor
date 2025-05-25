@@ -66,16 +66,16 @@ export function ItemsPane() {
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Avatar>
-                    <AvatarImage src={selectedItem.authorGithubUrl + ".png"} alt="@shadcn" />
+                    <AvatarImage src={`https://github.com/${selectedItem.authorGithubUsername}.png`} alt="@shadcn" />
                   </Avatar>
                   <span className="text-sm font-medium">Author:</span>
                   <a
-                    href={selectedItem.authorGithubUrl}
+                    href={`https://github.com/${selectedItem.authorGithubUsername}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm hover:underline"
                   >
-                    {selectedItem.authorGithubUrl.split('/').pop()}
+                    {selectedItem.authorGithubUsername}
                   </a>
                 </div>
 

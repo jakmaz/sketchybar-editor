@@ -10,12 +10,12 @@ export const batteryItemDefinition: ItemDefinition = {
   type: 'battery',
   displayName: 'Battery',
   description: 'Shows battery status',
-  authorGithubUrl: 'https://github.com/jakmaz',
+  authorGithubUsername: 'jakmaz',
   tags: ['system', 'power'],
   component: BatteryItem,
   updateFrequency: 120,
   requiresPlugin: true,
-  defaultIcon: "",
+  defaultIcon: "",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=120 script="$PLUGIN_DIR/battery.sh"\n`,
   pluginScript: `#!/bin/bash
 
