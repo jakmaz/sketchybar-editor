@@ -35,7 +35,7 @@ export const cpuItemDefinition: ItemDefinition = {
   component: CpuItem,
   updateFrequency: 2,
   requiresPlugin: true,
-  defaultIcon: "",
+  defaultIcon: "",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
   pluginScript: `#!/bin/bash
 
