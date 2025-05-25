@@ -47,8 +47,8 @@ const defaultConfig: Config = {
 			},
 		},
 		{
-			id: "media",
-			type: "media",
+			id: "spotify",
+			type: "spotify",
 			position: "center",
 			overrides: {
 				backgroundColor: "0xff121212",

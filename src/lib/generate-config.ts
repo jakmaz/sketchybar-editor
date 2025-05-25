@@ -132,16 +132,18 @@ sketchybar --update
 function generateItemFile(item: Item): string {
   const itemDef = getItemDefinition(item.type);
 
-  let content = `#!/bin/bash
+  let content = "#!/bin/bash\n\n";
 
-# ${item.id}
-sketchybar --add item ${item.id} ${item.position}
+  content += `# Initialization
+sketchybar --add item ${item.id} ${item.position}\n
 `;
 
   if (itemDef && itemDef.generateItemConfig) {
+    content += "# Config\n";
     content += itemDef.generateItemConfig(item.id);
   }
 
+  // Overrides
   const overrideKeyMap: Record<keyof Overrides, string> = {
     backgroundColor: "background.color",
     iconColor: "icon.color",
@@ -168,6 +170,7 @@ sketchybar --add item ${item.id} ${item.position}
       }
     }
 
+    content += "\n\n# Overrides of default settings\n";
     if (overrides.length > 0) {
       content += `sketchybar --set ${item.id} ${overrides.join(" ")}\n`;
     }
