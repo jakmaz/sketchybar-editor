@@ -3,7 +3,7 @@
 ## Description
 
 SketchyBar Editor is a web-based tool that helps you create a solid starting configuration for SketchyBar. It gives you a clean,
-well-structured file you can download, study, and build on—making it easier to understand how things work before diving into code.
+well-structured file you can download, study, and build on, making it easier to understand how things work before diving into code.
 
 ## How to Use
 
