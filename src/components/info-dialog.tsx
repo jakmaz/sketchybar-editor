@@ -4,6 +4,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Info } from "lucide-react"
+// Import the version from package.json
+import { version } from "../../package.json"
 
 export function InfoDialog() {
   return (
@@ -16,7 +18,7 @@ export function InfoDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] sm:h-[600px] flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-xl">Sketchybar Editor</DialogTitle>
+          <DialogTitle className="text-xl">Sketchybar Editor <span className="text-sm text-muted-foreground">v{version}</span></DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="info" className="mt-4 flex-1 flex flex-col">
