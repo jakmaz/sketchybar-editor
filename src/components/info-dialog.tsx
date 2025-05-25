@@ -32,20 +32,20 @@ export function InfoDialog() {
             <div className="space-y-2">
               <h3 className="text-lg font-medium">About</h3>
               <p className="text-sm text-muted-foreground">
-                Sketchybar Editor is a user-friendly, web-based tool designed to simplify the creation of basic
-                Sketchybar configurations. It provides a visual interface to customize your status bar, making it easier
-                for both new and experienced users to generate .sketchybarrc files without needing to write code
-                directly.
+                Sketchybar Editor is a web-based tool that helps you create a solid starting configuration for Sketchybar.
+                It generates a clean, well-structured config that you can download, explore, and extend, making it easier to
+                understand how Sketchybar works before diving into code. Ideal for newcomers and a fast starting point for developers.
               </p>
             </div>
 
             <div className="space-y-2">
               <h3 className="text-lg font-medium">How to Use</h3>
               <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>Use the editor to customize your Sketchybar</li>
-                <li>Click the &quot;View Config&quot; button to download the generated .sketchybarrc file</li>
-                <li>Move the downloaded file to your Sketchybar configuration directory (usually ~/.sketchybarrc)</li>
-                <li>Restart Sketchybar to apply the new configuration</li>
+                <li>Open the editor and start adding items to your status bar</li>
+                <li>Customize the layout and behavior using the visual interface</li>
+                <li>Click the &quot;View Config&quot; button to download the <code>sketchybar.zip</code> file</li>
+                <li>Extract the contents into your Sketchybar config directory: <code>~/.config/sketchybar/</code></li>
+                <li>Restart Sketchybar to apply the configuration: <code>sketchybar --restart</code></li>
               </ol>
             </div>
           </TabsContent>
