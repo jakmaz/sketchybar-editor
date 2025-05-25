@@ -23,7 +23,7 @@ function CpuItem({ itemSettings }: SketchybarItemComponentProps) {
     return () => clearInterval(intervalId);
   }, [cpuUsage]); // Add cpuUsage as a dependency
 
-  return <BaseItem itemSettings={itemSettings} icon={""} label={`${cpuUsage}%`} />;
+  return <BaseItem itemSettings={itemSettings} icon={""} label={`${cpuUsage}%`} />;
 }
 
 const pluginScript = `CORE_COUNT=$(sysctl -n machdep.cpu.thread_count)
@@ -42,9 +42,7 @@ export const cpuItemDefinition: ItemDefinition = {
   authorGithubUsername: 'jakmaz',
   tags: ['system', 'performance'],
   component: CpuItem,
-  updateFrequency: 2,
-  requiresPlugin: true,
-  defaultIcon: "",
-  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=  update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
+  displayIcon: "",
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon= update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
   pluginScript: pluginScript,
 }

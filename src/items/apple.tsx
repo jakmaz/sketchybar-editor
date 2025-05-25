@@ -13,7 +13,6 @@ export const appleItemDefinition: ItemDefinition = {
   authorGithubUsername: 'jakmaz',
   tags: ['logo', 'system'],
   component: AppleItem,
-  requiresPlugin: false,
-  defaultIcon: "󰀵",
+  displayIcon: "󰀵",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵 label.drawing=off`
 }

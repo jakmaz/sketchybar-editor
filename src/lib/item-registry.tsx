@@ -7,6 +7,7 @@ export interface ItemDefinition {
   // Metadata
   type: string;
   displayName: string;
+  displayIcon: string;
   description: string;
   authorGithubUsername: string;
   tags: string[];
@@ -14,20 +15,10 @@ export interface ItemDefinition {
   // Component
   component: React.ComponentType<SketchybarItemComponentProps>;
 
-  // Configuration
-  defaultIcon?: string;
-  defaultLabel?: string;
-  updateFrequency?: number;
-  requiresPlugin: boolean;
-
-  // Plugin info
-  pluginScript?: string;
-
-  // Validation
-  validateConfig?: (config: Record<string, unknown>) => boolean;
-
-  // Generation
+  // Config info
   generateItemConfig: (itemName: string) => string;
+  validateConfig?: (config: Record<string, unknown>) => boolean;
+  pluginScript?: string;
 }
 
 const itemRegistry: Record<string, ItemDefinition> = {};
@@ -46,8 +37,7 @@ function validateItemDefinition(def: Partial<ItemDefinition>): def is ItemDefini
     typeof def.type === "string" &&
     typeof def.displayName === "string" &&
     typeof def.component === "function" &&
-    typeof def.generateItemConfig === "function" &&
-    typeof def.requiresPlugin === "boolean"
+    typeof def.generateItemConfig === "function"
   );
 }
 
@@ -70,7 +60,6 @@ export function getRequiredPlugins(items: Item[]): string[] {
     .filter(
       (def) =>
         uniqueTypes.has(def.type) &&
-        def.requiresPlugin &&
         def.pluginScript
     )
     .map((def) => def.type);

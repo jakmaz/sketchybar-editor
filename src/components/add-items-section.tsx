@@ -27,7 +27,7 @@ function ItemCard({ item, onAddItem }: ItemCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-hack-mono">{item.defaultIcon || ''}</span>
+            <span className="text-3xl font-hack-mono">{item.displayIcon || ''}</span>
             <div>
               <CardTitle className="text-base">{item.displayName}</CardTitle>
               <CardDescription className="text-xs line-clamp-2">

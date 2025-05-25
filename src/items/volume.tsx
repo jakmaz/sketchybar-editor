@@ -13,7 +13,6 @@ export const volumeItemDefinition: ItemDefinition = {
   authorGithubUsername: 'jakmaz',
   tags: ['system', 'media'],
   component: VolumeIcon,
-  requiresPlugin: false,
-  defaultIcon: "󰕾",
+  displayIcon: "󰕾",
   generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰕾\n`
 }

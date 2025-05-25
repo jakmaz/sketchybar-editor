@@ -41,8 +41,7 @@ export const spotifyItemDefinition: ItemDefinition = {
   authorGithubUsername: 'FelixKratz',
   tags: ['media', 'music'],
   component: SpotifyMediaItem,
-  defaultIcon: '󰝚',
-  requiresPlugin: true,
+  displayIcon: '󰝚',
   generateItemConfig: (itemName) => itemConfig.replace(/{itemName}/g, itemName),
   pluginScript: pluginScript,
 }

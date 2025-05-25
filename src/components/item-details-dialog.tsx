@@ -39,7 +39,7 @@ export function ItemDetailsDialog({ selectedItem, onAddItem }: ItemDetailsDialog
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
-            <span className="text-3xl font-hack-mono">{selectedItem.defaultIcon || ''}</span>
+            <span className="text-3xl font-hack-mono">{selectedItem.displayIcon || ''}</span>
             {selectedItem.displayName}
           </DialogTitle>
           <DialogDescription className="text-base">
@@ -75,15 +75,6 @@ export function ItemDetailsDialog({ selectedItem, onAddItem }: ItemDetailsDialog
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            {selectedItem.updateFrequency && (
-              <div>
-                <span className="font-medium">Update Frequency:</span>
-                <span className="ml-2">{selectedItem.updateFrequency}s</span>
-              </div>
-            )}
           </div>
 
           <div className="pt-4 border-t">
