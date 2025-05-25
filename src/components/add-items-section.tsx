@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getAllItemDefinitions, getItemsByTag, searchItems, type ItemDefinition } from "@/lib/item-registry"
-import { Info, Plus, Search, Tag } from "lucide-react"
+import { Plus, Search, Tag } from "lucide-react"
 import React, { useMemo, useState } from "react"
 import type { ItemPosition } from "@/components/sketchybar-editor"
+import { ItemDetailsDialog } from "./item-details-dialog"
 
 const allItems = getAllItemDefinitions()
 
@@ -18,12 +19,11 @@ const allTags = Array.from(
 interface ItemCardProps {
   item: ItemDefinition
   onAddItem: (type: string, position: ItemPosition) => void
-  onShowDetails: () => void
 }
 
-function ItemCard({ item, onAddItem, onShowDetails }: ItemCardProps) {
+function ItemCard({ item, onAddItem }: ItemCardProps) {
   return (
-    <Card className="group hover:shadow-md transition-all duration-200 cursor-pointer border-2 hover:border-primary/20">
+    <Card className="group hover:shadow-md transition-all duration-200 cursor-pointer border-2 hover:border-primary/20 gap-2">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
@@ -35,19 +35,8 @@ function ItemCard({ item, onAddItem, onShowDetails }: ItemCardProps) {
               </CardDescription>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation()
-              onShowDetails()
-            }}
-            className="opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <Info className="h-4 w-4" />
-          </Button>
+          <ItemDetailsDialog selectedItem={item} onAddItem={onAddItem} />
         </div>
-
         {item.tags && item.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {item.tags.slice(0, 3).map((tag) => (
@@ -104,10 +93,9 @@ function ItemCard({ item, onAddItem, onShowDetails }: ItemCardProps) {
 
 interface AddItemsSectionProps {
   onAddItem: (type: string, position: ItemPosition) => void
-  onShowItemDetails: (item: ItemDefinition) => void
 }
 
-export function AddItemsSection({ onAddItem, onShowItemDetails }: AddItemsSectionProps) {
+export function AddItemsSection({ onAddItem }: AddItemsSectionProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTag, setSelectedTag] = useState<string>("all")
 
@@ -176,7 +164,6 @@ export function AddItemsSection({ onAddItem, onShowItemDetails }: AddItemsSectio
             key={item.type}
             item={item}
             onAddItem={onAddItem}
-            onShowDetails={() => onShowItemDetails(item)}
           />
         ))}
       </div>

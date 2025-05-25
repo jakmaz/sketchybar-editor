@@ -1,15 +1,12 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useConfig } from "@/lib/config-context"
-import { type ItemDefinition } from "@/lib/item-registry"
 import DraggableCardsList from "../draggable-cards"
-import React, { useCallback, useState } from "react"
+import React, { useCallback } from "react"
 import type { ItemPosition } from "@/components/sketchybar-editor"
 import { AddItemsSection } from "../add-items-section"
-import { ItemDetailsDialog } from "../item-details-dialog"
 
 export function ItemsPane() {
   const { setConfig } = useConfig()
-  const [selectedItem, setSelectedItem] = useState<ItemDefinition | null>(null)
 
   const addItem = useCallback((type: string, position: ItemPosition) => {
     if (!type) return
@@ -26,10 +23,6 @@ export function ItemsPane() {
     }))
   }, [setConfig])
 
-  const handleCloseDialog = () => {
-    setSelectedItem(null)
-  }
-
   return (
     <Card className="flex-1 p-6">
       <CardHeader className="px-0 pb-4">
@@ -44,13 +37,6 @@ export function ItemsPane() {
       </div>
 
       <AddItemsSection
-        onAddItem={addItem}
-        onShowItemDetails={setSelectedItem}
-      />
-
-      <ItemDetailsDialog
-        selectedItem={selectedItem}
-        onClose={handleCloseDialog}
         onAddItem={addItem}
       />
     </Card>
