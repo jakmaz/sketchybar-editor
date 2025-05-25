@@ -58,7 +58,7 @@ export function generateConfigFiles(config: Config): ConfigFile[] {
       const pluginFile: ConfigFile = {
         name: `${type}.sh`,
         path: `plugins/${type}.sh`,
-        content: itemDef.pluginScript,
+        content: "#!/bin/bash\n\n" + itemDef.pluginScript,
         type: "file",
       };
       pluginsDir.children?.push(pluginFile);

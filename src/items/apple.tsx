@@ -15,6 +15,5 @@ export const appleItemDefinition: ItemDefinition = {
   component: AppleItem,
   requiresPlugin: false,
   defaultIcon: "󰀵",
-  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵
-sketchybar --set ${itemName} label.drawing=off`
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=󰀵 label.drawing=off`
 }

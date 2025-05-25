@@ -23,8 +23,17 @@ function CpuItem({ itemSettings }: SketchybarItemComponentProps) {
     return () => clearInterval(intervalId);
   }, [cpuUsage]); // Add cpuUsage as a dependency
 
-  return <BaseItem itemSettings={itemSettings} icon={""} label={`${cpuUsage}%`} />;
+  return <BaseItem itemSettings={itemSettings} icon={""} label={`${cpuUsage}%`} />;
 }
+
+const pluginScript = `CORE_COUNT=$(sysctl -n machdep.cpu.thread_count)
+CPU_INFO=$(ps -eo pcpu,user)
+CPU_SYS=$(echo "$CPU_INFO" | grep -v $(whoami) | sed "s/[^ 0-9\\.]//g" | awk "{sum+=\\$1} END {print sum/(100.0 * $CORE_COUNT)}")
+CPU_USER=$(echo "$CPU_INFO" | grep $(whoami) | sed "s/[^ 0-9\\.]//g" | awk "{sum+=\\$1} END {print sum/(100.0 * $CORE_COUNT)}")
+
+CPU_PERCENT="$(echo "$CPU_SYS $CPU_USER" | awk '{printf "%.0f\\n", ($1 + $2)*100}')"
+
+sketchybar --set $NAME label="$CPU_PERCENT%"`
 
 export const cpuItemDefinition: ItemDefinition = {
   type: 'cpu',
@@ -35,13 +44,7 @@ export const cpuItemDefinition: ItemDefinition = {
   component: CpuItem,
   updateFrequency: 2,
   requiresPlugin: true,
-  defaultIcon: "",
-  generateItemConfig: (itemName) => `sketchybar --set ${itemName} update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
-  pluginScript: `#!/bin/bash
-
-CPU=$(top -l 2 | grep -E "^CPU" | tail -1 | awk '{ print $3 + $5 }')
-CPU_PERCENT=$(printf "%.0f" $CPU)
-
-sketchybar --set $NAME label="$CPU_PERCENT%"
-`
+  defaultIcon: "",
+  generateItemConfig: (itemName) => `sketchybar --set ${itemName} icon=  update_freq=2 script="$PLUGIN_DIR/cpu.sh"\n`,
+  pluginScript: pluginScript,
 }
