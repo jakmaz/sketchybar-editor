@@ -1,5 +1,7 @@
 # Sketchybar Editor
 
+[opengraph-image](./src/app/opengraph-image.png)
+
 ## Description
 
 A web-based tool for creating Sketchybar configurations visually. This editor provides an intuitive interface to customize your macOS status
